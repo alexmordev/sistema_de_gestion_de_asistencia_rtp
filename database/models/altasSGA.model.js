@@ -37,13 +37,6 @@ const AltaSGASchema = {
 }
 class AltasSGA extends Model{
     static associciate(models){
-        this.hasMany( models.Product, 
-            {
-                as:'product',
-                foreignKey:'categoryId'
-
-            } 
-        ) 
     }
     static config(sequelize){
         return{
