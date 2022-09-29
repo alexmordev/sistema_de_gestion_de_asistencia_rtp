@@ -1,9 +1,9 @@
 const express = require('express');
-const AusenciaService = require('./../services/ausencia.service');
+const TipoIncapacidadService = require('./../services/tipoIncapacidad.service');
 const validatorHandler = require('./../middlewares/validator.handler');
-const { updateAusenciaSchema, createAusenciaSchema, getAusenciaSchema } = require('./../schemas/ausencia.schema');
+const {  createTipoIncapacidadSchema, updateTipoIncapacidadSchema, getTipoIncapacidadSchema  } = require('./../schemas/tipoIncapacidad.schema');
 const router = express.Router();
-const service = new AusenciaService();
+const service = new TipoIncapacidadService();
 
 router.get('/', async (req, res, next) => {
   try {
@@ -14,7 +14,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 router.get('/:id', 
-  validatorHandler(getAusenciaSchema, 'params'),
+  validatorHandler(getTipoIncapacidadSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -26,7 +26,7 @@ router.get('/:id',
   }
 );
 router.post('/',
-  validatorHandler(createAusenciaSchema, 'body'),
+  validatorHandler(createTipoIncapacidadSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
@@ -38,8 +38,8 @@ router.post('/',
   }
 );
 router.patch('/:id',
-  validatorHandler(getAusenciaSchema, 'params'),
-  validatorHandler(updateAusenciaSchema, 'body'),
+  validatorHandler(getTipoIncapacidadSchema, 'params'),
+  validatorHandler(updateTipoIncapacidadSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -52,7 +52,7 @@ router.patch('/:id',
   }
 );
 router.delete('/:id',
-  validatorHandler(getAusenciaSchema, 'params'),
+  validatorHandler(getTipoIncapacidadSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;

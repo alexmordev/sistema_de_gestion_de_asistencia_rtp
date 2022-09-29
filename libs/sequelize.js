@@ -10,7 +10,6 @@ const options = {
 
 const URL = `postgres://${config.username}:${PASSWORD}@${config.host}:${config.port}/${config.database}`;
 const sequelize =  new Sequelize(URL, options )
-console.log(config.dbURL);
 setupModels(sequelize);
 
 module.exports = sequelize;
