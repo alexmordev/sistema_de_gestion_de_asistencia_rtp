@@ -1,26 +1,19 @@
 const boom = require('@hapi/boom');
 const {models} = require('../libs/sequelize');
 
-
-class JustificacionAusencia {
+class IncapacidadService {
   constructor() {}
 
   async create(data) {
-    const newIncapacidad = await models.AltasSGA.create( data )
+    const newIncapacidad = await models.Incapacidad.create( data )
     return newIncapacidad;
   }
-
   async find() {
-    const res = await models.AltasSGA.findAll({
-      where:{
-        id_Concepto
-      }
-    });
+    const res = await models.Incapacidad.findAll();
     return res;
   }
-
   async findOne(id) {
-    const ausencia  =  await models.AltasSGA.findByPk(id);
+    const ausencia  =  await models.Incapacidad.findByPk(id);// buscar con id
     if(!ausencia){
       boom.notFound('Registro no encontrado');
     }
@@ -32,7 +25,7 @@ class JustificacionAusencia {
     const res = await ausencia.update(changes);
     return res;
   }
-
+  
   async delete(id) {
     const ausencia = await this.findOne(id);
     await ausencia.destroy()
@@ -40,5 +33,5 @@ class JustificacionAusencia {
   }
 }
 
-module.exports = JustificacionAusencia;
+module.exports = IncapacidadService;
 

@@ -30,6 +30,8 @@ router.post('/',
   async (req, res, next) => {
     try {
       const body = req.body;
+      body.tipo = req.body.name;
+      delete body.name;
       const newAusencia = await service.create(body);
       res.status(201).json(newAusencia);
     } catch (error) {
@@ -44,6 +46,8 @@ router.patch('/:id',
     try {
       const { id } = req.params;
       const body = req.body;
+      body.nombre = req.body.name;
+      delete body.name;
       const ausencia = await service.update(id, body);
       res.json(ausencia);
     } catch (error) {

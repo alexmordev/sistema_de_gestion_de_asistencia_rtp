@@ -30,6 +30,8 @@ router.post('/',
   async (req, res, next) => {
     try {
       const body = req.body;
+      body.nombre = req.body.name;
+      delete body.name;
       const newRamoSeguro = await service.create(body);
       res.status(201).json(newRamoSeguro);
     } catch (error) {
@@ -44,6 +46,8 @@ router.patch('/:id',
     try {
       const { id } = req.params;
       const body = req.body;
+      body.nombre = req.body.name;
+      delete body.name;
       const ramoSeguro = await service.update(id, body);
       res.json(ramoSeguro);
     } catch (error) {
