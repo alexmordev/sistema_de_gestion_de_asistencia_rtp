@@ -8,36 +8,60 @@ const AltaSGASchema = {
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-    fechaCaptura: {
+    id_Trabajador:{
+        allowNull:false,
+        type: DataTypes.INTEGER,
+        field: 'id_trabajador',
+    },
+    id_Concepto: {
+        allowNull:false,
+        type: DataTypes.INTEGER,
+        field: 'id_concepto',
+    },
+    id_Periodo:{
         allowNull: false,
-        type: DataTypes.DATE,
+        type: DataTypes.INTEGER,
+        field: 'id_periodo',
+    },
+    fecha_Captura:{
+        allowNull: false,
+        type: DataTypes.DATEONLY,
         field: 'fecha_captura',
-        defaultValue: Sequelize.NOW
     },
     unidades:{
         allowNull: false,
-        type: DataTypes.INTEGER
+        type: DataTypes.DOUBLE(5, 2),
+        field: 'unidades',
     },
     oficio:{
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        field: 'oficio',
     },
-    fechaInicio:{
+    usuario_Captura:{
         allowNull: false,
-        type: DataTypes.DATE,
+        type: DataTypes.INTEGER,
+        field: 'usuario_captura',
+    },
+    fecha_Inicio:{
+        allowNull: false,
+        type: DataTypes.DATEONLY,
         field: 'fecha_inicio',
     },
-    fechaFinal:{
+    fecha_Final:{
         allowNull: false,
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         field: 'fecha_final',
     }
-    
-    
+
 }
+
 class AltasSGA extends Model{
-    static associciate(models){
-    }
+    // static associciate(models){
+        // this.hasMany( models.Product, 
+            // { as:'product', foreignKey:'categoryId' } 
+        // ) 
+    // }
     static config(sequelize){
         return{
             sequelize,
@@ -48,37 +72,3 @@ class AltasSGA extends Model{
     }
 }
 module.exports= {ALTASSGA_TABLE,AltaSGASchema,AltasSGA };
-
-/**
- * idTrabajador:{
-        allowNull:false, 
-        type: DataTypes.INTEGER,
-        references:{
-            model: TRABAJADOR_TABLE, //importa tu modelo User
-            key: 'id',
-        },
-        onUpdate: 'CASCADE', // Esto ocurre al actualizar, un efecto en cascada y tambien se actualiza
-        onDelete: 'SET NULL' // Esto ocurre al borrar, se establece a null
-    },
-    idConcepto:{
-        allowNull:false, 
-        type: DataTypes.INTEGER,
-        references:{
-            model: CONCEPTO_TABLE, //importa tu modelo User
-            key: 'id',
-        },
-        onUpdate: 'CASCADE', // Esto ocurre al actualizar, un efecto en cascada y tambien se actualiza
-        onDelete: 'SET NULL' // Esto ocurre al borrar, se establece a null
-    }
-    ,idPeriodo:{
-        allowNull:false, 
-        type: DataTypes.INTEGER,
-        references:{
-            model: PERIODO_TABLE, //importa tu modelo User
-            key: 'id',
-        },
-        onUpdate: 'CASCADE', // Esto ocurre al actualizar, un efecto en cascada y tambien se actualiza
-        onDelete: 'SET NULL' // Esto ocurre al borrar, se establece a null
-    },
-
- */

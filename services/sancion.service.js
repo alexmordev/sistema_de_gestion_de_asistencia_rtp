@@ -1,23 +1,21 @@
 const boom = require('@hapi/boom');
-// const {models} = require('../libs/sequelize');
-// const {Sequelize} = require('sequelize');
 
-class SancionService {
+class JustificacionAusencia {
   constructor() {}
 
   async create(data) {
     // console.log("AQUI!!", Sequelize);
-    const newUser =  await models.Category.create( data ) //crear
+    const newUser =  await models.AltasSGA.create( data ) //crear
     return newUser;
   }
 
   async find() {
-    const res = await models.Category.findAll();
+    const res = await models.AltasSGA.findAll();
     return res;
   }
 
   async findOne(id) {
-    const res  =  await models.Category.findByPk(id,
+    const res  =  await models.AltasSGA.findByPk(id,
       {
         include:['product']
       });// buscar con id
@@ -42,4 +40,4 @@ class SancionService {
   }
 }
 
-module.exports = SancionService;
+module.exports = JustificacionAusencia;

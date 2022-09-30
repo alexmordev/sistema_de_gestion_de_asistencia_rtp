@@ -2,9 +2,9 @@
   "name": "sistema_de_gestion_de_asistencia_rtp",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "nodemon",
     "start": "nodemon app.js",
     "lint": "eslint",
     "migrations:generate": "sequelize-cli migration:generate --name",

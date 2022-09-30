@@ -1,13 +1,13 @@
 const Joi = require('joi');
 
 const id = Joi.number().integer();
-const nombre = Joi.string();
+const name = Joi.string();
 
 const createRamoSeguroSchema = Joi.object({
-    nombre: nombre.required()
+    name: name.required()
 });
 const updateRamoSeguroSchema = Joi.object({
-    nombre
+    name
 }); 
 const getRamoSeguroSchema = Joi.object({
     id
