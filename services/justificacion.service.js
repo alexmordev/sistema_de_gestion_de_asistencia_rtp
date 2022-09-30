@@ -1,45 +1,44 @@
 const boom = require('@hapi/boom');
-// const {models} = require('../libs/sequelize');
-// const {Sequelize} = require('sequelize');
+const {models} = require('../libs/sequelize');
+
 
 class JustificacionAusencia {
   constructor() {}
 
   async create(data) {
-    // console.log("AQUI!!", Sequelize);
-    const newUser =  await models.Category.create( data ) //crear
-    return newUser;
+    const newIncapacidad = await models.AltasSGA.create( data )
+    return newIncapacidad;
   }
 
   async find() {
-    const res = await models.Category.findAll();
+    const res = await models.AltasSGA.findAll({
+      where:{
+        id_Concepto
+      }
+    });
     return res;
   }
 
   async findOne(id) {
-    const res  =  await models.Category.findByPk(id,
-      {
-        include:['product']
-      });// buscar con id
-    if(!res){
-      boom.notFound('Category Not Found');
+    const ausencia  =  await models.AltasSGA.findByPk(id);
+    if(!ausencia){
+      boom.notFound('Registro no encontrado');
     }
-    return res;
+    return ausencia;
   }
 
   async update(id, changes) {
-    // const user = await models.Category.findByPk(id); 
-    const user = await this.findOne(id);
-    const res = await user.update(changes);
+    const ausencia = await this.findOne(id);
+    const res = await ausencia.update(changes);
     return res;
   }
 
   async delete(id) {
-    // const user =  await models.Category.findByPk(id);
-    const user = await this.findOne(id);
-    await user.destroy()
+    const ausencia = await this.findOne(id);
+    await ausencia.destroy()
     return {id};
   }
 }
 
 module.exports = JustificacionAusencia;
+

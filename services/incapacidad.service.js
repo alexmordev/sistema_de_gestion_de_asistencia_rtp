@@ -1,41 +1,37 @@
 const boom = require('@hapi/boom');
-// const {models} = require('../libs/sequelize');
-// const {Sequelize} = require('sequelize');
+const {models} = require('../libs/sequelize');
 
 class IncapacidadService {
   constructor() {}
+
   async create(data) {
-    const newUser =  await models.Category.create( data ) //crear
-    return newUser;
+    const newIncapacidad = await models.Incapacidad.create( data )
+    return newIncapacidad;
   }
   async find() {
-    const res = await models.Category.findAll();
+    const res = await models.Incapacidad.findAll();
     return res;
   }
   async findOne(id) {
-    const res  =  await models.Category.findByPk(id,
-      {
-        include:['product']
-      });// buscar con id
-    if(!res){
-      boom.notFound('Category Not Found');
+    const ausencia  =  await models.Incapacidad.findByPk(id);// buscar con id
+    if(!ausencia){
+      boom.notFound('Registro no encontrado');
     }
-    return res;
+    return ausencia;
   }
 
   async update(id, changes) {
-    // const user = await models.Category.findByPk(id); 
-    const user = await this.findOne(id);
-    const res = await user.update(changes);
+    const ausencia = await this.findOne(id);
+    const res = await ausencia.update(changes);
     return res;
   }
-
+  
   async delete(id) {
-    // const user =  await models.Category.findByPk(id);
-    const user = await this.findOne(id);
-    await user.destroy()
+    const ausencia = await this.findOne(id);
+    await ausencia.destroy()
     return {id};
   }
 }
 
 module.exports = IncapacidadService;
+

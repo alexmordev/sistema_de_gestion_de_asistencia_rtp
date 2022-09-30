@@ -1,20 +1,21 @@
 const express = require('express');
-const AusenciaService = require('./../services/ausencia.service');
+const IncapacidadService = require('./../services/incapacidad.service');
 const validatorHandler = require('./../middlewares/validator.handler');
-const { updateAusenciaSchema, createAusenciaSchema, getAusenciaSchema } = require('./../schemas/ausencia.schema');
+const { getIncapacidadSchema, createIncapacidadSchema, updateIncapacidadSchema } = require('../schemas/incapacidad.schema');
 const router = express.Router();
-const service = new AusenciaService();
+const service = new IncapacidadService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const ausencia = await service.find();
-    res.json(ausencia);
+    const incapacidad = await service.find();
+    res.status(200).json({ success: incapacidad });
   } catch (error) {
     next(error);
   }
 });
+
 router.get('/:id', 
-  validatorHandler(getAusenciaSchema, 'params'),
+  validatorHandler(getIncapacidadSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -26,33 +27,34 @@ router.get('/:id',
   }
 );
 router.post('/',
-  validatorHandler(createAusenciaSchema, 'body'),
+  validatorHandler(createIncapacidadSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newAusencia = await service.create(body);
-      res.status(201).json(newAusencia);
-    } catch (error) {
+      const newIncapacidad = await service.create(body);
+      res.status(201).json(newIncapacidad);
+    } 
+    catch (error) {
       next(error);
     }
   }
 );
 router.patch('/:id',
-  validatorHandler(getAusenciaSchema, 'params'),
-  validatorHandler(updateAusenciaSchema, 'body'),
+  validatorHandler(getIncapacidadSchema, 'params'),
+  validatorHandler(updateIncapacidadSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
-      const ausencia = await service.update(id, body);
-      res.json(ausencia);
+      const incapacidad = await service.update(id, body);
+      res.json(incapacidad);
     } catch (error) {
       next(error);
     }
   }
 );
 router.delete('/:id',
-  validatorHandler(getAusenciaSchema, 'params'),
+  validatorHandler(getIncapacidadSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -63,4 +65,5 @@ router.delete('/:id',
     }
   }
 );
+
 module.exports = router;

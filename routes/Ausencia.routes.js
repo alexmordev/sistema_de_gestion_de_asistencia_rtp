@@ -18,7 +18,7 @@ router.get('/:id',
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const ausencia = await service.findAllOrders(id);
+      const ausencia = await service.findAll(id);
       res.json(ausencia);
     } catch (error) {
       next(error);
