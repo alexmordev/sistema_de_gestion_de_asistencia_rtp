@@ -1,12 +1,31 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-// const {USER_TABLE} = require('./user.model');
-const ALTASSGA_TABLE = 'altas_sga'; //definir nombre tabla;
-const AltaSGASchema = {
+const sequelize = require('../libs/conexion');
+const Trabajador = require('./Trabajador');
+
+class Altas extends Model {
+  static asociate(Trabajador){
+    this.belongsTo( Trabajador,{
+      foreignKey:'id_trabajador'
+    })
+  }
+}
+Altas.init({
     id:{
         allowNull:false, 
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER
+    },
+    id_trabajador: {
+      allowNull:false, 
+      type: DataTypes.INTEGER,
+      references: {
+        model: Trabajador,
+        key: 'trab_credencial'
+      }
+    },
+    id_periodo: {
+      type: DataTypes.INTEGER,
     },
     fechaCaptura: {
         allowNull: false,
@@ -22,6 +41,10 @@ const AltaSGASchema = {
         allowNull: false,
         type: DataTypes.STRING
     },
+    usuario_captura:{
+      allowNull: false,
+      type: DataTypes.INTEGER
+    },
     fechaInicio:{
         allowNull: false,
         type: DataTypes.DATE,
@@ -33,59 +56,11 @@ const AltaSGASchema = {
         field: 'fecha_final',
     }
     
-    
-}
-class AltasSGA extends Model{
-    static associciate(models){
-        this.hasMany( models.Product, 
-            {
-                as:'product',
-                foreignKey:'categoryId'
-
-            } 
-        ) 
-    }
-    static config(sequelize){
-        return{
-            sequelize,
-            tableName: ALTASSGA_TABLE,
-            modelName: 'AltasSGA',
-            timestamps: false 
-        }
-    }
-}
-module.exports= {ALTASSGA_TABLE,AltaSGASchema,AltasSGA };
-
-/**
- * idTrabajador:{
-        allowNull:false, 
-        type: DataTypes.INTEGER,
-        references:{
-            model: TRABAJADOR_TABLE, //importa tu modelo User
-            key: 'id',
-        },
-        onUpdate: 'CASCADE', // Esto ocurre al actualizar, un efecto en cascada y tambien se actualiza
-        onDelete: 'SET NULL' // Esto ocurre al borrar, se establece a null
-    },
-    idConcepto:{
-        allowNull:false, 
-        type: DataTypes.INTEGER,
-        references:{
-            model: CONCEPTO_TABLE, //importa tu modelo User
-            key: 'id',
-        },
-        onUpdate: 'CASCADE', // Esto ocurre al actualizar, un efecto en cascada y tambien se actualiza
-        onDelete: 'SET NULL' // Esto ocurre al borrar, se establece a null
-    }
-    ,idPeriodo:{
-        allowNull:false, 
-        type: DataTypes.INTEGER,
-        references:{
-            model: PERIODO_TABLE, //importa tu modelo User
-            key: 'id',
-        },
-        onUpdate: 'CASCADE', // Esto ocurre al actualizar, un efecto en cascada y tambien se actualiza
-        onDelete: 'SET NULL' // Esto ocurre al borrar, se establece a null
-    },
-
- */
+  },{
+    sequelize,
+    tableName: 'altas_sga',
+    modelName: 'Altas',
+    timestamps: false 
+  });
+ 
+module.exports= Altas;
