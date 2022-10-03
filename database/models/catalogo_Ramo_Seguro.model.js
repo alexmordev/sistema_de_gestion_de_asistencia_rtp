@@ -15,6 +15,9 @@ const RamoSeguroSchema = {
 }
 class RamoSeguro extends Model{
     static associciate(models){
+        this.hasMany( model.Incapacidad,{
+            foreignKey:'id_ramo_seguro'
+        })
     }
     static config(sequelize){
         return{

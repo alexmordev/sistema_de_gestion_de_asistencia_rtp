@@ -1,4 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
+const { ALTASSGA_TABLE } = require('./altasSGA.model')
 
 const TRANSMISION_APLICACION_TABLE = 'transmision_aplicaion';
 const TransmisionAplicacionSGASchema = {
@@ -13,6 +14,10 @@ const TransmisionAplicacionSGASchema = {
         type: DataTypes.INTEGER,
         field: 'id_altas_SGA',
         primaryKey: true,
+        references:{
+            model:ALTASSGA_TABLE,
+            key:'id'
+        }
     },
     tipo:{
         allowNull: false,
@@ -53,7 +58,9 @@ const TransmisionAplicacionSGASchema = {
 }
 class TransmisionAplicaion extends Model{
     static associciate(models){
- 
+        this.belongsTo(models.AltasSGA, {
+            foreignKey: 'id'
+        })
     }
     static config(sequelize){
         return{

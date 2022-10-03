@@ -35,7 +35,7 @@ const JustificacionSGASchema = {
     
     
 }
-class AltasSGA extends Model{
+class JustificacionAusencia extends Model{
     static associciate(models){
         // this.hasMany( models.Product, 
         //     {
@@ -49,9 +49,9 @@ class AltasSGA extends Model{
         return{
             sequelize,
             tableName: JUSTIFICACION_AUSENCIA_TABLE,
-            modelName: 'justificacion',
+            modelName: 'JustificacionAusencia',
             timestamps: false 
         }
     }
 }
-module.exports= { JUSTIFICACION_AUSENCIA_TABLE, JustificacionSGASchema,AltasSGA };
+module.exports= { JUSTIFICACION_AUSENCIA_TABLE, JustificacionSGASchema,JustificacionAusencia };

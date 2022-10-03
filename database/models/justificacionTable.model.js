@@ -11,10 +11,15 @@ const JustificacionTableSGASchema = {
     id_Altas_SGA: {
         allowNull: false,
         type: DataTypes.DATE,
-        field: 'fecha_captura',
+        field: 'id_altas_SGA',
         defaultValue: Sequelize.NOW
     },
-    justificado:{
+    periodo:{
+        allowNull: false,
+        type: DataTypes.INTEGER
+    },
+    unidades_justificadas:{
+        field: 'unidades_Justificadas',
         allowNull: false,
         type: DataTypes.INTEGER
     }
