@@ -1,58 +1,58 @@
 const express = require('express');
-const AusenciaService = require('./../services/ausencia.service');
+const RamoSeguroService = require('./../services/ramoSeguro.service');
 const validatorHandler = require('./../middlewares/validator.handler');
-const { updateAusenciaSchema, createAusenciaSchema, getAusenciaSchema } = require('./../schemas/ausencia.schema');
+const { createRamoSeguroSchema, updateRamoSeguroSchema, getRamoSeguroSchema } = require('./../schemas/ramoSeguro.schema');
 const router = express.Router();
-const service = new AusenciaService();
+const service = new RamoSeguroService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const ausencia = await service.find();
-    res.json(ausencia);
+    const ramoSeguroData = await service.find();
+    res.json(ramoSeguroData);
   } catch (error) {
     next(error);
   }
 });
 router.get('/:id', 
-  validatorHandler(getAusenciaSchema, 'params'),
+  validatorHandler(getRamoSeguroSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const ausencia = await service.findOne(id);
-      res.json(ausencia);
+      const ramoSeguro = await service.findOne(id);
+      res.json(ramoSeguro);
     } catch (error) {
       next(error);
     }
   }
 );
 router.post('/',
-  validatorHandler(createAusenciaSchema, 'body'),
+  validatorHandler(createRamoSeguroSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newAusencia = await service.create(body);
-      res.status(201).json(newAusencia);
+      const newRamoSeguro = await service.create(body);
+      res.status(201).json(newRamoSeguro);
     } catch (error) {
       next(error);
     }
   }
 );
 router.patch('/:id',
-  validatorHandler(getAusenciaSchema, 'params'),
-  validatorHandler(updateAusenciaSchema, 'body'),
+  validatorHandler(getRamoSeguroSchema, 'params'),
+  validatorHandler(updateRamoSeguroSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
-      const ausencia = await service.update(id, body);
-      res.json(ausencia);
+      const ramoSeguro = await service.update(id, body);
+      res.json(ramoSeguro);
     } catch (error) {
       next(error);
     }
   }
 );
 router.delete('/:id',
-  validatorHandler(getAusenciaSchema, 'params'),
+  validatorHandler(getRamoSeguroSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;

@@ -53,14 +53,11 @@ const AltaSGASchema = {
         type: DataTypes.DATE,
         field: 'fecha_final',
     }
-
 }
 
 class AltasSGA extends Model{
     static associciate(models){
-        this.hasMany( models.Product, 
-            // { as:'product', foreignKey:'categoryId' } 
-        ) 
+
     }
     static config(sequelize){
         return{

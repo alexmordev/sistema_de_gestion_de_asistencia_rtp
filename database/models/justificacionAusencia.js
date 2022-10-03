@@ -1,6 +1,6 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 // const {USER_TABLE} = require('./user.model');
-const JUSTIFICACION_TABLE = 'altas_sga'; //definir nombre tabla;
+const JUSTIFICACION_AUSENCIA_TABLE = 'justificacion_ausencia'; //definir nombre tabla;
 const JustificacionSGASchema = {
     id:{
         allowNull:false, 
@@ -48,10 +48,10 @@ class AltasSGA extends Model{
     static config(sequelize){
         return{
             sequelize,
-            tableName: JUSTIFICACION_TABLE,
+            tableName: JUSTIFICACION_AUSENCIA_TABLE,
             modelName: 'justificacion',
             timestamps: false 
         }
     }
 }
-module.exports= {ALTASSGA_TABLE: JUSTIFICACION_TABLE,AltaSGASchema: JustificacionSGASchema,AltasSGA };
+module.exports= { JUSTIFICACION_AUSENCIA_TABLE, JustificacionSGASchema,AltasSGA };
