@@ -4,7 +4,7 @@ const AltasSGA = require('./altasSGA.model');
 const TRABAJADOR_TABLE = 'trabajador_vista';
 const TrabajadorSGASchema = {
 
-    trab_Credencial:{
+    trabCredencial:{
         field: 'trab_credencial',
         allowNull:false, 
         unique: true,
@@ -12,42 +12,42 @@ const TrabajadorSGASchema = {
         type: DataTypes.INTEGER
     },
 
-    tipo_Trab_Div: {
+    tipoTrabDiv: {
         field: 'tipo_trab_div',
         type: DataTypes.STRING(2)
     },
 
-    tipo_Trab_Proc: {
+    tipoTrabProc: {
         field: 'tipo_trab_proc',
         type: DataTypes.STRING(2)
     },
 
-    nombre_Completo: {
+    nombreCompleto: {
         field: 'nombre_completo',
         type: DataTypes.STRING
     },
 
-    trab_curp: {
+    trabCurp: {
         field: 'trab_curp',
         type: DataTypes.STRING(20)
     },
 
-    trab_No_Afiliacion: {
+    trabNoAfiliacion: {
         field: 'trab_no_afiliacion',
         type: DataTypes.STRING
     },
 
-    trab_Rfc: {
+    trabRfc: {
         field: 'trab_rfc',
         type: DataTypes.STRING(20)
     },
 
-    tipo_Trab_Descripcion: {
+    tipoTrabDescripcion: {
         field: 'tipo_trab_descripcion',
         type: DataTypes.STRING(50)
     },
 
-    puesto_Descripcion: {
+    puestoDescripcion: {
         field: 'puesto_descripcion',
         type: DataTypes.STRING(100)
     },
@@ -56,35 +56,35 @@ const TrabajadorSGASchema = {
         type: DataTypes.STRING
     },
 
-    trab_Status: {
+    trabStatus: {
         type: DataTypes.INTEGER,
         field: 'trab_status',
     },
 
-    trab_Status_Desc: {
+    trabStatusDesc: {
         field: 'trab_status_desc',
         type: DataTypes.STRING
     },
 
-    trab_Sex_Cve: {
+    trabSexCve: {
         field: 'trab_sex_cve',
         type: DataTypes.INTEGER
     },
 
-    trab_Sex_Desc: {
+    trabSexDesc: {
         field: 'trab_sex_desc',
         type: DataTypes.STRING(20)
     },
 
-    trab_Foto: {
+    trabFoto: {
         field: 'trab_foto',
         type: DataTypes.STRING
     }
 };
 
 class Trabajador extends Model {
-    static asociate(models){
-        this.hasMany( model.AltasSGA,{
+    static associate(models){
+        this.hasMany( models.AltasSGA,{
             foreignKey:'id_trabajador'
         })
     }
@@ -93,7 +93,7 @@ class Trabajador extends Model {
         return{
             sequelize,
             modelName: 'Trabajador',
-            tableName: 'TRABAJADOR_TABLE',
+            tableName: TRABAJADOR_TABLE,
             createdAt: false,
             timestamps: false,
         }

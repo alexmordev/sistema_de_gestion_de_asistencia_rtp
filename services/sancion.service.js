@@ -1,6 +1,6 @@
 const boom = require('@hapi/boom');
 
-class JustificacionAusencia {
+class SancionAusencia {
   constructor() {}
 
   async create(data) {
@@ -40,4 +40,4 @@ class JustificacionAusencia {
   }
 }
 
-module.exports = JustificacionAusencia;
+module.exports = SancionAusencia;

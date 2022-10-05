@@ -1,6 +1,6 @@
 const express = require('express');
-const IncapacidadService = require('./../services/incapacidad.service');
-const validatorHandler = require('./../middlewares/validator.handler');
+const IncapacidadService = require('../services/incapacidad.service');
+const validatorHandler = require('../middlewares/validator.handler');
 const { getIncapacidadSchema, createIncapacidadSchema, updateIncapacidadSchema } = require('../schemas/incapacidad.schema');
 const router = express.Router();
 const service = new IncapacidadService();
@@ -8,7 +8,7 @@ const service = new IncapacidadService();
 router.get('/', async (req, res, next) => {
   try {
     const incapacidad = await service.find();
-    res.status(200).json({ success: incapacidad });
+    res.json(incapacidad);
   } catch (error) {
     next(error);
   }

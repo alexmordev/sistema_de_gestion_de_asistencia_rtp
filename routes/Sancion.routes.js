@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const SansionService = require('./../services/justificacion.service');
-const validatorHandler = require('./../middlewares/validator.handler');
+const SansionService = require('../services/sancion.service');
+const validatorHandler = require('../middlewares/validator.handler');
 const { createSancionSchema, getSancionSchema, updateSancionSchema } = require('../schemas/sancion.schema'); 
 const service = new SansionService();
 

@@ -1,34 +1,41 @@
 const { Model, DataTypes } = require('sequelize');
-const {TIPOINCAPACIDAD_TABLE} = require('./catalogo_Tipo_Incapacidad.model')
-const {RAMOSEGURO_TABLE} = require('./catalogo_Ramo_Seguro.model')
+const {TIPOINCAPACIDAD_TABLE} = require('./tipoIncapacidad.model')
+const {RAMOSEGURO_TABLE} = require('./ramoSeguro.model')
+const {ALTASSGA_TABLE} = require('./altasSGA.model')
 
-const INCAPACIDAD_TABLE = 'incapacidades';
+const INCAPACIDAD_TABLE = 'incapacidad';
 const IncapacidadSGASchema = {
+    
     id:{
         allowNull:false, 
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-    id_Altas_Sga: {
+
+    idAltasSGA: {
         allowNull: false,
         type: DataTypes.INTEGER,
         field: 'id_altas_SGA',
         primaryKey: true,
-        // defaultValue: Sequelize.NOW
+            // references:{
+            //     model:ALTASSGA_TABLE,
+            //     key:'id'
+            // }
     },
-    id_Tipo_Incapacidad:{
+
+    idTipoIncapacidad:{
         allowNull: false,
         type: DataTypes.INTEGER,
         primaryKey: true,
         field: 'id_tipo_incapacidad',
         references:{
             model:TIPOINCAPACIDAD_TABLE,
-            key:'tipo'
+            key:'id'
         }
     },
 
-    id_Ramo_Seguro:{
+    idRamoSeguro:{
         allowNull: false,
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -42,28 +49,26 @@ const IncapacidadSGASchema = {
     motivo:{
         allowNull: false,
         type: DataTypes.STRING,
-        field: 'motivo',
     },
 
     umf:{
-        field: 'umf',
         allowNull: false,
         type: DataTypes.INTEGER,
     },
 
-    riesgo_Trabajo:{
+    riesgoTrabajo:{
         field: 'riesgo_trabajo',
         allowNull: false,
         type: DataTypes.BOOLEAN,
     },
 
-    fecha_Expedicion:{
+    fechaExpedicion:{
         allowNull: false,
         type: DataTypes.DATE,
         field: 'fecha_expedicion',
     },
 
-    posible_Covid:{
+    posibleCovid:{
         allowNull: false,
         type: DataTypes.INTEGER,
         field: 'posible_covid',
@@ -72,11 +77,15 @@ const IncapacidadSGASchema = {
 }
 class Incapacidad extends Model{
     static associciate(models){
-        this.belongsTo(models.TipoIncapacidad, {
-            foreignKey: 'id'
-        }),
-        this.belongsTo(models.RamoSeguro, {
-            foreignKey: 'id'
+        // this.belongsTo(models.TipoIncapacidad, {
+        //     foreignKey: 'id_altas_SGA'
+        // }),
+        // this.belongsTo(models.RamoSeguro, {
+        //     foreignKey: 'id'
+        // })
+       
+        this.hasMany( models.AltasSGA,{
+            foreignKey:'id_altas_SGA'
         })
     }
     static config(sequelize){

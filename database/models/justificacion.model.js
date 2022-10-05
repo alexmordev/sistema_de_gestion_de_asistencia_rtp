@@ -1,6 +1,8 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 // const {USER_TABLE} = require('./user.model');
-const JUSTIFICACION_TABLE = 'justificacion_sga'; //definir nombre tabla;
+const {ALTASSGA_TABLE} = require('./altasSGA.model')
+
+const JUSTIFICACION_TABLE = 'justificacion'; //definir nombre tabla;
 const JustificacionTableSGASchema = {
     id:{
         allowNull:false, 
@@ -8,28 +10,32 @@ const JustificacionTableSGASchema = {
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-    id_Altas_SGA: {
+    idAltas: {
         allowNull: false,
-        type: DataTypes.DATE,
+        type: DataTypes.INTEGER,
         field: 'id_altas_SGA',
-        defaultValue: Sequelize.NOW
+        defaultValue: Sequelize.NOW,
+        //  references:{
+        //     model: ALTASSGA_TABLE,
+        //     key: 'id_altas_SGA'
+        // }
     },
     periodo:{
         allowNull: false,
         type: DataTypes.INTEGER
     },
-    unidades_justificadas:{
-        field: 'unidades_Justificadas',
+    unidadesJustificadas:{
+        field: 'unidades_justificadas',
         allowNull: false,
         type: DataTypes.INTEGER
     }
 }
-class JustificacionTable extends Model{
+class Justificacion extends Model{
     static associciate(models){
-        // this.hasMany( models.Product, {
-                // as:'product',
-                // foreignKey:'categoryId'
-        // }) 
+        
+        this.hasMany(models.AltasSGA, {
+            foreignKey: 'id_altas_SGA'
+        })
     }
     static config(sequelize){
         return{
@@ -40,4 +46,4 @@ class JustificacionTable extends Model{
         }
     }
 }
-module.exports= { JUSTIFICACION_TABLE, JustificacionTableSGASchema,JustificacionTable };
+module.exports= { JUSTIFICACION_TABLE, JustificacionTableSGASchema, Justificacion };

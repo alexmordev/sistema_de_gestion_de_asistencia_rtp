@@ -8,18 +8,17 @@ const TipoIncapacidadSchema = {
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-    
+
     tipo:{
         allowNull: false,
         unique: true,
-        type: DataTypes.INTEGER
+        type: DataTypes.STRING
     }    
 }
 class TipoIncapacidad extends Model{
+
     static associciate(models){
-        this.hasMany( model.Incapacidad,{
-            foreignKey:'id_tipo_incapacidad'
-        })
+        
     }
     static config(sequelize){
         return{
@@ -30,4 +29,5 @@ class TipoIncapacidad extends Model{
         }
     }
 }
+
 module.exports= {TIPOINCAPACIDAD_TABLE,TipoIncapacidadSchema,TipoIncapacidad };

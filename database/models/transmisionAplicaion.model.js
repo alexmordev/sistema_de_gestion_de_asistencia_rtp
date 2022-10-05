@@ -9,7 +9,7 @@ const TransmisionAplicacionSGASchema = {
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-    id_Altas_Sga: {
+    idAltasSga: {
         allowNull: false,
         type: DataTypes.INTEGER,
         field: 'id_altas_SGA',
@@ -22,34 +22,31 @@ const TransmisionAplicacionSGASchema = {
     tipo:{
         allowNull: false,
         type: DataTypes.STRING,
-        field: 'tipo',
     },
     motivo:{
         allowNull: false,
         type: DataTypes.STRING,
-        field: 'motivo',
     },
-    clave_Seguro:{
+    claveSeguro:{
         field: 'clave_seguro',
         allowNull: false,
         type: DataTypes.STRING,
     },
     umf:{
-        field: 'umf',
         allowNull: false,
         type: DataTypes.INTEGER,
     },
-    riesgo_Trabajo:{
+    riesgoTrabajo:{
         field: 'riesgo_trabajo',
         allowNull: false,
         type: DataTypes.BOOLEAN,
     },
-    fecha_Expedicion:{
+    fechaExpedicion:{
         allowNull: false,
         type: DataTypes.DATE,
         field: 'fecha_expedicion',
     },
-    posible_Covid:{
+    posibleCovid:{
         allowNull: false,
         type: DataTypes.INTEGER,
         field: 'posible_covid',

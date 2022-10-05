@@ -1,23 +1,20 @@
 const boom = require('@hapi/boom');
+const { reset } = require('nodemon');
 const {models} = require('../libs/sequelize');
 
-class AusenciaService {
+class TrabajadorService {
   constructor() {}
 
   async create(data) {
-    const newAusencia = await models.AltasSGA.create( data )
+    const newAusencia = await models.Trabajador.create( data )
     return newAusencia;
   }
   async find() {
-    const res = await models.AltasSGA.findAll(
-      {
-        include:['trabajador_vista']
-      }
-    );
+    const res = await models.Trabajador.findAll();
     return res;
   }
   async findOne(id) {
-    const ausencia  =  await models.AltasSGA.findByPk(id);// buscar con id
+    const ausencia  =  await models.Trabajador.findByPk(id);// buscar con id
     if(!ausencia){
       boom.notFound('Registro no encontrado');
     }
@@ -35,4 +32,4 @@ class AusenciaService {
   }
 }
 
-module.exports = AusenciaService;
+module.exports = TrabajadorService;
