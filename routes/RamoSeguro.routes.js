@@ -8,6 +8,10 @@ const service = new RamoSeguroService();
 router.get('/', async (req, res, next) => {
   try {
     const ramoSeguroData = await service.find();
+    ramoSeguroData.map( el=> {
+      el.nombre = el.name;
+      delete el.nombre;
+    } )
     res.json(ramoSeguroData);
   } catch (error) {
     next(error);

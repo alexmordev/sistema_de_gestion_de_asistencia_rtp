@@ -1,5 +1,5 @@
 'use strict';
-const { INCAPACIDAD_TABLE, IncapacidadSGASchema } = require('../models/incapacidades');
+const { INCAPACIDAD_TABLE, IncapacidadSGASchema } = require('../../models/incapacidades');
 
 
 module.exports = {

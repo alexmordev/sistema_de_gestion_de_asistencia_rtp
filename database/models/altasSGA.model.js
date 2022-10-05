@@ -30,7 +30,7 @@ const AltaSGASchema = {
     },
     unidades:{
         allowNull: false,
-        type: DataTypes.DOUBLE(5, 2),
+        type: DataTypes.FLOAT,
         field: 'unidades',
     },
     oficio:{
