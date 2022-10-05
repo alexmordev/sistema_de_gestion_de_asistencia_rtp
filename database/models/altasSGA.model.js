@@ -64,7 +64,7 @@ class AltasSGA extends Model{
         })
 
         this.belongsTo(models.CatalogoConcepto, {
-            
+            as:"catalogo_conceptos",
             foreignKey: 'id_concepto'
         })
 

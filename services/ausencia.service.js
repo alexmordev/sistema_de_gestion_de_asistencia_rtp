@@ -11,7 +11,7 @@ class AusenciaService {
   async find() {
     const res = await models.AltasSGA.findAll(
       {
-        include:['trabajador_vista']
+        include:['trabajador_vista','catalogo_conceptos']
       }
     );
     return res;
