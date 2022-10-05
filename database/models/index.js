@@ -1,9 +1,11 @@
 const { AltasSGA, AltaSGASchema }= require('./altasSGA.model');
 const { Trabajador, TrabajadorSGASchema } = require('./trabajador.model');
+const { Incapacidad,  IncapacidadSGASchema } = require('./incapacidad.model');
 
 
 
 function setupModels(sequelize){
+    Incapacidad.init(IncapacidadSGASchema,Incapacidad.config( sequelize) );
     AltasSGA.init(AltaSGASchema, AltasSGA.config( sequelize ));
     Trabajador.init(TrabajadorSGASchema,Trabajador.config( sequelize) );
    
@@ -14,10 +16,11 @@ function setupModels(sequelize){
     /**
      * After to do all tables, you must to define the relations
      */
+    // Incapacidad.associate( sequelize.models );
     Trabajador.associate( sequelize.models );
     AltasSGA.associate( sequelize.models );
+    Incapacidad.associate( sequelize.models );
 
-    //  Incapacidad.associciate( sequelize.models );
    
 }
 module.exports = setupModels

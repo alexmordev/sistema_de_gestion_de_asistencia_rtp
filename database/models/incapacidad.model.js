@@ -18,10 +18,10 @@ const IncapacidadSGASchema = {
         type: DataTypes.INTEGER,
         field: 'id_altas_SGA',
         primaryKey: true,
-            // references:{
-            //     model:ALTASSGA_TABLE,
-            //     key:'id'
-            // }
+            references:{
+                model:ALTASSGA_TABLE,
+                key:'id_altas_SGA'
+            }
     },
 
     idTipoIncapacidad:{
@@ -76,16 +76,11 @@ const IncapacidadSGASchema = {
      
 }
 class Incapacidad extends Model{
-    static associciate(models){
-        // this.belongsTo(models.TipoIncapacidad, {
-        //     foreignKey: 'id_altas_SGA'
-        // }),
-        // this.belongsTo(models.RamoSeguro, {
-        //     foreignKey: 'id'
-        // })
-       
-        this.hasMany( models.AltasSGA,{
-            foreignKey:'id_altas_SGA'
+    static associate(models){
+
+        this.belongsTo(models.AltasSGA, {
+            as:"altas_sga",
+            foreignKey: 'id_altas_SGA'
         })
     }
     static config(sequelize){

@@ -31,7 +31,9 @@ router.post('/',
     try {
       const body = req.body;
       const newAusencia = await service.create(body);
-      res.status(201).json(newAusencia);
+
+
+      res.status(201).json({msg: newAusencia});
     } catch (error) {
       next(error);
     }

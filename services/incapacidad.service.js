@@ -9,7 +9,11 @@ class IncapacidadService {
     return newIncapacidad;
   }
   async find() {
-    const res = await models.Incapacidad.findAll();
+    const res = await models.Incapacidad.findAll(
+      {
+        include:['altas_sga']
+      }
+    );
     return res;
   }
   async findOne(id) {

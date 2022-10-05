@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 // const sequelize = require('../libs/conexion');
-const AltasSGA = require('./altasSGA.model');
+// const AltasSGA = require('./altasSGA.model');
 const TRABAJADOR_TABLE = 'trabajador_vista';
 const TrabajadorSGASchema = {
 

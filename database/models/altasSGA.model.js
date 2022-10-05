@@ -63,6 +63,11 @@ class AltasSGA extends Model{
             foreignKey: 'id_trabajador'
         })
 
+        // this.belongsTo( models.Incapacidad,{
+        //     as:"incapacidad",
+        //     foreignKey:'id_altas_SGA'
+        // })
+
     }
     static config(sequelize){
         return{

@@ -8,8 +8,7 @@ const service = new TrabajadorService();
 router.get('/', async (req, res, next) => {
   try {
     const trabajador = await service.find();
-    (trabajador === null) ? res.status(404) : res.status(200).json({seccess:trabajador})
-    // res.json({ success:trabajador });
+      (trabajador != trabajador) ? res.status(404) : res.status(200).json({seccess:trabajador})
   } catch (error) {
     next(error);
   }
