@@ -101,11 +101,12 @@ const PeriodoSchema = {
     }
 }
 class Periodo extends Model{
-    // static associciate(models){
-        // this.hasMany( models.Product, 
-            // { as:'product', foreignKey:'categoryId' } 
-        // ) 
-    // }
+    static associate(models){
+        this.hasMany( models.AltasSGA,{
+            as:'altas_sga', 
+            foreignKey: 'id_periodos'
+        })
+    }
     static config(sequelize){
         return{
             sequelize,

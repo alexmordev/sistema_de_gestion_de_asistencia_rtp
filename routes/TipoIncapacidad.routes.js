@@ -1,7 +1,7 @@
 const express = require('express');
-const TipoIncapacidadService = require('./../services/tipoIncapacidad.service');
-const validatorHandler = require('./../middlewares/validator.handler');
-const {  createTipoIncapacidadSchema, updateTipoIncapacidadSchema, getTipoIncapacidadSchema  } = require('./../schemas/tipoIncapacidad.schema');
+const TipoIncapacidadService = require('../services/tipoIncapacidad.service');
+const validatorHandler = require('../middlewares/validator.handler');
+const {  createTipoIncapacidadSchema, updateTipoIncapacidadSchema, getTipoIncapacidadSchema  } = require('../schemas/tipoIncapacidad.schema');
 const router = express.Router();
 const service = new TipoIncapacidadService();
 

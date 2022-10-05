@@ -1,7 +1,7 @@
 const express = require('express');
-const RamoSeguroService = require('./../services/ramoSeguro.service');
-const validatorHandler = require('./../middlewares/validator.handler');
-const { createRamoSeguroSchema, updateRamoSeguroSchema, getRamoSeguroSchema } = require('./../schemas/ramoSeguro.schema');
+const RamoSeguroService = require('../services/ramoSeguro.service');
+const validatorHandler = require('../middlewares/validator.handler');
+const { createRamoSeguroSchema, updateRamoSeguroSchema, getRamoSeguroSchema } = require('../schemas/ramoSeguro.schema');
 const router = express.Router();
 const service = new RamoSeguroService();
 
