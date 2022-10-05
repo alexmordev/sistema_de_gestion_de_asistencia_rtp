@@ -25,10 +25,12 @@ const CatalogoConceptosSGASchema = {
     },
 }
 class CatalogoConcepto extends Model {
-    static associciate(models) {
-        this.belongsTo(models.AltasSGA, {
+    static associate(models) {
+        this.hasMany(models.AltasSGA, {
+            // as:"catalogo_conceptos",
             foreignKey: 'id_concepto'
         })
+
     }
     static config(sequelize) {
         return {

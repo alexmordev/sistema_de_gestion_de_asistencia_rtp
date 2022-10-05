@@ -8,7 +8,7 @@ const service = new IncapacidadService();
 router.get('/', async (req, res, next) => {
   try {
     const incapacidad = await service.find();
-    res.json(incapacidad);
+    res.json({ success:'Datos Incapacidad',msg: incapacidad });
   } catch (error) {
     next(error);
   }

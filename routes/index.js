@@ -1,7 +1,8 @@
 const express = require('express');
 const ausenciaRouter = require('./ausencia.routes');
 const incapacidadRouter = require('./incapacidad.routes');
-const justificacionRouter = require('./justificacionAusencia.routes');
+// const justificacionRouter = require('./justificacionAusencia.routes');
+const catalogoConceptoRouter = require('./catalogoConcepto.routes')
 
 // const ausenciaRouter = require('./Ausencia.routes');
 const ramoSeguroRouter = require('./RamoSeguro.routes');
@@ -14,7 +15,9 @@ function routerApi(app) {
 
     router.use('/ausencia', ausenciaRouter);
     router.use('/incapacidad', incapacidadRouter);
-    router.use('/justificacion', justificacionRouter);
+    router.use('/catalogoConcepto', catalogoConceptoRouter);
+
+
 
     // router.use('/ausencia', ausenciaRouter);
     router.use('/ramo-seguro', ramoSeguroRouter);

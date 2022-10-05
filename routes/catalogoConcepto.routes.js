@@ -1,20 +1,22 @@
 const express = require('express');
-const AusenciaService = require('../services/ausencia.service');
+const CatalogoService = require('../services/catalogoConcepto.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { updateAusenciaSchema, createAusenciaSchema, getAusenciaSchema } = require('../schemas/ausencia.schema');
+const { updateCatalogoConceptoSchema, createCatalogoConceptoSchema, getCatalogoConceptoSchema } = require('../schemas/catalogoConcepto.schema');
 const router = express.Router();
-const service = new AusenciaService();
+const service = new CatalogoService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const ausencia = await service.find();
-    res.status(200).json({ success:'Datos Ausencia',msg: ausencia})
+    const concepto = await service.find();
+    res.status(200).json({ success:'Datos Catalogo Concepto',msg: concepto})
+    // res.json(ausencia);
   } catch (error) {
     next(error);
   }
 });
+
 router.get('/:id', 
-  validatorHandler(getAusenciaSchema, 'params'),
+  validatorHandler(getCatalogoConceptoSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -26,22 +28,22 @@ router.get('/:id',
   }
 );
 router.post('/',
-  validatorHandler(createAusenciaSchema, 'body'),
+  validatorHandler(createCatalogoConceptoSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newAusencia = await service.create(body);
+      const newConcepto = await service.create(body);
 
 
-      res.status(201).json({msg: newAusencia});
+      res.status(201).json({msg: newConcepto});
     } catch (error) {
       next(error);
     }
   }
 );
 router.patch('/:id',
-  validatorHandler(getAusenciaSchema, 'params'),
-  validatorHandler(updateAusenciaSchema, 'body'),
+  validatorHandler(getCatalogoConceptoSchema, 'params'),
+  validatorHandler(updateCatalogoConceptoSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -54,7 +56,7 @@ router.patch('/:id',
   }
 );
 router.delete('/:id',
-  validatorHandler(getAusenciaSchema, 'params'),
+  validatorHandler(getCatalogoConceptoSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
