@@ -1,14 +1,14 @@
 const express = require('express');
-const JustificacionService = require('../services/justificacion.service');
+const JustificacionService = require('../services/incapacidad.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { getJustificacionSchema, createJustificacionSchema, updateJustificacionSchema } = require('../schemas/justificacion');
+const { createJustificacionSchema, getJustificacionSchema, updateJustificacionSchema } = require('../schemas/justificacion');
 const router = express.Router();
 const service = new JustificacionService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const justificacion = await service.findAll();
-    res.json(justificacion);
+    const justificacion = await service.find();
+    res.json({ success:'Datos Justificacion',msg: justificacion });
   } catch (error) {
     next(error);
   }
@@ -33,7 +33,8 @@ router.post('/',
       const body = req.body;
       const newJustificacion = await service.create(body);
       res.status(201).json(newJustificacion);
-    } catch (error) {
+    } 
+    catch (error) {
       next(error);
     }
   }
