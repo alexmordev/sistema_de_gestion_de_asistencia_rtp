@@ -1,7 +1,7 @@
 const express = require('express');
 
 const periodoRouter = require('./Periodo.routes');
-const incapacidadRouter = require('./incapacidad.routes');
+const incapacidadRouter = require('./Incapacidad.routes');
 const justificacionRouter = require('./justificacionAusencia.routes');
 const catalogoConceptoRouter = require('./catalogoConcepto.routes')
 const ausenciaRouter = require('./Ausencia.routes');
