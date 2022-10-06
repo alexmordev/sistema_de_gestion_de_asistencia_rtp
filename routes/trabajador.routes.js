@@ -1,25 +1,24 @@
 const express = require('express');
-const IncapacidadService = require('../services/incapacidad.service');
+const TrabajadorService = require('../services/trabajador.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { getIncapacidadSchema, createIncapacidadSchema, updateIncapacidadSchema } = require('../schemas/incapacidad.schema');
+const { createTrabajadorSchema, getTrabajadorSchema, updateTrabajadorSchema } = require('../schemas/trabajador.schema');
 const router = express.Router();
-const service = new IncapacidadService();
+const service = new TrabajadorService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const incapacidad = await service.find();
-    res.json({ success:'Datos Incapacidad',msg: incapacidad });
+    const trabajador = await service.find();
+      (trabajador != trabajador) ? res.status(404) : res.status(200).json({seccess:trabajador})
   } catch (error) {
     next(error);
   }
 });
-
 router.get('/:id', 
-  validatorHandler(getIncapacidadSchema, 'params'),
+  validatorHandler(getTrabajadorSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const ausencia = await service.findAllOrders(id);
+      const ausencia = await service.findOne(id);
       res.json(ausencia);
     } catch (error) {
       next(error);
@@ -27,34 +26,33 @@ router.get('/:id',
   }
 );
 router.post('/',
-  validatorHandler(createIncapacidadSchema, 'body'),
+  validatorHandler(createTrabajadorSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newIncapacidad = await service.create(body);
-      res.status(201).json(newIncapacidad);
-    } 
-    catch (error) {
+      const newAusencia = await service.create(body);
+      res.status(201).json(newAusencia);
+    } catch (error) {
       next(error);
     }
   }
 );
 router.patch('/:id',
-  validatorHandler(getIncapacidadSchema, 'params'),
-  validatorHandler(updateIncapacidadSchema, 'body'),
+  validatorHandler(getTrabajadorSchema, 'params'),
+  validatorHandler(updateTrabajadorSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
-      const incapacidad = await service.update(id, body);
-      res.json(incapacidad);
+      const ausencia = await service.update(id, body);
+      res.json(ausencia);
     } catch (error) {
       next(error);
     }
   }
 );
 router.delete('/:id',
-  validatorHandler(getIncapacidadSchema, 'params'),
+  validatorHandler(getTrabajadorSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -65,5 +63,4 @@ router.delete('/:id',
     }
   }
 );
-
 module.exports = router;

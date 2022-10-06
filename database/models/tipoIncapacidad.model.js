@@ -1,4 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
+
 const TIPOINCAPACIDAD_TABLE = 'catalogo_tipo_incapacidad'; //definir nombre tabla;
 const TipoIncapacidadSchema = {
     id:{
@@ -7,6 +8,7 @@ const TipoIncapacidadSchema = {
         primaryKey: true,
         type: DataTypes.INTEGER
     },
+
     tipo:{
         allowNull: false,
         unique: true,
@@ -14,7 +16,9 @@ const TipoIncapacidadSchema = {
     }    
 }
 class TipoIncapacidad extends Model{
+
     static associciate(models){
+        
     }
     static config(sequelize){
         return{
@@ -25,4 +29,5 @@ class TipoIncapacidad extends Model{
         }
     }
 }
+
 module.exports= {TIPOINCAPACIDAD_TABLE,TipoIncapacidadSchema,TipoIncapacidad };

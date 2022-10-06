@@ -6,21 +6,17 @@ class JustificacionAusencia {
   constructor() {}
 
   async create(data) {
-    const newIncapacidad = await models.AltasSGA.create( data )
-    return newIncapacidad;
+    const newJustificacion = await models.Justificacion.create( data )
+    return newJustificacion;
   }
 
   async find() {
-    const res = await models.AltasSGA.findAll({
-      where:{
-        id_Concepto
-      }
-    });
+    const res = await models.Justificacion.findAll();
     return res;
   }
 
   async findOne(id) {
-    const ausencia  =  await models.AltasSGA.findByPk(id);
+    const ausencia  =  await models.Justificacion.findByPk(id);
     if(!ausencia){
       boom.notFound('Registro no encontrado');
     }
@@ -28,14 +24,14 @@ class JustificacionAusencia {
   }
 
   async update(id, changes) {
-    const ausencia = await this.findOne(id);
-    const res = await ausencia.update(changes);
+    const justificacion = await this.findOne(id);
+    const res = await justificacion.update(changes);
     return res;
   }
 
   async delete(id) {
-    const ausencia = await this.findOne(id);
-    await ausencia.destroy()
+    const justificacion = await this.findOne(id);
+    await justificacion.destroy()
     return {id};
   }
 }

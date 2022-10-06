@@ -1,5 +1,7 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 // const {USER_TABLE} = require('./user.model');
+const {PERIODO_TABLE} = require('./periodo.model');
+
 const ALTASSGA_TABLE = 'altas_sga'; //definir nombre tabla;
 const AltaSGASchema = {
     id:{
@@ -8,47 +10,54 @@ const AltaSGASchema = {
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-    id_Trabajador:{
+    idTrabajador:{
         allowNull:false,
         type: DataTypes.INTEGER,
         field: 'id_trabajador',
+        references:{
+            model: 'trabajador_vista',
+            key: 'trab_credencial',
+        },
     },
-    id_Concepto: {
+    idConcepto: {
         allowNull:false,
         type: DataTypes.INTEGER,
         field: 'id_concepto',
     },
-    id_Periodo:{
+    idPeriodos:{
         allowNull: false,
         type: DataTypes.INTEGER,
-        field: 'id_periodo',
+        field: 'id_periodos',
+        references:{
+            model: 'trab_periodos',
+            key: 'id_periodos',
+        },
     },
-    fecha_Captura:{
+    fechaCaptura:{
         allowNull: false,
         type: DataTypes.DATEONLY,
         field: 'fecha_captura',
     },
     unidades:{
         allowNull: false,
-        type: DataTypes.DOUBLE(5, 2),
-        field: 'unidades',
+        // type: DataTypes.DOUBLE(5, 2),
+        type: DataTypes.FLOAT(11),
     },
     oficio:{
         allowNull: false,
         type: DataTypes.STRING,
-        field: 'oficio',
     },
-    usuario_Captura:{
+    usuarioCaptura:{
         allowNull: false,
         type: DataTypes.INTEGER,
         field: 'usuario_captura',
     },
-    fecha_Inicio:{
+    fechaInicio:{
         allowNull: false,
         type: DataTypes.DATEONLY,
         field: 'fecha_inicio',
     },
-    fecha_Final:{
+    fechaFinal:{
         allowNull: false,
         type: DataTypes.DATEONLY,
         field: 'fecha_final',
@@ -57,11 +66,18 @@ const AltaSGASchema = {
 }
 
 class AltasSGA extends Model{
-    // static associciate(models){
-        // this.hasMany( models.Product, 
-            // { as:'product', foreignKey:'categoryId' } 
-        // ) 
-    // }
+    static associate(models){
+
+        this.belongsTo(models.Trabajador, {
+            as:"trabajador_vista",
+            foreignKey: 'id_trabajador'
+        })
+        this.belongsTo( models.Periodo,{
+            as:"trab_periodos",
+            foreignKey:'id_periodos'
+        })
+
+    }
     static config(sequelize){
         return{
             sequelize,

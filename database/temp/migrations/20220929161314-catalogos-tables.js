@@ -1,6 +1,6 @@
 'use strict';
-const { RamoSeguroSchema, RAMOSEGURO_TABLE } = require('../models/ramoSeguro.model');
-const { TipoIncapacidadSchema, TIPOINCAPACIDAD_TABLE } = require('../models/tipoIncapacidad.model');
+const { RamoSeguroSchema, RAMOSEGURO_TABLE } = require('../../models/ramoSeguro.model');
+const { TipoIncapacidadSchema, TIPOINCAPACIDAD_TABLE } = require('../../models/tipoIncapacidad.model');
 
 module.exports = {
   async up (queryInterface) {
