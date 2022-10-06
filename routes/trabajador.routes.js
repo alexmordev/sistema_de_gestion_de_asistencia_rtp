@@ -8,7 +8,7 @@ const service = new TrabajadorService();
 router.get('/', async (req, res, next) => {
   try {
     const trabajador = await service.find();
-      (trabajador != trabajador) ? res.status(404) : res.status(200).json({seccess:trabajador})
+      res.status(200).json({ msg: 'Todos los trabajadores', seccess:trabajador })
   } catch (error) {
     next(error);
   }
@@ -19,7 +19,7 @@ router.get('/:id',
     try {
       const { id } = req.params;
       const trabajador = await service.findOne(id);
-      res.json(trabajador);
+      (trabajador === null) ? res.status(404).json({msg: 'Trabajador no encontrado'}) : res.status(200).json({seccess: trabajador})
     } catch (error) {
       next(error);
     }

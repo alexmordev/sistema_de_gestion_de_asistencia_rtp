@@ -8,7 +8,7 @@ const justificacionRouter = require('./justificacion.routes');
 const ramoSeguroRouter = require('./RamoSeguro.routes');
 const tipoIncapacidadRouter = require('./tipoIncapacidad.routes')
 const trabajadorRuter = require('./trabajador.routes');
-const transmisionRouter = require('./transmisionAplicacion.routes');
+const transmisionRouter = require('./transmision.routes');
 
 function routerApi(app) {
     const router = express.Router();
