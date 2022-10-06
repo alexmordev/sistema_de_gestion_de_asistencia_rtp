@@ -12,7 +12,6 @@ const IncapacidadSGASchema = {
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-
     idAltasSGA: {
         allowNull: false,
         type: DataTypes.INTEGER,
@@ -23,29 +22,26 @@ const IncapacidadSGASchema = {
                 key:'id_altas_SGA'
             }
     },
-
     idTipoIncapacidad:{
         allowNull: false,
         type: DataTypes.INTEGER,
-        primaryKey: true,
+        // primaryKey: true,
         field: 'id_tipo_incapacidad',
         references:{
             model:TIPOINCAPACIDAD_TABLE,
             key:'id'
         }
     },
-
     idRamoSeguro:{
         allowNull: false,
         type: DataTypes.INTEGER,
-        primaryKey: true,
+        // primaryKey: true,
         field: 'id_ramo_seguro',
         references:{
             model:RAMOSEGURO_TABLE,
             key:'id'
         }
     },
-
     motivo:{
         allowNull: false,
         type: DataTypes.STRING,
@@ -81,6 +77,14 @@ class Incapacidad extends Model{
         this.belongsTo(models.AltasSGA, {
             as:"altas_sga",
             foreignKey: 'id_altas_SGA'
+        }),
+        this.belongsTo(models.TipoIncapacidad, {
+            as:"catalogo_tipo_incapacidad",
+            foreignKey: 'id_tipo_incapacidad'
+        }),
+        this.belongsTo(models.RamoSeguro, {
+            as:"catalogo_ramo_seguro",
+            foreignKey: 'id_ramo_seguro'
         })
     }
     static config(sequelize){

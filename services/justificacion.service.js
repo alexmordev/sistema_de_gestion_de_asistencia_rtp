@@ -11,7 +11,11 @@ class JustificacionAusencia {
   }
 
   async find() {
-    const res = await models.Justificacion.findAll();
+    const res = await models.Justificacion.findAll(
+      // {
+      //   include:['']
+      // }
+    );
     return res;
   }
 
