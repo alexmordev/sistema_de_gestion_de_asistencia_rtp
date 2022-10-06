@@ -18,8 +18,8 @@ router.get('/:id',
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const ausencia = await service.findOne(id);
-      res.json(ausencia);
+      const trabajador = await service.findOne(id);
+      res.json(trabajador);
     } catch (error) {
       next(error);
     }
@@ -30,8 +30,8 @@ router.post('/',
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newAusencia = await service.create(body);
-      res.status(201).json(newAusencia);
+      const newTrabajador = await service.create(body);
+      res.status(201).json(newTrabajador);
     } catch (error) {
       next(error);
     }

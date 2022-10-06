@@ -1,13 +1,14 @@
 const express = require('express');
 const ausenciaRouter = require('./ausencia.routes');
 const incapacidadRouter = require('./incapacidad.routes');
-// const justificacionRouter = require('./justificacionAusencia.routes');
 const catalogoConceptoRouter = require('./catalogoConcepto.routes')
+const justificacionRouter = require('./justificacion.routes');
 
 // const ausenciaRouter = require('./Ausencia.routes');
 const ramoSeguroRouter = require('./RamoSeguro.routes');
 const tipoIncapacidadRouter = require('./tipoIncapacidad.routes')
-const TrabajadorService = require('./trabajador.routes');
+const trabajadorRuter = require('./trabajador.routes');
+const transmisionRouter = require('./transmisionAplicacion.routes');
 
 function routerApi(app) {
     const router = express.Router();
@@ -16,6 +17,8 @@ function routerApi(app) {
     router.use('/ausencia', ausenciaRouter);
     router.use('/incapacidad', incapacidadRouter);
     router.use('/catalogoConcepto', catalogoConceptoRouter);
+    router.use('/justificacion', justificacionRouter);
+    router.use('/transmision', transmisionRouter);
 
 
 
@@ -24,7 +27,7 @@ function routerApi(app) {
     router.use('/tipo-incapacidad', tipoIncapacidadRouter);
 
     //Prueba consult trabajadores
-    router.use('/trabajador', TrabajadorService);
+    router.use('/trabajador', trabajadorRuter);
 
 
 }

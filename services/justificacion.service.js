@@ -1,44 +1,44 @@
 const boom = require('@hapi/boom');
 const {models} = require('../libs/sequelize');
 
-
-class JustificacionAusencia {
+class JustificacionService {
   constructor() {}
 
   async create(data) {
-    const newJustificacion = await models.Justificacion.create( data )
-    return newJustificacion;
+    const newAusencia = await models.Justificacion.create( data )
+    return newAusencia;
   }
-
+  
   async find() {
     const res = await models.Justificacion.findAll(
-      // {
-      //   include:['']
-      // }
+      {
+        // include:['trabajador_vista','catalogo_conceptos']
+        include:['altas_sga']
+      }
     );
     return res;
   }
-
+  
   async findOne(id) {
     const ausencia  =  await models.Justificacion.findByPk(id);
+    // buscar con id
     if(!ausencia){
       boom.notFound('Registro no encontrado');
     }
     return ausencia;
   }
-
+  
   async update(id, changes) {
-    const justificacion = await this.findOne(id);
-    const res = await justificacion.update(changes);
+    const ausencia = await this.findOne(id);
+    const res = await ausencia.update(changes);
     return res;
   }
 
   async delete(id) {
-    const justificacion = await this.findOne(id);
-    await justificacion.destroy()
+    const ausencia = await this.findOne(id);
+    await ausencia.destroy()
     return {id};
   }
 }
 
-module.exports = JustificacionAusencia;
-
+module.exports = JustificacionService;
