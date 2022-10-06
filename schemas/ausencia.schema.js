@@ -10,6 +10,8 @@ const oficio = Joi.string();
 const usuarioCaptura = Joi.number().integer();
 const fechaInicio = Joi.string().isoDate();
 const fechaFinal = Joi.string().isoDate();
+const createdAt = Joi.string().isoDate();
+const updatedAt = Joi.string().isoDate(); 
 
 const createAusenciaSchema = Joi.object({
     id_trabajador,
@@ -20,14 +22,18 @@ const createAusenciaSchema = Joi.object({
     oficio: oficio.required(),
     usuarioCaptura: usuarioCaptura.required(),
     fechaInicio: fechaInicio.required(),
-    fechaFinal:fechaFinal.required()
+    fechaFinal:fechaFinal.required(),
+    createdAt: createdAt.required(),
+    updatedAt: updatedAt.required()
 });
 const updateAusenciaSchema = Joi.object({
     unidades,
     oficio,
     usuarioCaptura,
     fechaInicio,
-    fechaFinal
+    fechaFinal,
+    createdAt,
+    updatedAt
 }); 
 const getAusenciaSchema = Joi.object({
     id,

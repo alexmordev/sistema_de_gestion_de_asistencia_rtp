@@ -27,7 +27,7 @@ const CatalogoConceptosSGASchema = {
 class CatalogoConcepto extends Model {
     static associate(models) {
         this.hasMany(models.AltasSGA, {
-            // as:"catalogo_conceptos",
+       
             foreignKey: 'id_concepto'
         })
 

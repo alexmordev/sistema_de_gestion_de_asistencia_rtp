@@ -1,6 +1,6 @@
 const boom = require('@hapi/boom');
-const { Op} = require("sequelize");
-const {models} = require('../libs/sequelize');
+const { Op } = require("sequelize");
+const { models } = require('../libs/sequelize');
 // var moment = require('moment');
 
 class PeriodoService {

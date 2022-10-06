@@ -11,7 +11,7 @@ class IncapacidadService {
   async find() {
     const res = await models.Incapacidad.findAll(
       {
-        include:['altas_sga']
+        include:['altas_sga', 'catalogo_tipo_incapacidad', 'catalogo_ramo_seguro']
       }
     );
     return res;

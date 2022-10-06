@@ -20,8 +20,8 @@ router.get('/:id',
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const ausencia = await service.findOne(id);
-      res.json(ausencia);
+      const concepto = await service.findOne(id);
+      res.json(concepto);
     } catch (error) {
       next(error);
     }
@@ -48,8 +48,8 @@ router.patch('/:id',
     try {
       const { id } = req.params;
       const body = req.body;
-      const ausencia = await service.update(id, body);
-      res.json(ausencia);
+      const concepto = await service.update(id, body);
+      res.json(concepto);
     } catch (error) {
       next(error);
     }

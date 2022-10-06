@@ -7,8 +7,8 @@ const service = new SansionService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const justificacion = await service.findAll();
-    res.json(justificacion);
+    const sancion = await service.findAll();
+    res.json(sancion);
   } catch (error) {
     next(error);
   }
@@ -19,8 +19,8 @@ router.get('/:id',
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const justificacion = await service.findAllOrders(id);
-      res.json(justificacion);
+      const sancion = await service.findAllOrders(id);
+      res.json(sancion);
     } catch (error) {
       next(error);
     }
@@ -31,8 +31,8 @@ router.post('/',
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newJustificacion = await service.create(body);
-      res.status(201).json(newJustificacion);
+      const newSancion = await service.create(body);
+      res.status(201).json(newSancion);
     } catch (error) {
       next(error);
     }
@@ -45,8 +45,8 @@ router.patch('/:id',
     try {
       const { id } = req.params;
       const body = req.body;
-      const justificacion = await service.update(id, body);
-      res.json(justificacion);
+      const sancion = await service.update(id, body);
+      res.json(sancion);
     } catch (error) {
       next(error);
     }
