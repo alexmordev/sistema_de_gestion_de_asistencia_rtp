@@ -1,47 +1,45 @@
 const express = require('express');
-const AusenciaService = require('../services/ausencia.service');
+const TrabajadorService = require('../services/trabajador.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { updateAusenciaSchema, createAusenciaSchema, getAusenciaSchema } = require('../schemas/ausencia.schema');
+const { createTrabajadorSchema, getTrabajadorSchema, updateTrabajadorSchema } = require('../schemas/trabajador.schema');
 const router = express.Router();
-const service = new AusenciaService();
+const service = new TrabajadorService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const ausencia = await service.find();
-    res.status(200).json({ success:'Datos Ausencia',msg: ausencia})
+    const trabajador = await service.find();
+      res.status(200).json({ msg: 'Todos los trabajadores', seccess:trabajador })
   } catch (error) {
     next(error);
   }
 });
 router.get('/:id', 
-  validatorHandler(getAusenciaSchema, 'params'),
+  validatorHandler(getTrabajadorSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const ausencia = await service.findOne(id);
-      res.json(ausencia);
+      const trabajador = await service.findOne(id);
+      (trabajador === null) ? res.status(404).json({msg: 'Trabajador no encontrado'}) : res.status(200).json({seccess: trabajador})
     } catch (error) {
       next(error);
     }
   }
 );
 router.post('/',
-  validatorHandler(createAusenciaSchema, 'body'),
+  validatorHandler(createTrabajadorSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newAusencia = await service.create(body);
-
-
-      res.status(201).json({msg: newAusencia});
+      const newTrabajador = await service.create(body);
+      res.status(201).json(newTrabajador);
     } catch (error) {
       next(error);
     }
   }
 );
 router.patch('/:id',
-  validatorHandler(getAusenciaSchema, 'params'),
-  validatorHandler(updateAusenciaSchema, 'body'),
+  validatorHandler(getTrabajadorSchema, 'params'),
+  validatorHandler(updateTrabajadorSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -54,7 +52,7 @@ router.patch('/:id',
   }
 );
 router.delete('/:id',
-  validatorHandler(getAusenciaSchema, 'params'),
+  validatorHandler(getTrabajadorSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;

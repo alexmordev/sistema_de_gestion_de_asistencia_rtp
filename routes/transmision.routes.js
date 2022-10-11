@@ -1,38 +1,38 @@
 const express = require('express');
-const IncapacidadService = require('../services/incapacidad.service');
+const TransmisionService = require('../services/transmision.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { getIncapacidadSchema, createIncapacidadSchema, updateIncapacidadSchema } = require('../schemas/incapacidad.schema');
+const { getTransmitidoSchema, createTransmitidoSchema, updateTransmitidoSchema } = require('../schemas/transmision.schema');
 const router = express.Router();
-const service = new IncapacidadService();
+const service = new TransmisionService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const incapacidad = await service.find();
-    res.json({ success:'Datos Incapacidad',msg: incapacidad });
+    const transmision = await service.find();
+    res.json({ success:'Datos Transmision',msg: transmision });
   } catch (error) {
     next(error);
   }
 });
 
 router.get('/:id', 
-  validatorHandler(getIncapacidadSchema, 'params'),
+  validatorHandler(getTransmitidoSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const incapacidad = await service.findAllOrders(id);
-      res.json(incapacidad);
+      const transmision = await service.findAllOrders(id);
+      res.json(transmision);
     } catch (error) {
       next(error);
     }
   }
 );
 router.post('/',
-  validatorHandler(createIncapacidadSchema, 'body'),
+  validatorHandler(createTransmitidoSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newIncapacidad = await service.create(body);
-      res.status(201).json(newIncapacidad);
+      const newtransmision = await service.create(body);
+      res.status(201).json(newtransmision);
     } 
     catch (error) {
       next(error);
@@ -40,21 +40,21 @@ router.post('/',
   }
 );
 router.patch('/:id',
-  validatorHandler(getIncapacidadSchema, 'params'),
-  validatorHandler(updateIncapacidadSchema, 'body'),
+  validatorHandler(getTransmitidoSchema, 'params'),
+  validatorHandler(updateTransmitidoSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
-      const incapacidad = await service.update(id, body);
-      res.json(incapacidad);
+      const transmision = await service.update(id, body);
+      res.json(transmision);
     } catch (error) {
       next(error);
     }
   }
 );
 router.delete('/:id',
-  validatorHandler(getIncapacidadSchema, 'params'),
+  validatorHandler(getTransmitidoSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;

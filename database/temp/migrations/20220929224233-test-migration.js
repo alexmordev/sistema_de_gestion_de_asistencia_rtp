@@ -1,5 +1,5 @@
-'use strict';
-const { AltaSGASchema, ALTASSGA_TABLE } = require('../models/altasSGA.model');
+s'use strict';
+const { AltaSGASchema, ALTASSGA_TABLE } = require('../../models/altasSGA.model');
 
 module.exports = {
   async up (queryInterface) {
