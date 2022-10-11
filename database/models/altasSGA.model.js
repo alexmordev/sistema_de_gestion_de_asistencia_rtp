@@ -1,45 +1,14 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-<<<<<<< HEAD
-const sequelize = require('../libs/conexion');
-const Trabajador = require('./Trabajador');
-
-class Altas extends Model {
-  static asociate(Trabajador){
-    this.belongsTo( Trabajador,{
-      foreignKey:'id_trabajador'
-    })
-  }
-}
-Altas.init({
-    id:{
-        allowNull:false, 
-=======
 
 const ALTASSGA_TABLE = 'altas_sga'; //definir nombre tabla;
 const AltaSGASchema = {
     id: {
         allowNull: false,
->>>>>>> 57046f83ee0b9571a52b1b38fa3fdf4ad485ec6b
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-<<<<<<< HEAD
-    id_trabajador: {
-      allowNull:false, 
-      type: DataTypes.INTEGER,
-      references: {
-        model: Trabajador,
-        key: 'trab_credencial'
-      }
-    },
-    id_periodo: {
-      type: DataTypes.INTEGER,
-    },
-    fechaCaptura: {
-=======
     idTrabajador: {
->>>>>>> 57046f83ee0b9571a52b1b38fa3fdf4ad485ec6b
         allowNull: false,
         type: DataTypes.INTEGER,
         field: 'id_trabajador',
@@ -58,15 +27,7 @@ const AltaSGASchema = {
         type: DataTypes.INTEGER,
         field: 'id_periodos',
     },
-<<<<<<< HEAD
-    usuario_captura:{
-      allowNull: false,
-      type: DataTypes.INTEGER
-    },
-    fechaInicio:{
-=======
     unidades: {
->>>>>>> 57046f83ee0b9571a52b1b38fa3fdf4ad485ec6b
         allowNull: false,
         // type: DataTypes.DOUBLE(5, 2),
         type: DataTypes.FLOAT(11),
@@ -89,18 +50,6 @@ const AltaSGASchema = {
         allowNull: false,
         type: DataTypes.DATEONLY,
         field: 'fecha_final',
-<<<<<<< HEAD
-    }
-    
-  },{
-    sequelize,
-    tableName: 'altas_sga',
-    modelName: 'Altas',
-    timestamps: false 
-  });
- 
-module.exports= Altas;
-=======
     },
     createdAt: {
         allowNull: false,
@@ -151,4 +100,3 @@ class AltasSGA extends Model {
     }
 }
 module.exports = { ALTASSGA_TABLE, AltaSGASchema, AltasSGA };
->>>>>>> 57046f83ee0b9571a52b1b38fa3fdf4ad485ec6b
