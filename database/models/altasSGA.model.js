@@ -84,8 +84,9 @@ class AltasSGA extends Model {
             foreignKey: 'id_altas_SGA'
         })
 
-        this.hasMany(models.Incapacidad, {
-            foreignKey: 'id_altas_SGA'
+        this.hasOne(models.Incapacidad, {
+            as:'incapacidad',
+            foreignKey: 'id_altas_SGA',
         })
 
     }
