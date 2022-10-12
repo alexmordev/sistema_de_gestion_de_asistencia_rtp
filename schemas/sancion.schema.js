@@ -1,27 +1,36 @@
 const Joi = require('joi');
 
 const id = Joi.number().integer();
-const concepto = Joi.number().min(.25).max(84);
-const credencial = Joi.string();
-const fecha = Joi.string().isoDate();
-
+const idTrabajador = Joi.number().integer();
+const idConcepto = Joi.number().integer();
+const idPeriodo = Joi.number().integer();
+const unidades = Joi.number().multiple(.25);
+const oficio = Joi.string();
+const usuarioCaptura = Joi.number().integer();
+const fechaInicio = Joi.string();
+const fechaFinal = Joi.string();
 
 const createSancionSchema = Joi.object({
-    concepto: concepto.required(),
-    credencial: credencial.required(),
-    fecha: fecha.required()
+    idTrabajador : idTrabajador.required(),
+    idConcepto: idConcepto.required(),
+    idPeriodo:idPeriodo.required(),
+    unidades: unidades.required(),
+    oficio: oficio.required(),
+    usuarioCaptura: usuarioCaptura.required(),
+    fechaInicio: fechaInicio.required(),
+    fechaFinal:fechaFinal.required(),
 });
 const updateSancionSchema = Joi.object({
-    concepto: concepto,
-    credencial: credencial,
-    fecha: fecha,
-
+    idTrabajador,
+    idConcepto,
+    idPeriodo,
+    unidades,
+    oficio,
+    usuarioCaptura,
+    fechaInicio,
+    fechaFinal
 }); 
 const getSancionSchema = Joi.object({
-    id,
-});
-const deleteSancionSchema = Joi.object({
     id: id.required()
 });
-
-module.exports = { createSancionSchema: createSancionSchema, updateSancionSchema: updateSancionSchema, getSancionSchema: getSancionSchema, deleteSancionSchema: deleteSancionSchema }
+module.exports = { createSancionSchema, updateSancionSchema, getSancionSchema }

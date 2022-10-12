@@ -5,6 +5,7 @@ const id = Joi.number().integer();
 const idTrabajador = Joi.number().integer();
 const idConcepto = Joi.number().integer();
 const idPeriodo = Joi.number().integer();
+
 const unidades = Joi.number().min(.25).max(84);
 const oficio = Joi.string();
 const usuarioCaptura = Joi.number().integer();
@@ -40,21 +41,19 @@ const createAusenciaSchema = Joi.object({
     //     fechaExpedicion:        fechaExpedicion.required(),
     //     posibleCovid:           posibleCovid.required()
     // }),
+
 });
 const updateAusenciaSchema = Joi.object({
+    idTrabajador,
+    idConcepto,
+    idPeriodo,
     unidades,
     oficio,
     usuarioCaptura,
     fechaInicio,
-    fechaFinal,
-    createdAt,
-    updatedAt
+    fechaFinal
 }); 
 const getAusenciaSchema = Joi.object({
-    id,
-});
-const deleteAusenciaSchema = Joi.object({
     id: id.required()
 });
-
-module.exports = { createAusenciaSchema, updateAusenciaSchema, getAusenciaSchema, deleteAusenciaSchema }
+module.exports = { createAusenciaSchema, updateAusenciaSchema, getAusenciaSchema }

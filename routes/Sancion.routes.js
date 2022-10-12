@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const SansionService = require('../services/sancion.service');
+const SancionService = require('../services/sancion.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { createSancionSchema, getSancionSchema, updateSancionSchema } = require('../schemas/sancion.schema'); 
-const service = new SansionService();
+const { createSancionSchema, updateSancionSchema, getSancionSchema } = require('../schemas/sancion.schema'); 
+const service = new SancionService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const sancion = await service.findAll();
+    const sancion = await service.find();
     res.json(sancion);
   } catch (error) {
     next(error);
@@ -19,7 +19,7 @@ router.get('/:id',
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const sancion = await service.findAllOrders(id);
+      const sancion = await service.findOne(id);
       res.json(sancion);
     } catch (error) {
       next(error);
