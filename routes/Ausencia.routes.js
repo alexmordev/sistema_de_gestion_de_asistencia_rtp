@@ -7,7 +7,7 @@ const service = new AusenciaService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const ausencia = await service.find();
+    const ausencia = await service.findAll();
     res.status(200).json({ success:'Datos Ausencia',msg: ausencia})
   } catch (error) {
     next(error);
@@ -29,7 +29,8 @@ router.post('/',
   validatorHandler(createAusenciaSchema, 'body'),
   async (req, res, next) => {
     try {
-      const body = req.body;
+      const body = req.body
+      // console.log(body);
       const newAusencia = await service.create(body);
 
 

@@ -14,7 +14,7 @@ const RamoSeguroSchema = {
     }
 }
 class RamoSeguro extends Model {
-    static associciate(models) {
+    static associate(models) {
         this.hasMany(models.Incapacidad, {
             foreignKey: 'id_ramo_seguro'
         })
