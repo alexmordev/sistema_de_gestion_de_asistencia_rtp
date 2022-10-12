@@ -2,11 +2,11 @@ const express = require('express');
 
 const periodoRouter = require('./Periodo.routes');
 const incapacidadRouter = require('./Incapacidad.routes');
-const justificacionRouter = require('./justificacionAusencia.routes');
+const justificacionRouter = require('./justificacion.routes');
 const catalogoConceptoRouter = require('./catalogoConcepto.routes')
 const ausenciaRouter = require('./Ausencia.routes');
 const ramoSeguroRouter = require('./RamoSeguro.routes');
-const tipoIncapacidadRouter = require('./tipoIncapacidad.routes')
+const tipoIncapacidadRouter = require('./TipoIncapacidad.routes')
 const TrabajadorRouter = require('./trabajador.routes');
 const InputRouter = require('./InputFront.routes');
 const transmisionRouter = require('./transmision.routes');
