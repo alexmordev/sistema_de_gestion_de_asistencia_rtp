@@ -5,7 +5,11 @@ class IncapacidadService {
   constructor() {}
 
   async create(data) {
-    const newIncapacidad = await models.Incapacidad.create( data )
+    const newIncapacidad = await models.Incapacidad.create( data,
+      {
+        include:['altas_sga']
+      })
+      console.log({datos: newIncapacidad});
     return newIncapacidad;
   }
   async find() {
@@ -17,13 +21,23 @@ class IncapacidadService {
     return res;
   }
   async findOne(id) {
-    const ausencia  =  await models.Incapacidad.findByPk(id);// buscar con id
-    if(!ausencia){
-      boom.notFound('Registro no encontrado');
-    }
-    return ausencia;
-  }
 
+    const res = await models.Incapacidad.findByPk(id,{
+      include:[
+        {
+          association: 'altas_sga',
+          include: ['trab_periodos']
+        },
+          'catalogo_tipo_incapacidad',
+          'catalogo_ramo_seguro'
+      ]
+    })
+   
+      //  console.log( `fechaInicial: ${res.altas_sga.fechaInicio}, fechaFinal: ${res.altas_sga.trab_periodos.perFechaFinal}` );;
+
+    return res;
+
+  }
   async update(id, changes) {
     const ausencia = await this.findOne(id);
     const res = await ausencia.update(changes);
@@ -38,4 +52,3 @@ class IncapacidadService {
 }
 
 module.exports = IncapacidadService;
-
