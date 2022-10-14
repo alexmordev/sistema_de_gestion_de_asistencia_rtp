@@ -1,16 +1,13 @@
 const boom = require('@hapi/boom');
 
+// const { Periodo } = require('../database/models/periodo.model');
 const {models} = require('../libs/sequelize');
 
 class AusenciaService {
   constructor() {}
 
   async create(data) {
-    const newAusencia = await models.AltasSGA.create( data,
-    // {
-    //   include:['incapacidad']
-    // }
-    )
+    const newAusencia = await models.AltasSGA.create( data )
     console.log({datos: newAusencia});
     return newAusencia;
   } 
@@ -20,19 +17,10 @@ class AusenciaService {
         include:['trabajador_vista', 'trab_periodos','catalogo_conceptos'],
       });
       console.log({datos: res});
-
     return res;
   }
   async findOne(id) {
-    const ausencia  =  await models.AltasSGA.findByPk(id,
-      {
-        include:['trabajador_vista', 'trab_periodos','catalogo_conceptos'],
-        where:
-        {
-          id_concepto:3
-        }
-      }
-    );
+    const ausencia  =  await models.AltasSGA.findByPk(id);
     // buscar con id
     if(!ausencia){
       boom.notFound('Registro no encontrado');
@@ -47,7 +35,7 @@ class AusenciaService {
   async delete(id) {
     const ausencia = await this.findOne(id);
     await ausencia.destroy()
-    return { id };
+    return {id};
   }
 }
 

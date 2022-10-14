@@ -1,7 +1,7 @@
 const express = require('express');
 const IncapacidadService = require('../services/incapacidad.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { getIncapacidadSchema, createIncapacidadSchema, updateIncapacidadSchema } = require('../schemas/incapacidad.schema');
+const { getIncapacidadSchema, createIncapacidadSchema, updateIncapacidadSchema, gePeriodoSchema, altas_sga } = require('../schemas/incapacidad.schema');
 const router = express.Router();
 const service = new IncapacidadService();
 
@@ -26,6 +26,20 @@ router.get('/:id',
     }
   }
 );
+//periodo
+router.get('/periodo/:id', 
+  validatorHandler(getIncapacidadSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const FechasPeriodo = await service.findOnePeriodo(id);
+      (FechasPeriodo === null) ? res.status(404).json({msg: 'Periodo no encontrado'}) : res.status(200).json({ Periodo: {id}, FechasPeriodo: FechasPeriodo})
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.post('/',
   validatorHandler(createIncapacidadSchema, 'body'),
   async (req, res, next) => {

@@ -51,6 +51,8 @@ const updateIncapacidadSchema = Joi.object({
 const getIncapacidadSchema = Joi.object({
     id,
 });
+
+
 const deleteIncapacidadSchema = Joi.object({
     id: id.required()
 });
