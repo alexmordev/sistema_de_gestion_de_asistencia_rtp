@@ -34,8 +34,8 @@ class Server {
      this.app.listen(process.env.SGA_PORT, () => {
       console.log('Conectado al servidor de RTP', process.env.SGA_PORT)
       // sequelize.authenticate().then(() => {
-      //   console.log('Conectado a la base de datos RTP');
-      // })
+      // //   console.log('Conectado a la base de datos RTP');
+      // // })
     })
   }
 }

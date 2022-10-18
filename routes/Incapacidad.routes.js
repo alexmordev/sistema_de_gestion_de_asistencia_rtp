@@ -32,8 +32,8 @@ router.get('/periodo/:id',
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const FechasPeriodo = await service.findOnePeriodo(id);
-      (FechasPeriodo === null) ? res.status(404).json({msg: 'Periodo no encontrado'}) : res.status(200).json({ Periodo: {id}, FechasPeriodo: FechasPeriodo})
+      const PeriodoIncapacidad = await service.findOnePeriodo(id);
+        (PeriodoIncapacidad === null) ? res.status(404).json({msg: 'Periodo no encontrado'}) : res.status(200).json({ PeriodoIncapacidad: PeriodoIncapacidad})
     } catch (error) {
       next(error);
     }

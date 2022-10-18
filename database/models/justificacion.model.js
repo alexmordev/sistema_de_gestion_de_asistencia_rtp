@@ -41,7 +41,7 @@ const JustificacionTableSGASchema = {
     unidadesJustificadas: {
         field: 'unidades_justificadas',
         allowNull: false,
-        type: DataTypes.INTEGER
+        type: DataTypes.FLOAT(11)
     },
 
     createdAt: {

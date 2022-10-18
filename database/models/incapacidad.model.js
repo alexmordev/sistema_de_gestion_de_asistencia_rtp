@@ -67,6 +67,12 @@ const IncapacidadSGASchema = {
         allowNull: false,
         type: DataTypes.INTEGER,
         field: 'posible_covid',
+    },
+    claveSeguro:{
+        allowNull: true,
+        type: DataTypes.STRING,
+        field: 'clave_seguro',
+        unique:true
     }
 }
 class Incapacidad extends Model {

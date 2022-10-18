@@ -20,7 +20,11 @@ class AusenciaService {
     return res;
   }
   async findOne(id) {
-    const ausencia  =  await models.AltasSGA.findByPk(id);
+    const ausencia  =  await models.AltasSGA.findByPk(id,{
+      
+      include:['trabajador_vista', 'trab_periodos','catalogo_conceptos'],
+
+    });
     // buscar con id
     if(!ausencia){
       boom.notFound('Registro no encontrado');
