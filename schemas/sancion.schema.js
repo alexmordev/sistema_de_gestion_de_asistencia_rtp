@@ -7,8 +7,8 @@ const idPeriodo = Joi.number().integer();
 const unidades = Joi.number().multiple(.25);
 const oficio = Joi.string();
 const usuarioCaptura = Joi.number().integer();
-const fechaInicio = Joi.string();
-const fechaFinal = Joi.string();
+const fechaInicio = Joi.date().iso();
+const fechaFinal = Joi.date().iso();
 
 const createSancionSchema = Joi.object({
     idTrabajador : idTrabajador.required(),
