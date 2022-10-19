@@ -16,10 +16,11 @@ router.get('/', async (req, res, next) => {
     } catch (error) {
       next(error);
     }
-  });
+});
 router.get('/get-one', 
-  validatorHandler(getPeriodoSchema,'query'),
-  async (req, res, next) => {
+    validatorHandler(getPeriodoSchema,'query'),
+    
+    async (req, res, next) => {
     try {
       const periodo = await service.findOne(req.query);
       res.json(periodo);

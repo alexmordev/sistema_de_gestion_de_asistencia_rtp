@@ -16,6 +16,31 @@ class TransmisionService {
     );
     return res;
   }
+
+  async findTransmitidas(query) {
+    const res = await models.Periodo.findAll(query,{
+      include: [{
+        association: 'trab_periodos',
+        where: { per_numero: query }
+      }]
+
+    });
+    // console.log({datos: res});
+    return({ datos: res})
+
+  // console.log({datos: res});
+      // (query.per_numero)
+      //   ?  res.where.per_numero = query.per_numero.split(',')
+      //   :  null;
+      // (query.per_aho)
+      //   ?  res.where.per_aho = query.per_aho.split(',')
+      //   :  null;
+     
+    //   const datos = await models.Transmision.findAll(res)
+
+    // return datos;
+  }
+
   async findOne(id) {
     const transmision  =  await models.Transmision.findByPk(id);// buscar con id
     if(!transmision){

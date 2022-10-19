@@ -14,6 +14,18 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.get('/periodo', 
+  validatorHandler(getIncapacidadSchema, 'query'),
+  async (req, res, next) => {
+    try {
+      const PeriodoIncapacidad = await service.findOnePeriodo(req.query);
+        // (PeriodoIncapacidad === null) ? res.status(404).json({msg: 'Periodo no encontrado'}) : res.status(200).json({ PeriodoIncapacidad: PeriodoIncapacidad })
+        res.json(PeriodoIncapacidad);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 router.get('/:id', 
   validatorHandler(getIncapacidadSchema, 'params'),
   async (req, res, next) => {
@@ -27,18 +39,6 @@ router.get('/:id',
   }
 );
 //periodo
-router.get('/periodo/:id', 
-  validatorHandler(getIncapacidadSchema, 'params'),
-  async (req, res, next) => {
-    try {
-      const { id } = req.params;
-      const PeriodoIncapacidad = await service.findOnePeriodo(id);
-        (PeriodoIncapacidad === null) ? res.status(404).json({msg: 'Periodo no encontrado'}) : res.status(200).json({ PeriodoIncapacidad: PeriodoIncapacidad})
-    } catch (error) {
-      next(error);
-    }
-  }
-);
 
 router.post('/',
   validatorHandler(createIncapacidadSchema, 'body'),

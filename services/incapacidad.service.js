@@ -45,37 +45,81 @@ class IncapacidadService {
 
   }
   // idPeriodo//
-  async findOnePeriodo(id) {
+  async findOnePeriodo(query) {
 
-    const incapacidad = await models.Incapacidad.findAll({
+    const options = {
+      attributes: ['id_periodos','per_fecha_inicio','per_fecha_final'],
+      where: {}
+    };
+    (query.per_numero)
+      ?  options.where.per_numero = query.per_numero
+      :  null;
+    (query.per_aho)
+        ?  options.where.per_aho = query.per_aho
+        :  null;
+    (query.per_tipo)
+      ?  options.where.per_tipo = query.per_tipo
+      :  null;
+  
+    const periodo = await models.Periodo.findOne(options);
+    const PFI = new Date(periodo.dataValues.per_fecha_inicio);//PeriodoFechaInicial
+    const PFF = new Date(periodo.dataValues.per_fecha_final);//PeriodoFechaFinal
+
+    const idPeriodo = await models.AltasSGA.findAll({ 
       include: [{
-        association: 'altas_sga',
-        where: { id_periodos: id }
+        association: 'trab_periodos',
+        where: { id_periodos: periodo.dataValues.id_periodos  }
       }]
-    });
+    })
 
-    const periodos = await models.Periodo.findByPk(id)
 
-    let FII = new Date(incapacidad[0].altas_sga.fechaInicio);//fechaInicioIncapacidad
-    let FFI = new Date(incapacidad[0].altas_sga.fechaFinal);//fechaFinalIncapacidad
+    const datosArray = [];
+    idPeriodo.forEach(datos => {
 
-    let PFI = new Date(periodos.perFechaInicio);//PeriodoFechaInicial
-    let PFF = new Date(periodos.perFechaFinal);//PeriodoFechaFinal
-    console.log({ FI: FII, FF: FFI, PI: PFI, PF: PFF });
+      console.log(PFI,PFF);
+      // console.log(datos.fechaInicio);
+      const FII = new Date(datos.fechaInicio);//fechaInicioIncapacidad
+      const FFI = new Date( datos.fechaFinal);//fechaFinalIncapacidad
+      console.log({FII:FII,FFI:FFI});
 
-    if ((FII.getTime() >= PFI.getTime()) && (FII.getTime() <= PFF.getTime())) {
-
-      return '1'
-    } else if ((FFI.getTime() <= PFF.getTime()) && (FFI.getTime() >= PFI.getTime())) {
-
-      return ('2')
-    } else {
-      
-      return ({ error: 'error' })
+    if( (FII.getTime() >= PFI.getTime()) && ( FII.getTime() <= PFF.getTime() ) ){
+      datosArray.push({msg: 'Entro al uno'})
+    }else if( ( FFI.getTime() <= PFF.getTime()) && ( FFI.getTime() >= PFI.getTime() ) ){
+      datosArray.push({msg: 'Entro al 2'})
+    }else{
+      datosArray.push({msg: 'Ninguno'})
     }
 
-  }
 
+      // console.log(datos);
+    });
+    console.log({datos: datosArray});
+
+    // console.log(idPeriodo[0].dataValues.fechaInicio);
+    // console.log(idPeriodo);
+    // console.log({ooooo: periodo.dataValues.per_fecha_inicio});
+
+    // console.log({mostratDatos: idPeriodo});
+
+    // return({mostratDatos: periodo.dataValues});
+
+    // const FII = new Date(idPeriodo[0].dataValues.fechaInicio);//fechaInicioIncapacidad
+    // const FFI = new Date( idPeriodo[0].dataValues.fechaFinal);//fechaFinalIncapacidad
+
+    // // (FII.getTime() >= PFI.getTime()) && ( FII.getTime() <= PFF.getTime() )1
+    // // ( FFI.getTime() <= PFF.getTime()) && ( FFI.getTime() >= PFI.getTime() )2
+
+    // if( (FII.getTime() >= PFI.getTime()) && ( FII.getTime() <= PFF.getTime() ) ){
+    //  return 'true 1'
+    // }else if( ( FFI.getTime() <= PFF.getTime()) && ( FFI.getTime() >= PFI.getTime() ) ){
+    //   return ({Datos:idPeriodo})
+    // }else{
+    //   throw new Error
+    // }
+
+
+  }
+  
   async update(id, changes) {
     const ausencia = await this.findOne(id);
     const res = await ausencia.update(changes);

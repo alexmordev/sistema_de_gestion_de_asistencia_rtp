@@ -18,6 +18,9 @@ const usuarioCaptura = Joi.number().integer();
 const fechaInicio = Joi.string().isoDate();
 const fechaFinal = Joi.string().isoDate();
 const claveSeguro = Joi.string();
+const per_numero = Joi.number().integer();
+const per_tipo = Joi.number().integer();
+const per_aho = Joi.string().isoDate();
 
 const createIncapacidadSchema = Joi.object({
     idTipoIncapacidad:  idTipoIncapacidad.required(),
@@ -53,6 +56,9 @@ const updateIncapacidadSchema = Joi.object({
 }); 
 const getIncapacidadSchema = Joi.object({
     id,
+    per_numero,
+    per_tipo,
+    per_aho
 });
 
 
