@@ -26,6 +26,7 @@ router.get('/periodo',
     }
   }
 );
+
 router.get('/:id', 
   validatorHandler(getIncapacidadSchema, 'params'),
   async (req, res, next) => {
@@ -53,6 +54,7 @@ router.post('/',
     }
   }
 );
+
 router.patch('/:id',
   validatorHandler(getIncapacidadSchema, 'params'),
   validatorHandler(updateIncapacidadSchema, 'body'),
@@ -67,6 +69,7 @@ router.patch('/:id',
     }
   }
 );
+
 router.delete('/:id',
   validatorHandler(getIncapacidadSchema, 'params'),
   async (req, res, next) => {

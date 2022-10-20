@@ -1,6 +1,6 @@
+const sequelize = require('../libs/sequelize');
 const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
-const sequelize = require('../libs/sequelize');
 
 class IncapacidadService {
   constructor() { }
@@ -8,29 +8,29 @@ class IncapacidadService {
   async create(data) {
 
     const t = await sequelize.transaction();
-    const result = [];  
+    const result = [];
     try {
-      
-      const sga = await models.AltasSGA.create( data.altas_sga, { transaction: t });
-      console.log({object: data});
+
+      const sga = await models.AltasSGA.create(data.altas_sga, { transaction: t });
+      console.log({ object: data });
 
       // crear el objeto que se va a pasar al segundo create con el id que devuelve el primer create
       data.id_altas_SGA = sga.id
-      const incapacidad = await models.Incapacidad.create( data, { transaction: t } );
+      const incapacidad = await models.Incapacidad.create(data, { transaction: t });
 
-      console.log({object: data});
+      console.log({ object: data });
       await t.commit();
 
-      // console.log({gola:data.altas_sga});
-      result.push(sga,incapacidad);
- 
+
+      result.push(sga, incapacidad);
+
     } catch (error) {
 
       await t.rollback();
-      result.push({error});
-      
+      result.push({ error });
+
     }
-    
+
     return result;
   }
 
@@ -69,56 +69,58 @@ class IncapacidadService {
   async findOnePeriodo(req) {
 
     const options = {
-      attributes: ['id_periodos','per_fecha_inicio','per_fecha_final'],
+      attributes: ['id_periodos', 'per_fecha_inicio', 'per_fecha_final'],
       where: {}
     };
     (req.per_numero)
-      ?  options.where.per_numero = req.per_numero
-      :  null;
+      ? options.where.per_numero = req.per_numero
+      : null;
     (req.per_aho)
-        ?  options.where.per_aho = req.per_aho
-        :  null;
+      ? options.where.per_aho = req.per_aho
+      : null;
     (req.per_tipo)
-      ?  options.where.per_tipo = req.per_tipo
-      :  null;
-  
+      ? options.where.per_tipo = req.per_tipo
+      : null;
+
     const periodo = await models.Periodo.findOne(options);
     const PFI = new Date(periodo.dataValues.per_fecha_inicio);//PeriodoFechaInicial
     const PFF = new Date(periodo.dataValues.per_fecha_final);//PeriodoFechaFinal
 
-    const idPeriodo = await models.AltasSGA.findAll({ 
+    const idPeriodo = await models.AltasSGA.findAll({
       include: [{
         association: 'trab_periodos',
-        where: { id_periodos: periodo.dataValues.id_periodos  }
+        where: { id_periodos: periodo.dataValues.id_periodos }
       }]
     })
 
     const datosArray = [];
     idPeriodo.forEach(datos => {
-      
+
       const FII = new Date(datos.fechaInicio);//fechaInicioIncapacidad
-      const FFI = new Date( datos.fechaFinal);//fechaFinalIncapacidad
+      const FFI = new Date(datos.fechaFinal);//fechaFinalIncapacidad
 
-    if( ( FII.getTime() >= PFI.getTime() ) && ( FII.getTime() <= PFF.getTime() ) ){
-      datosArray.push({msg: 'Entro al 1', Unidades:datos.unidades})
-      const fecha1 = PFF - FII;
-      console.log( ` Unidades: ${ datos.unidades }, Días Aplicados ${ fecha1/(1000*60*60*24) +1 }` );
+      if ((FII.getTime() >= PFI.getTime()) && (FII.getTime() <= PFF.getTime())) {
+        const fecha1 = PFF - FII;
+        let resta = 0
 
-      if(  datos.unidades > fecha1/(1000*60*60*24) +1 ){
-        let resta = `${ datos.unidades }` - `${ fecha1/(1000*60*60*24) +1 }`
-        console.log({ Unidades_Sobrantes: resta });
+        if (datos.unidades > fecha1 / (1000 * 60 * 60 * 24) + 1) {
+          resta = `${datos.unidades}` - `${fecha1 / (1000 * 60 * 60 * 24) + 1}`
+        }
+
+        datosArray.push({
+          idAltas: datos.id,
+          Unidades: datos.unidades,
+          DiasAplicados: fecha1 / (1000 * 60 * 60 * 24) + 1,
+          UnidadesSobrantes: resta
+        })
+
+      } else if ((FFI.getTime() <= PFF.getTime()) && (FFI.getTime() >= PFI.getTime())) {
+        datosArray.push({ Unidades: datos.unidades, DiasAplicados: 0 })
       }
- 
-    }else if( ( FFI.getTime() <= PFF.getTime()) && ( FFI.getTime() >= PFI.getTime() ) ){
-      datosArray.push({msg: 'Entro al 2',  Unidades:datos.unidades})
-    }else{
-      datosArray.push({msg: 'No entran en el rango de fechas'})
-    }
-
     });
-    console.log({ datos: datosArray });
+    return ({ Success: datosArray });
   }
-  
+
   async update(id, changes) {
     const ausencia = await this.findOne(id);
     const res = await ausencia.update(changes);
