@@ -9,7 +9,6 @@ class IncapacidadService {
       {
         include: ['altas_sga']
       })
-    console.log({ datos: newIncapacidad });
     return newIncapacidad;
   }
 
@@ -72,19 +71,22 @@ class IncapacidadService {
       }]
     })
 
-
     const datosArray = [];
     idPeriodo.forEach(datos => {
-
-      // console.log(PFI,PFF);
-      // console.log(datos.fechaInicio);
+      
       const FII = new Date(datos.fechaInicio);//fechaInicioIncapacidad
       const FFI = new Date( datos.fechaFinal);//fechaFinalIncapacidad
-      // console.log({FII:FII,FFI:FFI});
 
-    if( (FII.getTime() >= PFI.getTime()) && ( FII.getTime() <= PFF.getTime() ) ){
+    if( ( FII.getTime() >= PFI.getTime() ) && ( FII.getTime() <= PFF.getTime() ) ){
       datosArray.push({msg: 'Entro al 1', Unidades:datos.unidades})
-      
+      const fecha1 = PFF - FII;
+      console.log( ` Unidades: ${ datos.unidades }, Días Aplicados ${ fecha1/(1000*60*60*24) +1 }` );
+
+      if(  datos.unidades > fecha1/(1000*60*60*24) +1 ){
+        let resta = `${ datos.unidades }` - `${ fecha1/(1000*60*60*24) +1 }`
+        console.log({ Unidades_Sobrantes: resta });
+      }
+ 
     }else if( ( FFI.getTime() <= PFF.getTime()) && ( FFI.getTime() >= PFI.getTime() ) ){
       datosArray.push({msg: 'Entro al 2',  Unidades:datos.unidades})
     }else{
@@ -92,8 +94,7 @@ class IncapacidadService {
     }
 
     });
-    console.log({datos: datosArray});
-
+    console.log({ datos: datosArray });
   }
   
   async update(id, changes) {

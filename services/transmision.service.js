@@ -25,20 +25,8 @@ class TransmisionService {
       }]
 
     });
-    // console.log({datos: res});
+    
     return({ datos: res})
-
-  // console.log({datos: res});
-      // (query.per_numero)
-      //   ?  res.where.per_numero = query.per_numero.split(',')
-      //   :  null;
-      // (query.per_aho)
-      //   ?  res.where.per_aho = query.per_aho.split(',')
-      //   :  null;
-     
-    //   const datos = await models.Transmision.findAll(res)
-
-    // return datos;
   }
 
   async findOne(id) {
