@@ -1,15 +1,37 @@
 const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
+const sequelize = require('../libs/sequelize');
 
 class IncapacidadService {
   constructor() { }
 
   async create(data) {
-    const newIncapacidad = await models.Incapacidad.create(data,
-      {
-        include: ['altas_sga']
-      })
-    return newIncapacidad;
+
+    const t = await sequelize.transaction();
+    const result = [];  
+    try {
+      
+      const sga = await models.AltasSGA.create( data.altas_sga, { transaction: t });
+      console.log({object: data});
+
+      // crear el objeto que se va a pasar al segundo create con el id que devuelve el primer create
+      data.id_altas_SGA = sga.id
+      const incapacidad = await models.Incapacidad.create( data, { transaction: t } );
+
+      console.log({object: data});
+      await t.commit();
+
+      // console.log({gola:data.altas_sga});
+      result.push(sga,incapacidad);
+ 
+    } catch (error) {
+
+      await t.rollback();
+      result.push({error});
+      
+    }
+    
+    return result;
   }
 
   async find() {
@@ -23,7 +45,7 @@ class IncapacidadService {
         'catalogo_ramo_seguro'
       ]
     });
-    // console.log(res.altas_sga);
+
     return res;
   }
 
