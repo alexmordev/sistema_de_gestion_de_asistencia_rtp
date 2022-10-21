@@ -21,7 +21,6 @@ class IncapacidadService {
       console.log({ object: data });
       await t.commit();
 
-
       result.push(sga, incapacidad);
 
     } catch (error) {
@@ -39,7 +38,7 @@ class IncapacidadService {
       include: [
         {
           association: 'altas_sga',
-          include: ['trab_periodos']
+          include: ['trab_periodos','trabajador_vista']
         },
         'catalogo_tipo_incapacidad',
         'catalogo_ramo_seguro'

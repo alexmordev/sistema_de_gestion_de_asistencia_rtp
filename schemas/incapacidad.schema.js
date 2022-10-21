@@ -30,17 +30,17 @@ const createIncapacidadSchema = Joi.object({
     riesgoTrabajo:      riesgoTrabajo.required(),
     fechaExpedicion:    fechaExpedicion.required(),
     posibleCovid:       posibleCovid.required(),  
-    claveSeguro: claveSeguro.required(),
+    claveSeguro:        claveSeguro.required(),
 
     altas_sga:Joi.object({
-        idTrabajador:idTrabajador.required(),
-        idConcepto:idConcepto.required(),
-        idPeriodo:idPeriodo.required(),
-        unidades:unidades.required(),
-        oficio:oficio.required(),
-        usuarioCaptura:usuarioCaptura.required(),
-        fechaInicio:fechaInicio.required(),
-        fechaFinal:fechaFinal.required(),
+    idTrabajador:       idTrabajador.required(),
+    idConcepto:         idConcepto.required(),
+    idPeriodo:          idPeriodo.required(),
+    unidades:           unidades.required(),
+    oficio:             oficio.required(),
+    usuarioCaptura:     usuarioCaptura.required(),
+    fechaInicio:        fechaInicio.required(),
+    fechaFinal:         fechaFinal.required(),
     }),              
 });
 const updateIncapacidadSchema = Joi.object({

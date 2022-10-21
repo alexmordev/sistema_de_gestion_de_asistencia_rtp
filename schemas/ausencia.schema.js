@@ -13,16 +13,8 @@ const fechaInicio = Joi.string().isoDate();
 const fechaFinal = Joi.string().isoDate();
 const createdAt = Joi.string().isoDate();
 const updatedAt = Joi.string().isoDate(); 
-// const idTipoIncapacidad = Joi.number().integer();
-// const idRamoSeguro = Joi.number().integer();
-// const motivo = Joi.string();
-// const umf = Joi.string();
-// const riesgoTrabajo = Joi.string();
-// const fechaExpedicion = Joi.string();
-// const posibleCovid = Joi.number().integer();
 
 const createAusenciaSchema = Joi.object({
-
     idTrabajador:               idTrabajador.required(),
     idConcepto:                 idConcepto.required(),
     idPeriodo:                  idPeriodo.required(),
@@ -31,17 +23,6 @@ const createAusenciaSchema = Joi.object({
     usuarioCaptura:             usuarioCaptura.required(),
     fechaInicio:                fechaInicio.required(),
     fechaFinal:                 fechaFinal.required(),
-
-    // incapacidad:Joi.object({
-    //     idTipoIncapacidad:      idTipoIncapacidad.required(),
-    //     idRamoSeguro:           idRamoSeguro.required(),
-    //     motivo:                 motivo.required(),
-    //     umf:                    umf.required(),
-    //     riesgoTrabajo:          riesgoTrabajo.required(),
-    //     fechaExpedicion:        fechaExpedicion.required(),
-    //     posibleCovid:           posibleCovid.required()
-    // }),
-
 });
 const updateAusenciaSchema = Joi.object({
     idTrabajador,
@@ -54,6 +35,13 @@ const updateAusenciaSchema = Joi.object({
     fechaFinal
 }); 
 const getAusenciaSchema = Joi.object({
-    id: id.required()
+
+    id: id.required(),
+    
+    
 });
-module.exports = { createAusenciaSchema, updateAusenciaSchema, getAusenciaSchema }
+const params = Joi.object({
+    idTrabajador,    
+    
+});
+module.exports = { createAusenciaSchema, updateAusenciaSchema, getAusenciaSchema, params }

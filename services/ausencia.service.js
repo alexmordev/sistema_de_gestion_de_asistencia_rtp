@@ -1,6 +1,4 @@
 const boom = require('@hapi/boom');
-
-// const { Periodo } = require('../database/models/periodo.model');
 const {models} = require('../libs/sequelize');
 
 class AusenciaService {
