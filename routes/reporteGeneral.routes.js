@@ -8,7 +8,7 @@ const router = express.Router();
 const service = new ReporteGeneralService();
 
 router.get('/', 
-  validatorHandler(getTrabajadorSchema, 'query'),
+  validatorHandler(getTrabajadorSchema,getIncapacidadSchema, 'query'),
   async (req, res, next) => {
   try {
       const reporte = await service.find(req.query);

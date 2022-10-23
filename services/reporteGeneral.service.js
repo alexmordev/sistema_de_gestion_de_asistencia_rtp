@@ -1,5 +1,6 @@
 const sequelize = require('../libs/sequelize');
 const boom = require('@hapi/boom');
+const { Op } = require("sequelize");
 const { models } = require('../libs/sequelize');
 const { Trabajador } = require('../database/models/trabajador.model');
 
@@ -16,7 +17,13 @@ class ReporteGeneralService {
           as: 'altas_sga',
           model: models.AltasSGA,
           attributes: ['id', 'fecha_inicio', 'fecha_final'],
-          where: { id_trabajador: query.id_trabajador },
+          // where: { id_trabajador: query.id_trabajador },
+          where: {
+            [Op.and]: [
+              {  id_trabajador: query.id_trabajador },
+              {  fecha_inicio:  query.fechaInicio   }
+            ]
+          },
           include: [
             {
               as: 'trabajador_vista',
