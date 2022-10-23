@@ -58,7 +58,9 @@ const getIncapacidadSchema = Joi.object({
     id,
     per_numero,
     per_tipo,
-    per_aho
+    per_aho,
+    fechaInicio,
+    fechaFinal
 });
 
 

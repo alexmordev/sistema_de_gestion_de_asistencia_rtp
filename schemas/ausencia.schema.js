@@ -32,7 +32,9 @@ const updateAusenciaSchema = Joi.object({
     oficio,
     usuarioCaptura,
     fechaInicio,
-    fechaFinal
+    fechaFinal,
+    createdAt,
+    updatedAt
 }); 
 const getAusenciaSchema = Joi.object({
 
