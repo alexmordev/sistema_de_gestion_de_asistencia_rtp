@@ -11,7 +11,7 @@ const tipoIncapacidadRouter = require('./tipoIncapacidad.routes')
 const TrabajadorRouter = require('./trabajador.routes');
 const InputRouter = require('./InputFront.routes');
 const transmisionRouter = require('./transmision.routes');
-const reporteRouter = require('./Reporte.routes');
+const reporteSGARouter = require('./ReporteSGA.routes');
 
 
 function routerApi(app) {
@@ -28,7 +28,7 @@ function routerApi(app) {
     router.use('/periodo', periodoRouter);
     router.use('/utils', InputRouter);
     router.use('/transmision', transmisionRouter);
-    router.use('/reporte', reporteRouter);
+    router.use('/sga', reporteSGARouter);
 
 }
 module.exports = routerApi;

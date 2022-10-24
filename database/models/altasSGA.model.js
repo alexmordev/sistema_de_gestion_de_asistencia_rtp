@@ -26,6 +26,10 @@ const AltaSGASchema = {
         allowNull: false,
         type: DataTypes.INTEGER,
         field: 'id_periodos',
+        references:{
+            model: 'trab_periodos',
+            key: 'id_periodos',
+        },
     },
     unidades: {
         allowNull: false,
