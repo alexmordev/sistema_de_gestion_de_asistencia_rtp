@@ -105,6 +105,10 @@ class Periodo extends Model{
         this.hasMany( models.AltasSGA,{
             as:'altas_sga', 
             foreignKey: 'id_periodos'
+        }),
+        this.hasMany( models.AltasSGA,{
+            as:'justificacion', 
+            foreignKey: 'periodos'
         })
     }
     static config(sequelize){

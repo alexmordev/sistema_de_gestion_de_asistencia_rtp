@@ -89,6 +89,10 @@ class AltasSGA extends Model {
             foreignKey: 'id_altas_SGA',
         })
 
+        this.hasMany(models.Justificacion, { 
+            foreignKey:'id_altas_SGA'
+        })
+
     }
     static config(sequelize) {
         return {
