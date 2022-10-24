@@ -27,7 +27,6 @@ function routerApi(app) {
     router.use('/periodo', periodoRouter);
     router.use('/utils', InputRouter);
     router.use('/transmision', transmisionRouter);
-
     router.use('/reporteGeneral', reporteGeneral);
 }
 module.exports = routerApi;
