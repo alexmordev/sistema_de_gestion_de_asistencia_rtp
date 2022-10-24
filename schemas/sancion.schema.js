@@ -4,7 +4,7 @@ const id = Joi.number().integer();
 const idTrabajador = Joi.number().integer();
 const idConcepto = Joi.number().integer();
 const idPeriodo = Joi.number().integer();
-const unidades = Joi.number().multiple(.25);
+const unidades = Joi.number().multiple(.25).max(1);
 const oficio = Joi.string();
 const usuarioCaptura = Joi.number().integer();
 const fechaInicio = Joi.date().iso();
@@ -22,7 +22,6 @@ const createSancionSchema = Joi.object({
 });
 const updateSancionSchema = Joi.object({
     idTrabajador,
-    idConcepto,
     idPeriodo,
     unidades,
     oficio,

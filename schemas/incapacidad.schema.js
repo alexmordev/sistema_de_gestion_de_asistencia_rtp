@@ -34,7 +34,7 @@ const createIncapacidadSchema = Joi.object({
         unidades:unidades.required(),
         oficio:oficio.required(),
         usuarioCaptura:usuarioCaptura.required(),
-        fechaInicio:fechaInicio.required(),
+        fechaInicio:fechaInicio.required(), 
         fechaFinal:fechaFinal.required(),
     }),              
 });
@@ -42,7 +42,6 @@ const updateIncapacidadSchema = Joi.object({
 
     idTipoIncapacidad: idTipoIncapacidad,
     idRamoSeguro: idRamoSeguro,
-    motivo: motivo,
     umf: umf,
     riesgoTrabajo: riesgoTrabajo,
     fechaExpedicion: fechaExpedicion,
