@@ -19,8 +19,8 @@ router.get('/:id',
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const incapacidad = await service.findAllOrders(id);
-      res.json(incapacidad);
+      const incapacidad = await service.findOne(id);
+      (incapacidad === null) ? res.status(404).json({msg: 'Incapacidad no encontrada'}) : res.status(200).json({seccess:'Datos incapacidad', incapacidad})
     } catch (error) {
       next(error);
     }
@@ -32,7 +32,7 @@ router.post('/',
     try {
       const body = req.body;
       const newIncapacidad = await service.create(body);
-      res.status(201).json(newIncapacidad);
+      res.status(201).json({ Incapacidad_Registrada: [newIncapacidad] });
     } 
     catch (error) {
       next(error);
