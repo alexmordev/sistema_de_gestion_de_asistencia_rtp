@@ -6,6 +6,7 @@ class IncapacidadService {
   constructor() { }
 
   async create(data) {
+<<<<<<< HEAD
 
     const t = await sequelize.transaction();
     const result = [];
@@ -31,6 +32,14 @@ class IncapacidadService {
     }
 
     return result;
+=======
+    const newIncapacidad = await models.Incapacidad.create( data,
+      {
+        include:['altas_sga']
+      })
+      console.log({datos: newIncapacidad});
+    return newIncapacidad;
+>>>>>>> 8298e106897c158bb276387dcbd1b850a7d15212
   }
 
   async find() {
@@ -50,6 +59,7 @@ class IncapacidadService {
 
   //buscar por id
   async findOne(id) {
+<<<<<<< HEAD
 
     const res = await models.Incapacidad.findByPk(id, {
       include: [
@@ -119,7 +129,25 @@ class IncapacidadService {
     });
     return ({ Success: datosArray });
   }
+=======
+>>>>>>> 8298e106897c158bb276387dcbd1b850a7d15212
 
+    const res = await models.Incapacidad.findByPk(id,{
+      include:[
+        {
+          association: 'altas_sga',
+          include: ['trab_periodos']
+        },
+          'catalogo_tipo_incapacidad',
+          'catalogo_ramo_seguro'
+      ]
+    })
+   
+      //  console.log( `fechaInicial: ${res.altas_sga.fechaInicio}, fechaFinal: ${res.altas_sga.trab_periodos.perFechaFinal}` );;
+
+    return res;
+
+  }
   async update(id, changes) {
     const ausencia = await this.findOne(id);
     const res = await ausencia.update(changes);
