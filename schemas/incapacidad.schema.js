@@ -48,7 +48,6 @@ const updateIncapacidadSchema = Joi.object({
 
     idTipoIncapacidad: idTipoIncapacidad,
     idRamoSeguro: idRamoSeguro,
-    
     umf: umf,
     riesgoTrabajo: riesgoTrabajo,
     fechaExpedicion: fechaExpedicion,
