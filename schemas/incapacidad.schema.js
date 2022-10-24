@@ -16,6 +16,7 @@ const unidades = Joi.number().min(.25).max(84);
 const oficio = Joi.string();
 const usuarioCaptura = Joi.number().integer();
 const fechaInicio = Joi.string().isoDate();
+const month = Joi.string();
 const fechaFinal = Joi.string().isoDate();
 const claveSeguro = Joi.string();
 const per_numero = Joi.number().integer();
@@ -60,7 +61,8 @@ const getIncapacidadSchema = Joi.object({
     per_tipo,
     per_aho,
     fechaInicio,
-    fechaFinal
+    month,
+    fechaFinal,
 });
 
 

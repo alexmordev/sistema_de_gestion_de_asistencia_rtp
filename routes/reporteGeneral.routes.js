@@ -18,7 +18,7 @@ router.get('/',
   }
 });
 
-router.get('/porMes', 
+router.get('/Mes', 
   validatorHandler(getIncapacidadSchema, 'query'),
   async (req, res, next) => {
   try {

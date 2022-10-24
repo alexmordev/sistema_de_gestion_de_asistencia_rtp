@@ -17,12 +17,12 @@ class ReporteGeneralService {
           as: 'altas_sga',
           model: models.AltasSGA,
           attributes: ['id', 'fecha_inicio', 'fecha_final'],
-          // where: { id_trabajador: query.id_trabajador },
+
           where: {
             [Op.and]: [
               {  id_trabajador: query.id_trabajador },
               {  fecha_inicio:  query.fechaInicio   }
-            ]
+            ],
           },
           include: [
             {
@@ -40,16 +40,17 @@ class ReporteGeneralService {
   }
 
   async findThow(query) {
-   
+
+    const month = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
     const incapacidad = await models.Incapacidad.findAll({
       attributes: ['id_altas_SGA', 'umf', 'clave_seguro', 'fecha_expedicion'],
-
+      
       include: [
         {
           as: 'altas_sga',
           model: models.AltasSGA,
           attributes: ['id', 'fecha_inicio', 'fecha_final'],
-          where: { fecha_inicio: query.fechaInicio },
+          where: { fecha_inicio: query.month },
           include: [
             {
               as: 'trabajador_vista',
@@ -60,9 +61,11 @@ class ReporteGeneralService {
         },
       ],
     })
-
+    
+    const obtMes = new Date(incapacidad[0].altas_sga.dataValues.fecha_inicio);
+    const mes = month[obtMes.getMonth()];
     const incapacidadCredencial = incapacidad;
-    return ({ ReporteGeneral: incapacidadCredencial });
+    return ({ Mes:mes, ReporteGeneral: incapacidadCredencial });
   }
 
 
