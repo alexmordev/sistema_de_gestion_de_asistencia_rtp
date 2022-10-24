@@ -32,10 +32,6 @@ const AltaSGASchema = {
         // type: DataTypes.DOUBLE(5, 2),
         type: DataTypes.FLOAT(11),
     },
-    oficio: {
-        allowNull: false,
-        type: DataTypes.STRING,
-    },
     usuarioCaptura: {
         allowNull: false,
         type: DataTypes.INTEGER,

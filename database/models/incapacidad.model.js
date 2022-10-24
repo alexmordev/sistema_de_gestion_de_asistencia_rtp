@@ -12,12 +12,13 @@ const IncapacidadSGASchema = {
         type: DataTypes.INTEGER
     },
     idAltasSGA: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
         field: 'id_altas_SGA',
+        allowNull: true,
+        type: DataTypes.INTEGER,
+        unique:true,    
         references: {
             model: ALTASSGA_TABLE,
-            key: 'id_altas_SGA'
+            key: 'id'
         },
         onUpdate: 'CASCADE', // Esto ocurre al actualizar, un efecto en cascada y tambien se actualiza
         onDelete: 'SET NULL' // Esto ocurre al borrar, se establece a null
@@ -44,10 +45,6 @@ const IncapacidadSGASchema = {
         onUpdate: 'CASCADE', // Esto ocurre al actualizar, un efecto en cascada y tambien se actualiza
         onDelete: 'SET NULL' // Esto ocurre al borrar, se establece a null
     },
-    motivo: {
-        allowNull: false,
-        type: DataTypes.STRING,
-    },
     umf: {
         allowNull: false,
         type: DataTypes.INTEGER,
@@ -59,13 +56,19 @@ const IncapacidadSGASchema = {
     },
     fechaExpedicion: {
         allowNull: false,
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         field: 'fecha_expedicion',
     },
     posibleCovid: {
         allowNull: false,
         type: DataTypes.INTEGER,
         field: 'posible_covid',
+    },
+    claveSeguro:{
+        allowNull: false,
+        type: DataTypes.STRING,
+        field: 'clave_seguro',
+        unique:true
     }
 }
 class Incapacidad extends Model {
