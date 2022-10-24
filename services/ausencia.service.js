@@ -1,5 +1,4 @@
 const boom = require('@hapi/boom');
-
 const {models} = require('../libs/sequelize');
 
 class AusenciaService {
@@ -29,19 +28,14 @@ class AusenciaService {
         }
       });
       console.log({datos: res});
-
     return res;
   }
   async findOne(id) {
-    const ausencia  =  await models.AltasSGA.findByPk(id,
-      {
-        include:['trabajador_vista', 'trab_periodos','catalogo_conceptos'],
-        where:
-        {
-          id_concepto:3
-        }
-      }
-    );
+    const ausencia  =  await models.AltasSGA.findByPk(id,{
+      
+      include:['trabajador_vista', 'trab_periodos','catalogo_conceptos'],
+
+    });
     // buscar con id
     if(!ausencia){
       boom.notFound('Registro no encontrado');
@@ -56,7 +50,7 @@ class AusenciaService {
   async delete(id) {
     const ausencia = await this.findOne(id);
     await ausencia.destroy()
-    return { id };
+    return {id};
   }
 }
 

@@ -1,18 +1,18 @@
 const express = require('express');
 
 const periodoRouter = require('./Periodo.routes');
-const incapacidadRouter = require('./Incapacidad.routes');
+const incapacidadRouter = require('./incapacidad.routes');
 const justificacionRouter = require('./justificacion.routes');
 const catalogoConceptoRouter = require('./catalogoConcepto.routes')
-const ausenciaRouter = require('./Ausencia.routes');
+const ausenciaRouter = require('./ausencia.routes');
 const sancionRouter = require('./Sancion.routes');
 const ramoSeguroRouter = require('./RamoSeguro.routes');
 const tipoIncapacidadRouter = require('./tipoIncapacidad.routes')
 const TrabajadorRouter = require('./trabajador.routes');
 const InputRouter = require('./InputFront.routes');
 const transmisionRouter = require('./transmision.routes');
+const reporteGeneral = require('./reporteGeneral.routes');
 const reporteRouter = require('./Reporte.routes');
-
 
 function routerApi(app) {
     const router = express.Router();
@@ -28,7 +28,7 @@ function routerApi(app) {
     router.use('/periodo', periodoRouter);
     router.use('/utils', InputRouter);
     router.use('/transmision', transmisionRouter);
+    router.use('/reporteGeneral', reporteGeneral);
     router.use('/reporte', reporteRouter);
-
 }
 module.exports = routerApi;
