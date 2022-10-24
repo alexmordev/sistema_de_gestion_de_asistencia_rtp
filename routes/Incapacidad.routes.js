@@ -20,11 +20,8 @@ router.get('/:id',
     try {
       const { id } = req.params;
       const incapacidad = await service.findOne(id);
-<<<<<<< HEAD
       res.json(incapacidad);
-=======
-      (incapacidad === null) ? res.status(404).json({msg: 'Incapacidad no encontrada'}) : res.status(200).json({seccess:'Datos incapacidad', incapacidad})
->>>>>>> 8298e106897c158bb276387dcbd1b850a7d15212
+
     } catch (error) {
       next(error);
     }
