@@ -73,6 +73,7 @@ const IncapacidadSGASchema = {
         type: DataTypes.STRING,
         field: 'clave_seguro',
         unique:true
+
     }
 }
 class Incapacidad extends Model {

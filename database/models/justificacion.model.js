@@ -10,15 +10,13 @@ const JustificacionTableSGASchema = {
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-
     idAltas: {
         allowNull: false,
         type: DataTypes.INTEGER,
         field: 'id_altas_SGA',
-        defaultValue: Sequelize.NOW,
         references: {
             model: ALTASSGA_TABLE,
-            key: 'id_altas_SGA'
+            key: 'id'
         }
     },
 
@@ -33,17 +31,17 @@ const JustificacionTableSGASchema = {
         type: DataTypes.INTEGER
     },
 
-    usuarioCaptura: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-    },
-
     unidadesJustificadas: {
         field: 'unidades_justificadas',
         allowNull: false,
         type: DataTypes.FLOAT(11)
-    },
 
+    },
+    transmitido:{
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
     createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -63,8 +61,11 @@ class Justificacion extends Model {
         this.belongsTo(models.AltasSGA, {
             as: "altas_sga",
             foreignKey: 'id_altas_SGA'
+        }),
+        this.belongsTo( models.Periodo,{
+            as:"trab_periodos",
+            foreignKey:'periodo'
         })
-
     }
     static config(sequelize) {
         return {
