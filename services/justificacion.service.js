@@ -243,10 +243,30 @@ class JustificacionService {
 
   }
 
-  async update(id, changes) {
-    // const justificacion = await this.findOne(id);
-    // const res = await justificacion.update(changes);
-    // return res;
+  async getAllJustificacion() {
+    const justificaciones = await models.Justificacion.findAll(
+      {
+        attributes:[ 'id', 'unidades_justificadas', 'transmitido'],
+        include:[
+          { as: 'altas_sga', 
+            model: models.AltasSGA, 
+            attributes: ['id_trabajador','fecha_inicio','fecha_final'],
+            include:[
+              { as: 'trabajador_vista', 
+                model: Trabajador, 
+                attributes:['nombre_completo', 'trab_no_afiliacion', 'mod_desc']
+              },
+            ]
+        }, 
+        { as: 'trab_periodos', 
+          model: models.Periodo, 
+          attributes: ['per_numero'] 
+        }
+        ]
+      });
+
+      const registros = await this.listarJustificaciones ( justificaciones );
+      return registros;
   }
 
   async delete(id) {

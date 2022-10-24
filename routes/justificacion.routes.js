@@ -27,8 +27,19 @@ router.get('/justificacion',
   validatorHandler(getJustificacionPeriodoSchema, 'query'),
   async (req, res, next) => {
     try {
-      console.log(req.query)
       const justificacion = await service.findJustificacionPeriodo(req.query);
+      res.json(justificacion);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+// ruta obtener todas las justificaciones
+router.get('/', 
+  async (req, res, next) => {
+    try {
+      const justificacion = await service.getAllJustificacion();
       res.json(justificacion);
     } catch (error) {
       next(error);
@@ -49,6 +60,8 @@ router.get('/:id',
     }
   }
 );
+
+
 
 // ruta por credencial: obtener justificaciones 
 router.get('/justificacion/:id', 
@@ -98,7 +111,7 @@ router.delete('/:id',
   validatorHandler(deleteJustificacionSchema, 'params'),
   async (req, res, next) => {
     try {
-      const { id, unidades } = req.params;
+      const { id } = req.params;
       await service.delete(id,unidades);
       res.status(201).json({id});
     } catch (error) {
