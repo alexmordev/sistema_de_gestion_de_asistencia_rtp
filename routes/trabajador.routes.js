@@ -19,7 +19,7 @@ router.get('/:id',
     try {
       const { id } = req.params;
       const trabajador = await service.findOne(id);
-      (trabajador === null) ? res.status(404).json({msg: 'Trabajador no encontrado'}) : res.status(200).json({seccess: trabajador})
+      res.status(200).json(trabajador)
     } catch (error) {
       next(error);
     }

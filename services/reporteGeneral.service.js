@@ -36,13 +36,10 @@ class ReporteGeneralService {
           where: {
             [Op.and]: [
               { id_trabajador:  query.id_trabajador },
-              { fecha_inicio: {[Op.between] : [date1,date2]} },
-              // { fecha_inicio:  {[Op.between] : [ultimoDia]} }
+              { fecha_inicio:   {[Op.between] : [date1,date2]} },
+              { fecha_inicio:   {[Op.between] : [date1,date2]} }
 
             ],
-            // [Op.or]:[
-            //   { fecha_inicio:  {[Op.between] : [ultimoDia]} }
-            // ]
           },
           include: [
             {

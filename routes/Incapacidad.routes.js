@@ -8,7 +8,7 @@ const service = new IncapacidadService();
 router.get('/', async (req, res, next) => {
   try {
     const incapacidad = await service.find();
-    res.json({ success:'Datos Incapacidad',msg: incapacidad });
+    res.json(incapacidad);
   } catch (error) {
     next(error);
   }
@@ -19,7 +19,6 @@ router.get('/periodo',
   async (req, res, next) => {
     try {
       const PeriodoIncapacidad = await service.findOnePeriodo(req.query);
-        // (PeriodoIncapacidad === null) ? res.status(404).json({msg: 'Periodo no encontrado'}) : res.status(200).json({ PeriodoIncapacidad: PeriodoIncapacidad })
         res.json(PeriodoIncapacidad);
     } catch (error) {
       next(error);
@@ -33,7 +32,7 @@ router.get('/:id',
     try {
       const { id } = req.params;
       const incapacidad = await service.findOne(id);
-      (incapacidad === null) ? res.status(404).json({msg: 'Incapacidad no encontrada'}) : res.status(200).json({seccess:'Datos incapacidad', incapacidad})
+      res.status(200).json(incapacidad)
     } catch (error) {
       next(error);
     }
@@ -47,7 +46,7 @@ router.post('/',
     try {
       const body = req.body;
       const newIncapacidad = await service.create(body);
-      res.status(201).json({ Incapacidad_Registrada: [newIncapacidad] });
+      res.status(201).json(newIncapacidad);
     } 
     catch (error) {
       next(error);
@@ -63,7 +62,8 @@ router.patch('/:id',
       const { id } = req.params;
       const body = req.body;
       const incapacidad = await service.update(id, body);
-      res.json(incapacidad);
+      res.status(201).json(incapacidad);
+      // res.json(incapacidad);
     } catch (error) {
       next(error);
     }
