@@ -1,4 +1,5 @@
 'use strict';
+const { DataTypes} = require('sequelize');
 const { ALTASSGA_TABLE, AltaSGASchema } = require('../models/altasSGA.model');
 const { CATALOGO_CONCEPTOS_TABLE, CatalogoConceptosSGASchema } = require('../models/catalogoConcepto.model');
 const { JUSTIFICACION_TABLE, JustificacionTableSGASchema } = require('../models/justificacion.model');

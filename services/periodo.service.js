@@ -12,12 +12,19 @@ class PeriodoService {
   }
 
   async find(query) {
-    const per_numero = query.per_numero.split(',');
-    const per_aho = query.per_aho.split(',');
-    const per_tipo = query.per_tipo.split(',');
     const options = {
-        where: {per_numero,per_aho,per_tipo}
-    }
+      where: {}
+    };
+    (query.per_numero)
+      ?  options.where.per_numero = query.per_numero.split(',')
+      :  null;
+    (query.per_aho)
+        ?  options.where.per_aho = query.per_aho.split(',')
+        :  null;
+    (query.per_tipo)
+      ?  options.where.per_tipo = query.per_tipo.split(',')
+      :  null;
+   
     const periodo = await models.Periodo.findAll(options);
     return periodo;
   }
@@ -25,7 +32,7 @@ class PeriodoService {
   async findOne(query) {
     const today = new Date();
     const periodo  =  await models.Periodo.findAll( {
-        attributes:['per_numero'],
+        attributes:['per_numero', 'per_fecha_inicio', 'per_fecha_final'],
             where:{
                 per_tipo:query.per_tipo,
                 [Op.and]:[

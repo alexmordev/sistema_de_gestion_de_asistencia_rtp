@@ -29,11 +29,12 @@ router.post('/',
   validatorHandler(createAusenciaSchema, 'body'),
   async (req, res, next) => {
     try {
-      const body = req.body;
+      const body = req.body
+      // console.log(body);
       const newAusencia = await service.create(body);
 
 
-      res.status(201).json({msg: newAusencia});
+      res.status(201).json({altas_sga: [newAusencia]});
     } catch (error) {
       next(error);
     }

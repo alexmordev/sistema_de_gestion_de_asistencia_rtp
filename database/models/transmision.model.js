@@ -16,7 +16,7 @@ const TransmisionAplicacionSGASchema = {
         primaryKey: true,
         references:{
             model: ALTASSGA_TABLE,
-            key: 'id_altas_SGA'
+            key: 'id'
         },
         onUpdate: 'CASCADE', // Esto ocurre al actualizar, un efecto en cascada y tambien se actualiza
         onDelete: 'SET NULL' // Esto ocurre al borrar, se establece a null

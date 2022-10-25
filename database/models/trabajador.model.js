@@ -83,6 +83,17 @@ const TrabajadorSGASchema = {
         field: 'trab_sex_desc',
         type: DataTypes.STRING(20)
     },
+
+    moduloClave: {
+        field: 'mod_clave',
+        type: DataTypes.INTEGER
+    },
+    modulo: {
+        field: 'mod_desc',
+        type: DataTypes.STRING
+    },
+
+
     trabFoto: {
         field: 'trab_foto',
         type: DataTypes.STRING

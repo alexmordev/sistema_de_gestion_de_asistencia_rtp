@@ -32,10 +32,6 @@ const AltaSGASchema = {
         // type: DataTypes.DOUBLE(5, 2),
         type: DataTypes.FLOAT(11),
     },
-    oficio: {
-        allowNull: false,
-        type: DataTypes.STRING,
-    },
     usuarioCaptura: {
         allowNull: false,
         type: DataTypes.INTEGER,
@@ -53,14 +49,14 @@ const AltaSGASchema = {
     },
     createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         field: 'create_at',
         defaultValue: Sequelize.NOW
 
     },
     updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         field: 'updated_at',
     },
 }
@@ -84,8 +80,9 @@ class AltasSGA extends Model {
             foreignKey: 'id_altas_SGA'
         })
 
-        this.hasMany(models.Incapacidad, {
-            foreignKey: 'id_altas_SGA'
+        this.hasOne(models.Incapacidad, {
+            as:'incapacidad',
+            foreignKey: 'id_altas_SGA',
         })
 
         this.hasMany(models.Justificacion, { 

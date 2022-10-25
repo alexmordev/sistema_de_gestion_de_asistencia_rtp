@@ -1,37 +1,71 @@
 const Joi = require('joi');
 
 const id = Joi.number().integer();
-const tipo = Joi.string();
-const motivo = Joi.string();
-const clave_Seguro = Joi.string();
+
+const idTipoIncapacidad = Joi.number().integer();
+const idRamoSeguro = Joi.number().integer();
 const umf = Joi.string();
-const riesgo_Trabajo = Joi.string();
-const fecha_Expedicion = Joi.string();
-const posible_Covid = Joi.string();
+const riesgoTrabajo = Joi.string();
+const fechaExpedicion = Joi.string();
+const posibleCovid = Joi.number().integer();
+const idTrabajador = Joi.number().integer();
+const idConcepto = Joi.number().integer();
+const idPeriodo = Joi.number().integer();
+const unidades = Joi.number().min(.25).max(84);
+const usuarioCaptura = Joi.number().integer();
+const fechaInicio = Joi.string().isoDate();
+const month = Joi.string();
+const aho = Joi.number();
+const fechaFinal = Joi.string().isoDate();
+const claveSeguro = Joi.string();
+const per_numero = Joi.number().integer();
+const per_tipo = Joi.number().integer();
+const per_aho = Joi.string().isoDate();
 
 const createIncapacidadSchema = Joi.object({
-    tipo: tipo.required(),
-    motivo: motivo.required(),
-    clave_Seguro: clave_Seguro.required(),
-    umf: umf.required(),
-    riesgo_Trabajo: riesgo_Trabajo.required(),
-    fecha_Expedicion: fecha_Expedicion.required(),
-    posible_Covid: posible_Covid.required(),
+    idTipoIncapacidad:  idTipoIncapacidad.required(),
+    idRamoSeguro:       idRamoSeguro.required(),
+  
+    umf:                umf.required(),
+    riesgoTrabajo:      riesgoTrabajo.required(),
+    fechaExpedicion:    fechaExpedicion.required(),
+    posibleCovid:       posibleCovid.required(),  
+    claveSeguro:        claveSeguro.required(),
+
+    altas_sga:Joi.object({
+    idTrabajador:       idTrabajador.required(),
+    idConcepto:         idConcepto.required(),
+    idPeriodo:          idPeriodo.required(),
+    unidades:           unidades.required(),
+    usuarioCaptura:     usuarioCaptura.required(),
+    fechaInicio:        fechaInicio.required(),
+    fechaFinal:         fechaFinal.required(),
+    }),              
 });
 const updateIncapacidadSchema = Joi.object({
-    tipo: tipo,
-    motivo: motivo,
-    clave_Seguro: clave_Seguro,
+
+    idTipoIncapacidad: idTipoIncapacidad,
+    idRamoSeguro: idRamoSeguro,
     umf: umf,
-    riesgo_Trabajo: riesgo_Trabajo,
-    fecha_Expedicion: fecha_Expedicion,
-    posible_Covid: posible_Covid
+    riesgoTrabajo: riesgoTrabajo,
+    fechaExpedicion: fechaExpedicion,
+    posibleCovid: posibleCovid,
+    claveSeguro: claveSeguro,
 }); 
 const getIncapacidadSchema = Joi.object({
     id,
+    per_numero,
+    per_tipo,
+    per_aho,
+    fechaInicio,
+    month,
+    fechaFinal,
+    aho
 });
+
+
 const deleteIncapacidadSchema = Joi.object({
     id: id.required()
 });
 
-module.exports = { createIncapacidadSchema: createIncapacidadSchema, updateIncapacidadSchema: updateIncapacidadSchema, getIncapacidadSchema: getIncapacidadSchema, deleteIncapacidadSchema: deleteIncapacidadSchema }
+module.exports = { createIncapacidadSchema,  updateIncapacidadSchema, getIncapacidadSchema, deleteIncapacidadSchema }

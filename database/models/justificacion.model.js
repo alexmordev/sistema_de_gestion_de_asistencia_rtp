@@ -32,9 +32,10 @@ const JustificacionTableSGASchema = {
     },
 
     unidadesJustificadas: {
-        field: 'unidades_justificadas',
         allowNull: false,
-        type: DataTypes.FLOAT(11)
+        // type: DataTypes.FLOAT(11),
+        type: DataTypes.FLOAT(11),
+        field: 'unidades_justificadas',
     },
     transmitido:{
         allowNull: false,
@@ -43,14 +44,14 @@ const JustificacionTableSGASchema = {
     },
     createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         field: 'create_at',
-        defaultValue: Sequelize.NOW
+        defaultValue: DataTypes.NOW
 
     },
     updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         field: 'updated_at',
     },
 }

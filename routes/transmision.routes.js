@@ -2,6 +2,7 @@ const express = require('express');
 const TransmisionService = require('../services/transmision.service');
 const validatorHandler = require('../middlewares/validator.handler');
 const { getTransmitidoSchema, createTransmitidoSchema, updateTransmitidoSchema } = require('../schemas/transmision.schema');
+// const { getPeriodoSchema } = require('../schemas/periodo.schema');
 const router = express.Router();
 const service = new TransmisionService();
 
@@ -13,6 +14,19 @@ router.get('/', async (req, res, next) => {
     next(error);
   }
 });
+
+// router.get('/', 
+//   validatorHandler(getPeriodoSchema, 'query'),
+//   async (req, res, next) => {
+//     try {
+     
+//       const PeriodoIncapacidad = await service.findTransmitidas(req.query);
+//         (PeriodoIncapacidad === null) ? res.status(404).json({msg: 'Periodo no encontrado'}) : res.status(200).json({ PeriodoIncapacidad: PeriodoIncapacidad })
+//     } catch (error) {
+//       next(error);
+//     }
+//   }
+// );
 
 router.get('/:id', 
   validatorHandler(getTransmitidoSchema, 'params'),
@@ -26,6 +40,7 @@ router.get('/:id',
     }
   }
 );
+
 router.post('/',
   validatorHandler(createTransmitidoSchema, 'body'),
   async (req, res, next) => {

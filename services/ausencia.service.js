@@ -5,19 +5,36 @@ class AusenciaService {
   constructor() {}
 
   async create(data) {
-    const newAusencia = await models.AltasSGA.create( data )
+    const getAusencia = await models.AltasSGA.findOne( {
+      where:{
+        idTrabajador: data.idTrabajador,
+        idConcepto: data.idConcepto,
+        unidades: data.unidades,
+        fechaInicio: data.fechaInicio,
+        fechaFinal: data.fechaFinal
+      }
+    } ) 
+    const newAusencia = getAusencia ? 'El registro ya existe en SGA':  await models.AltasSGA.create(data);
     return newAusencia;
-  }
+  } 
   async find() {
     const res = await models.AltasSGA.findAll(
       {
-        include:['trabajador_vista', 'trab_periodos','catalogo_conceptos']
-      }
-    );
+        include:['trabajador_vista', 'trab_periodos','catalogo_conceptos'],
+        where:
+        {
+          id_concepto:5
+        }
+      });
+      console.log({datos: res});
     return res;
   }
   async findOne(id) {
-    const ausencia  =  await models.AltasSGA.findByPk(id);
+    const ausencia  =  await models.AltasSGA.findByPk(id,{
+      
+      include:['trabajador_vista', 'trab_periodos','catalogo_conceptos'],
+
+    });
     // buscar con id
     if(!ausencia){
       boom.notFound('Registro no encontrado');

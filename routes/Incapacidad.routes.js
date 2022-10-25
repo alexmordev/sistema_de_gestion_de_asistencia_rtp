@@ -1,7 +1,7 @@
 const express = require('express');
 const IncapacidadService = require('../services/incapacidad.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { getIncapacidadSchema, createIncapacidadSchema, updateIncapacidadSchema } = require('../schemas/incapacidad.schema');
+const { getIncapacidadSchema, createIncapacidadSchema, updateIncapacidadSchema, gePeriodoSchema, altas_sga } = require('../schemas/incapacidad.schema');
 const router = express.Router();
 const service = new IncapacidadService();
 
@@ -14,31 +14,47 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/:id', 
-  validatorHandler(getIncapacidadSchema, 'params'),
+router.get('/periodo', 
+  validatorHandler(getIncapacidadSchema, 'query'),
   async (req, res, next) => {
     try {
-      const { id } = req.params;
-      const incapacidad = await service.findAllOrders(id);
-      res.json(incapacidad);
+      const PeriodoIncapacidad = await service.findOnePeriodo(req.query);
+        // (PeriodoIncapacidad === null) ? res.status(404).json({msg: 'Periodo no encontrado'}) : res.status(200).json({ PeriodoIncapacidad: PeriodoIncapacidad })
+        res.json(PeriodoIncapacidad);
     } catch (error) {
       next(error);
     }
   }
 );
+
+router.get('/:id', 
+  validatorHandler(getIncapacidadSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const incapacidad = await service.findOne(id);
+      (incapacidad === null) ? res.status(404).json({msg: 'Incapacidad no encontrada'}) : res.status(200).json({seccess:'Datos incapacidad', incapacidad})
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+//periodo
+
 router.post('/',
   validatorHandler(createIncapacidadSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
       const newIncapacidad = await service.create(body);
-      res.status(201).json(newIncapacidad);
+      res.status(201).json({ Incapacidad_Registrada: [newIncapacidad] });
     } 
     catch (error) {
       next(error);
     }
   }
 );
+
 router.patch('/:id',
   validatorHandler(getIncapacidadSchema, 'params'),
   validatorHandler(updateIncapacidadSchema, 'body'),
@@ -53,6 +69,7 @@ router.patch('/:id',
     }
   }
 );
+
 router.delete('/:id',
   validatorHandler(getIncapacidadSchema, 'params'),
   async (req, res, next) => {
