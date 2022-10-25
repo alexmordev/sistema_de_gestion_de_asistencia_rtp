@@ -44,14 +44,26 @@ const createIncapacidadSchema = Joi.object({
 });
 const updateIncapacidadSchema = Joi.object({
 
-    idTipoIncapacidad: idTipoIncapacidad,
-    idRamoSeguro: idRamoSeguro,
-    umf: umf,
-    riesgoTrabajo: riesgoTrabajo,
-    fechaExpedicion: fechaExpedicion,
-    posibleCovid: posibleCovid,
-    claveSeguro: claveSeguro,
-}); 
+    idTipoIncapacidad,
+    idRamoSeguro,
+    umf,
+    riesgoTrabajo,
+    fechaExpedicion,
+    posibleCovid,
+    claveSeguro,
+
+    altas_sga:Joi.object({
+    idTrabajador,
+    idConcepto,
+    idPeriodo,
+    unidades,
+    usuarioCaptura,
+    fechaInicio,
+    fechaFinal
+    }),
+});
+    
+
 const getIncapacidadSchema = Joi.object({
     id,
     per_numero,
