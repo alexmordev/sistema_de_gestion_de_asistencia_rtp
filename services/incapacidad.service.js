@@ -26,7 +26,8 @@ class IncapacidadService {
     } catch (error) {
 
       await t.rollback();
-      result.push({ error });
+      // result.push({ error });
+      return
 
     }
 

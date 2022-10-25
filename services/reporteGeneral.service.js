@@ -41,18 +41,22 @@ class ReporteGeneralService {
 
   async findThow(query) {
 
-    const fecha = `${query.aho}` + '/' + `${query.month}` + '/' + '1'
+    if(query.month > 12 ){
+      return ('No existe el mes 13')
+    }
 
+    const fecha = `${query.aho}` + '/' + `${query.month}` + '/' + '1'
     const primerDia = new Date(fecha);
+
 
     const obtenerFechaFinDeMes = (fecha) => {
         const primerDia2 = new Date(fecha);
-        return new Date(primerDia2.getFullYear(), primerDia2.getMonth() + 1, 0);
+        return new Date( primerDia2.getFullYear(), primerDia2.getMonth() + 1, 0 );
     };
 
     const obtFecha = obtenerFechaFinDeMes(fecha);
 
-    console.log({ object: obtenerFechaFinDeMes(), fecha:fecha });
+
 
     const incapacidad = await models.Incapacidad.findAll({
       attributes: ['id_altas_SGA', 'umf', 'clave_seguro', 'fecha_expedicion'],
@@ -74,9 +78,8 @@ class ReporteGeneralService {
       ],
     })
 
-    console.log({object:query});
     const incapacidadCredencial = incapacidad;
-    return ({ ReporteGeneral: incapacidadCredencial });
+    return ({ ReporteGeneral: incapacidadCredencial }); 
   }
 
 
