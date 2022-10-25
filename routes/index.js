@@ -26,6 +26,7 @@ function routerApi(app) {
     router.use('/utils', InputRouter);
     router.use('/transmision', transmisionRouter);
     router.use('/reporteConceptos', reporteConceptos);
+    router.use('/reporteTransmitidos', reporteConceptos);
 
 }
 module.exports = routerApi;
