@@ -9,24 +9,23 @@ class AusenciaService {
       where:{
         idTrabajador: data.idTrabajador,
         idConcepto: data.idConcepto,
-        oficio: data.oficio,
         unidades: data.unidades,
         fechaInicio: data.fechaInicio,
         fechaFinal: data.fechaFinal
       }
     } ) 
-    const newAusencia = getAusencia ? 'El registro ya existe en SGA':  await models.AltasSGA.create( data);
+    const newAusencia = getAusencia ? 'El registro ya existe en SGA':  await models.AltasSGA.create(data);
     return newAusencia;
   } 
   async find() {
     const res = await models.AltasSGA.findAll(
       {
-        // include:['trabajador_vista', 'trab_periodos','catalogo_conceptos'],
-        include:['trab_periodos'],
+        include:['trabajador_vista', 'trab_periodos','catalogo_conceptos'],
+        // include:['trab_periodos'],
 
         where:
           {
-            id_concepto:5
+            id_concepto:6
           }
       });
       console.log({datos: res});

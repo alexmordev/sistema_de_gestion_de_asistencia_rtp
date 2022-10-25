@@ -1,23 +1,29 @@
 const boom = require('@hapi/boom');
 const {models} = require('../libs/sequelize');
-
+const  FormatingDate  =  require( '../class/FormatingDate' );
 
 class SancionService {
   constructor() {}
 
   async create(data) {
-    const getSancion = await models.AltasSGA.findOne( {
-      where:{
-        idTrabajador: data.idTrabajador,
-        idConcepto: data.idConcepto,
-        oficio: data.oficio,
-        unidades: data.unidades,
-        fechaInicio: data.fechaInicio,
-        fechaFinal: data.fechaFinal
-      }
-    } ) 
-    const newSancion = getSancion ? 'El registro ya existe en SGA':  await models.AltasSGA.create( data);
-    return newSancion;
+    let { dateFormatedInit, dateFormatedEnd } = FormatingDate.dateFormated( data.fechaInicio, data.fechaFinal )
+    
+    const newUser =  await models.AltasSGA.create({
+      ...data,
+      fechaInicio : dateFormatedInit,
+      fechaFinal : dateFormatedEnd
+
+    } )
+    const newUserDatesFormated = FormatingDate.dateFormated( newUser.fechaInicio, newUser.fechaFinal );
+    dateFormatedInit = newUserDatesFormated.dateFormatedInit
+    dateFormatedEnd = newUserDatesFormated.dateFormatedEnd
+
+    const newUserDateModify = {
+      ...newUser.dataValues,
+      fechaInicio : dateFormatedInit,
+      fechaFinal : dateFormatedEnd,
+    }
+    return newUserDateModify;
   }
 
   async find() {
@@ -42,19 +48,50 @@ class SancionService {
           id_concepto:3
         }
       }
-    );// buscar con id
+    );
     if(!res){
       boom.notFound('Category Not Found');
     }
-    return res;
+    let { dateFormatedInit, dateFormatedEnd } = FormatingDate.dateFormated( res.dataValues.fechaInicio, res.dataValues.fechaFinal )
+    
+    const resPeriodoDateFormated = FormatingDate.dateFormated(  res.dataValues.trab_periodos.perFechaInicio,  res.dataValues.trab_periodos.perFechaFinal );
+    const formatedInitDatePeriodo = resPeriodoDateFormated.dateFormatedInit
+    const formatedEndDatePeriodo = resPeriodoDateFormated.dateFormatedEnd
+
+    const resDateModify = {
+      ...res.dataValues,
+      fechaInicio : dateFormatedInit,
+      fechaFinal : dateFormatedEnd,
+      trab_periodos:{
+        ...res.dataValues.trab_periodos.dataValues,
+        perFechaInicio: formatedInitDatePeriodo,
+        perFechaFinal: formatedEndDatePeriodo,
+      }
+    }
+    return resDateModify;
   }
 
   async update(id, changes) {
+    let { dateFormatedInit, dateFormatedEnd } = FormatingDate.dateFormated( changes.fechaInicio, changes.fechaFinal )
+    
     const user = await this.findOne(id);
-    const res = await user.update(changes);
-    return res;
-  }
+    const res = await user.update({
+      ...changes,
+      fechaInicio : dateFormatedInit,
+      fechaFinal : dateFormatedEnd
+    });
 
+    const resDateFormated = FormatingDate.dateFormated( res.fechaInicio, res.fechaFinal );
+    dateFormatedInit = resDateFormated.dateFormatedInit
+    dateFormatedEnd = resDateFormated.dateFormatedEnd
+
+    const resDateModify = {
+      ...res.dataValues,
+      fechaInicio : dateFormatedInit,
+      fechaFinal : dateFormatedEnd,
+    }
+    return resDateModify;
+  }
   async delete(id) {
     const user = await this.findOne(id);
     await user.destroy()

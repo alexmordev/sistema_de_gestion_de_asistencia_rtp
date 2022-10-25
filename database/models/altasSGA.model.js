@@ -12,7 +12,7 @@ const AltaSGASchema = {
         allowNull: false,
         type: DataTypes.INTEGER,
         field: 'id_trabajador',
-        references: {
+        references:{
             model: 'trabajador_vista',
             key: 'trab_credencial',
         },
@@ -49,14 +49,14 @@ const AltaSGASchema = {
     },
     createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         field: 'create_at',
         defaultValue: Sequelize.NOW
 
     },
     updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         field: 'updated_at',
     },
 }
@@ -66,9 +66,9 @@ class AltasSGA extends Model {
             as: "trabajador_vista",
             foreignKey: 'id_trabajador'
         })
-        this.belongsTo(models.Periodo, {
-            as: "trab_periodos",
-            foreignKey: 'id_periodos'
+        this.belongsTo( models.Periodo,{
+            as:"trab_periodos",
+            foreignKey:'id_periodos'
         }),
         this.belongsTo(models.CatalogoConcepto, {
             as: "catalogo_conceptos",
@@ -81,7 +81,7 @@ class AltasSGA extends Model {
         })
 
         this.hasOne(models.Incapacidad, {
-            as: 'incapacidad',
+            as:'incapacidad',
             foreignKey: 'id_altas_SGA',
         })
 

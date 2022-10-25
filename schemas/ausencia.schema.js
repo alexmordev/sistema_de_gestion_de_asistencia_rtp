@@ -1,3 +1,4 @@
+const { required } = require('joi');
 const Joi = require('joi');
 
 const id = Joi.number().integer();
@@ -12,13 +13,13 @@ const createdAt = Joi.string().isoDate();
 const updatedAt = Joi.string().isoDate(); 
 
 const createAusenciaSchema = Joi.object({
-    idTrabajador : idTrabajador.required(),
-    idConcepto: idConcepto.required(),
-    idPeriodo:idPeriodo.required(),
-    unidades: unidades.required(),
-    usuarioCaptura: usuarioCaptura.required(),
-    fechaInicio: fechaInicio.required(),
-    fechaFinal:fechaFinal.required(),
+    idTrabajador:               idTrabajador.required(),
+    idConcepto:                 idConcepto.required(),
+    idPeriodo:                  idPeriodo.required(),
+    unidades:                   unidades.required(),
+    usuarioCaptura:             usuarioCaptura.required(),
+    fechaInicio:                fechaInicio.required(),
+    fechaFinal:                 fechaFinal.required(),
 });
 const updateAusenciaSchema = Joi.object({
     idTrabajador,
