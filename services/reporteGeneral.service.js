@@ -41,14 +41,18 @@ class ReporteGeneralService {
 
   async findThow(query) {
 
-    const fecha = `${query.aho}` + '/' + query.month + '/' + '01'
+    const fecha = `${query.aho}` + '/' + `${query.month}` + '/' + '1'
 
-    const obtenerFechaFinDeMes = () => {
-      const primerDia = new Date(fecha);
-        return new Date(primerDia.getFullYear(), primerDia.getMonth() + 1, 0);
+    const primerDia = new Date(fecha);
+
+    const obtenerFechaFinDeMes = (fecha) => {
+        const primerDia2 = new Date(fecha);
+        return new Date(primerDia2.getFullYear(), primerDia2.getMonth() + 1, 0);
     };
 
-    console.log({ object: obtenerFechaFinDeMes() });
+    const obtFecha = obtenerFechaFinDeMes(fecha);
+
+    console.log({ object: obtenerFechaFinDeMes(), fecha:fecha });
 
     const incapacidad = await models.Incapacidad.findAll({
       attributes: ['id_altas_SGA', 'umf', 'clave_seguro', 'fecha_expedicion'],
@@ -58,7 +62,7 @@ class ReporteGeneralService {
           as: 'altas_sga',
           model: models.AltasSGA,
           attributes: ['id', 'fecha_inicio', 'fecha_final'],
-          // where: { query: obtenerFechaFinDeMes() },
+          where: { fecha_inicio: {[Op.between] : [primerDia,obtFecha]} },
           include: [
             {
               as: 'trabajador_vista',

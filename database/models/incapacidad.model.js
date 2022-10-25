@@ -45,10 +45,6 @@ const IncapacidadSGASchema = {
         onUpdate: 'CASCADE', // Esto ocurre al actualizar, un efecto en cascada y tambien se actualiza
         onDelete: 'SET NULL' // Esto ocurre al borrar, se establece a null
     },
-    motivo: {
-        allowNull: false,
-        type: DataTypes.STRING,
-    },
     umf: {
         allowNull: false,
         type: DataTypes.INTEGER,
@@ -69,11 +65,10 @@ const IncapacidadSGASchema = {
         field: 'posible_covid',
     },
     claveSeguro:{
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.STRING,
         field: 'clave_seguro',
-        unique:true
-
+        unique: true
     }
 }
 class Incapacidad extends Model {

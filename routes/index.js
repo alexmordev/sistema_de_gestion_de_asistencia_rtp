@@ -12,7 +12,6 @@ const TrabajadorRouter = require('./trabajador.routes');
 const InputRouter = require('./InputFront.routes');
 const transmisionRouter = require('./transmision.routes');
 const reporteGeneral = require('./reporteGeneral.routes');
-const reporteRouter = require('./Reporte.routes');
 
 function routerApi(app) {
     const router = express.Router();
@@ -28,7 +27,7 @@ function routerApi(app) {
     router.use('/periodo', periodoRouter);
     router.use('/utils', InputRouter);
     router.use('/transmision', transmisionRouter);
+
     router.use('/reporteGeneral', reporteGeneral);
-    router.use('/reporte', reporteRouter);
 }
 module.exports = routerApi;
