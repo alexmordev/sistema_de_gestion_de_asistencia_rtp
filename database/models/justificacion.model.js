@@ -35,6 +35,7 @@ const JustificacionTableSGASchema = {
         field: 'unidades_justificadas',
         allowNull: false,
         type: DataTypes.FLOAT(11)
+
     },
     transmitido:{
         allowNull: false,

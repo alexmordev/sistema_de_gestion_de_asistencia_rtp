@@ -16,6 +16,19 @@ class TransmisionService {
     );
     return res;
   }
+
+  async findTransmitidas(query) {
+    const res = await models.Periodo.findAll(query,{
+      include: [{
+        association: 'trab_periodos',
+        where: { per_numero: query }
+      }]
+
+    });
+    
+    return({ datos: res})
+  }
+
   async findOne(id) {
     const transmision  =  await models.Transmision.findByPk(id);// buscar con id
     if(!transmision){
