@@ -9,13 +9,12 @@ class AusenciaService {
       where:{
         idTrabajador: data.idTrabajador,
         idConcepto: data.idConcepto,
-        oficio: data.oficio,
         unidades: data.unidades,
         fechaInicio: data.fechaInicio,
         fechaFinal: data.fechaFinal
       }
     } ) 
-    const newAusencia = getAusencia ? 'El registro ya existe en SGA':  await models.AltasSGA.create( data);
+    const newAusencia = getAusencia ? 'El registro ya existe en SGA':  await models.AltasSGA.create(data);
     return newAusencia;
   } 
   async find() {

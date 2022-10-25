@@ -6,18 +6,8 @@ class SancionService {
   constructor() {}
 
   async create(data) {
-    const getSancion = await models.AltasSGA.findOne( {
-      where:{
-        idTrabajador: data.idTrabajador,
-        idConcepto: data.idConcepto,
-        oficio: data.oficio,
-        unidades: data.unidades,
-        fechaInicio: data.fechaInicio,
-        fechaFinal: data.fechaFinal
-      }
-    } ) 
-    const newSancion = getSancion ? 'El registro ya existe en SGA':  await models.AltasSGA.create( data);
-    return newSancion;
+    const newUser =  await models.AltasSGA.create( data ) //crear
+    return newUser;
   }
 
   async find() {
