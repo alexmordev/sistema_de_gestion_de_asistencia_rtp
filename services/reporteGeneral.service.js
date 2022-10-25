@@ -9,6 +9,21 @@ class ReporteGeneralService {
 
   async find(query) {
 
+    
+    // Iniciar en este año, este mes, en el día 1
+    // return new Date(fechaInicio.getFullYear(), fechaInicio.getMonth(), 1);
+    
+    // const fecha1 = `${query.fechaInicio}`
+    // const fecha2 = `${query.fechaFin}`
+
+    const date1 = new Date(query.fechaInicio);
+    const date2 = new Date(query.fechaInicioFin);
+
+    const primerDia = new Date(date1.getFullYear(), date1.getMonth(), 1);
+    const ultimoDia = new Date( date2.getFullYear(), date2.getMonth() + 1, 0 );
+
+    console.log(date1,date2);
+
     const incapacidad = await models.Incapacidad.findAll({
       attributes: ['id_altas_SGA', 'umf', 'clave_seguro', 'fecha_expedicion'],
 
@@ -20,9 +35,14 @@ class ReporteGeneralService {
 
           where: {
             [Op.and]: [
-              { id_trabajador: query.id_trabajador },
-              { fecha_inicio: query.fechaInicio }
+              { id_trabajador:  query.id_trabajador },
+              { fecha_inicio: {[Op.between] : [date1,date2]} },
+              // { fecha_inicio:  {[Op.between] : [ultimoDia]} }
+
             ],
+            // [Op.or]:[
+            //   { fecha_inicio:  {[Op.between] : [ultimoDia]} }
+            // ]
           },
           include: [
             {
@@ -81,6 +101,7 @@ class ReporteGeneralService {
     const incapacidadCredencial = incapacidad;
     return ({ ReporteGeneral: incapacidadCredencial }); 
   }
+
 
 
   async update(id, changes) {
