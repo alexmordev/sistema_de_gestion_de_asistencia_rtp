@@ -13,6 +13,7 @@ const InputRouter = require('./InputFront.routes');
 const transmisionRouter = require('./transmision.routes');
 const reporteConceptos = require('./reporteConceptos.routes')
 const reporteGeneral = require('./reporteGeneral.routes');
+const reporteTransmitidos = require('./reporteTransmitidos.routes');
 
 
 function routerApi(app) {
@@ -30,7 +31,7 @@ function routerApi(app) {
     router.use('/utils', InputRouter);
     router.use('/transmision', transmisionRouter);
     router.use('/reporteConceptos', reporteConceptos);
-    router.use('/reporteTransmitidos', reporteConceptos);
+    router.use('/reporteTransmitidos', reporteTransmitidos);
 
     router.use('/reporteGeneral', reporteGeneral);
 }
