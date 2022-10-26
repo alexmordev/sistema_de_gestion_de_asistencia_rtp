@@ -8,22 +8,22 @@ class SancionService {
   async create(data) {
     let { dateFormatedInit, dateFormatedEnd } = FormatingDate.dateFormated( data.fechaInicio, data.fechaFinal )
     
-    const newUser =  await models.AltasSGA.create({
+    const newSancion =  await models.AltasSGA.create({
       ...data,
       fechaInicio : dateFormatedInit,
       fechaFinal : dateFormatedEnd
 
     } )
-    const newUserDatesFormated = FormatingDate.dateFormated( newUser.fechaInicio, newUser.fechaFinal );
-    dateFormatedInit = newUserDatesFormated.dateFormatedInit
-    dateFormatedEnd = newUserDatesFormated.dateFormatedEnd
+    const newSancionDatesFormated = FormatingDate.dateFormated( newSancion.fechaInicio, newSancion.fechaFinal );
+    dateFormatedInit = newSancionDatesFormated.dateFormatedInit
+    dateFormatedEnd = newSancionDatesFormated.dateFormatedEnd
 
-    const newUserDateModify = {
-      ...newUser.dataValues,
+    const newSancionDateModify = {
+      ...newSancion.dataValues,
       fechaInicio : dateFormatedInit,
       fechaFinal : dateFormatedEnd,
     }
-    return newUserDateModify;
+    return newSancionDateModify;
   }
 
   async find() {
@@ -45,7 +45,7 @@ class SancionService {
         include:['trabajador_vista', 'trab_periodos','catalogo_conceptos'],
         where:
         {
-          id_concepto:3
+          id_concepto:5
         }
       }
     );
@@ -69,17 +69,21 @@ class SancionService {
       }
     }
     return resDateModify;
-  }
+  };
 
   async update(id, changes) {
-    let { dateFormatedInit, dateFormatedEnd } = FormatingDate.dateFormated( changes.fechaInicio, changes.fechaFinal )
+    let { dateFormatedInit, dateFormatedEnd } = FormatingDate.dateFormated( changes.fechaInicio, changes.fechaFinal );
     
-    const user = await this.findOne(id);
-    const res = await user.update({
+    const sancion  =  await models.AltasSGA.findByPk(id,);
+    if(!sancion){
+      boom.notFound('Sancion Not Found');
+    }
+    const res = await sancion.update({
       ...changes,
       fechaInicio : dateFormatedInit,
       fechaFinal : dateFormatedEnd
     });
+  
 
     const resDateFormated = FormatingDate.dateFormated( res.fechaInicio, res.fechaFinal );
     dateFormatedInit = resDateFormated.dateFormatedInit
@@ -93,10 +97,12 @@ class SancionService {
     return resDateModify;
   }
   async delete(id) {
-    const user = await this.findOne(id);
-    await user.destroy()
+    const sancion  =  await models.AltasSGA.findByPk(id);
+    if(!sancion){
+      boom.notFound('Sancion Not Found');
+    }
+    await sancion.destroy()
     return {id};
   }
 }
-
 module.exports = SancionService;

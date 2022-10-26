@@ -9,7 +9,7 @@ const service = new TransmisionService();
 router.get('/', async (req, res, next) => {
   try {
     const transmision = await service.find();
-    res.json({ success:'Datos Transmision',msg: transmision });
+    res.json(transmision);
   } catch (error) {
     next(error);
   }

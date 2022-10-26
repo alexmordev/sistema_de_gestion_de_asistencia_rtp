@@ -21,12 +21,11 @@ class AusenciaService {
     const res = await models.AltasSGA.findAll(
       {
         include:['trabajador_vista', 'trab_periodos','catalogo_conceptos'],
-        // include:['trab_periodos'],
-
         where:
           {
             id_concepto:6
           }
+
       });
       console.log({datos: res});
     return res;

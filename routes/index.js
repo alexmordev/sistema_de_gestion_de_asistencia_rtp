@@ -8,7 +8,6 @@ const ausenciaRouter = require('./Ausencia.routes');
 const sancionRouter = require('./Sancion.routes');
 const ramoSeguroRouter = require('./RamoSeguro.routes');
 const tipoIncapacidadRouter = require('./TipoIncapacidad.routes')
-const TrabajadorRouter = require('./trabajador.routes');
 const InputRouter = require('./InputFront.routes');
 const transmisionRouter = require('./transmision.routes');
 const reporteConceptos = require('./reporteConceptos.routes')
