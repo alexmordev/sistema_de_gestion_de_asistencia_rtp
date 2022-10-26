@@ -7,8 +7,26 @@ class JustificacionService {
   constructor() {}
 
   async create(data) {
+
+    const trabajador = await models.Trabajador.findByPk(data.idTrabajador, { attributes:['tipo_trab_div'] } );
+    const tipo_periodo =  trabajador.dataValues.tipo_trab_div == '01' ? 0 : 1;
+    const today = new Date();
+
+    const per_actual  =  await models.Periodo.findOne( 
+      {
+          attributes:['id_periodos'],
+          where:{ [Op.and]:[ {per_tipo: tipo_periodo}, {per_fecha_final: { [Op.gte]:today}} ], },
+          order: ['id_periodos']
+      }
+    );
+    
+    const idPeriodo = per_actual.dataValues.id_periodos;
+    delete data.idTrabajador;
+
+    data.periodo = idPeriodo;
     const justificacion = await models.Justificacion.create(data);
     return justificacion;
+    
   }
 
   async listarAusenciaSancion ( altasId ){
@@ -244,6 +262,17 @@ class JustificacionService {
   }
 
   async getAllJustificacion() {
+
+    const preBusqueda = await models.Justificacion.findAll({ 
+      attributes: ['id_altas_SGA'],
+      order: ['id_altas_SGA']
+    });
+
+    const idBusqueda = []
+    preBusqueda.forEach(id => {
+      idBusqueda.push(id.id_altas_SGA)
+    });
+
     const justificaciones = await models.Justificacion.findAll(
       {
         attributes:[ 'id', 'unidades_justificadas', 'transmitido'],
@@ -251,6 +280,7 @@ class JustificacionService {
           { as: 'altas_sga', 
             model: models.AltasSGA, 
             attributes: ['id_trabajador','fecha_inicio','fecha_final'],
+            where: { id: idBusqueda },
             include:[
               { as: 'trabajador_vista', 
                 model: Trabajador, 

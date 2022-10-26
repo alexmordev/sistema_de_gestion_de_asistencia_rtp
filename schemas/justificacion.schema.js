@@ -17,7 +17,7 @@ const aho =  Joi.number().integer();
 
 const createJustificacionSchema = Joi.object({
     idAltas: idAltas.required(),
-    periodo : periodo.required(),
+    idTrabajador : idTrabajador.required(),
     unidadesJustificadas : unidadesJustificadas.required(),
     usuarioCaptura: usuarioCaptura.required(),
 });
