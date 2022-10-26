@@ -1,9 +1,9 @@
+const { swapConnection } = require('./libs/ConsultSwap');
 const express = require('express');
 const morgan = require('morgan');
-const { swapConnection } = require('./libs/ConsultSwap');
-const  sequelize  = require('./libs/sequelize');
 const cors = require('cors');
 const routerApi = require( "./routes" );
+const  sequelize  = require('./libs/sequelize');
 
 class Server {
   constructor() {

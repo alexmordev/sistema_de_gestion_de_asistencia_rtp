@@ -8,7 +8,7 @@ const service = new AusenciaService();
 router.get('/', async (req, res, next) => {
   try {
     const ausencia = await service.find();
-    res.status(200).json({ success:'Datos Ausencia',msg: ausencia})
+    res.status(200).json(ausencia)
   } catch (error) {
     next(error);
   }
