@@ -8,7 +8,7 @@ const service = new TrabajadorService();
 router.get('/', async (req, res, next) => {
   try {
     const trabajador = await service.find();
-      res.status(200).json({ msg: 'Todos los trabajadores', seccess:trabajador })
+      res.status(200).json(trabajador)
   } catch (error) {
     next(error);
   }

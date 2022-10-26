@@ -121,78 +121,21 @@ class IncapacidadService {
     return ({ Success: datosArray });
   }
 
-  // async update(id, changes) {
-  //   const incapacidad = await models.Incapacidad.findByPk(id);
-  //   const sga = await incapacidad.update(changes)
-  //   const res = await incapacidad.update(changes)
+  async update(id,change) {
+      
+    const incapacidad = await models.Incapacidad.findByPk(id)
+    const altas = await models.AltasSGA.findByPk(incapacidad.dataValues.id_altas_SGA)
+    change.altas_sga.id = incapacidad.dataValues.id_altas_SGA
+    change.id = id
 
-  //   result.push(sga, incapacidad);
-  //   return res;
-  // }
-
-  // const ausencia = await this.findOne(id);
-  // const res = await ausencia.update(changes);
-
-  async update(id, changes) {
-  const incapacidad = await this.findOne(id);
-  const res = await incapacidad.update(changes,
-    {
-      include: [{
-        association: 'altas_sga',
-        where: { id: id }
-      }]
-    });
-
-  }
-
-  // async update(id) {
-
-  //   const t = await sequelize.transaction();
-  //   const result = [];
-  //   try {
-
-  //     const sga = await models.AltasSGA.update(id.altas_sga, { transaction: t });
-  //     console.log({ object: id });
-
-  //     // crear el objeto que se va a pasar al segundo create con el id que devuelve el primer create
-  //     id.id_altas_SGA = sga.id
-  //     const incapacidad = await models.Incapacidad.update(id, { transaction: t });
-
-  //     // console.log({ object: id });
-  //     // await t.commit();
-
-  //     result.push(sga, incapacidad);
-
-  //   } catch (error) {
-
-  //     await t.rollback();
-  //     result.push({ error });
-  //     // return ;
-
-  //   }
-
-  //   return result;
-  // }
-
-  // async update(id) {
+    // const altas = await models.AltasSGA.findByPk(id)
+    const res = await incapacidad.update(change);
+    const res2 = await altas.update(change.altas_sga);
     
-  //   const incapacidad = await this.findOne(id,{
-  //       // where:{
-  //       //   id: id,
-  //       // }
-  //       include: [{
-  //         association: 'altas_sga',
-  //         where: { id: id }
-  //       }]
-        
-  //     })
-  //   const res = await incapacidad.update(changes);
-  //   return res
-  //   // const incapacidad = await this.findOne(id)
-  //   // const rta = await incapacidad.update(changes)
 
-  //   // return rta;
-  // }
+    console.log({res, res2});
+    return {res, res2 };
+  }
 
   async delete(id) {
     const ausencia = await this.findOne(id);
