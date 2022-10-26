@@ -1,4 +1,4 @@
 node_modules
 .env
-database/models/Trabajador.model.js
 .gitignore
+database/models/Trabajador.model.js
