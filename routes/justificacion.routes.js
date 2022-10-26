@@ -8,7 +8,7 @@ const service = new JustificacionService();
 router.get('/', async (req, res, next) => {
   try {
     const justificacion = await service.find();
-    res.json({ success:'Datos Justificacion',msg: justificacion });
+    res.json(justificacion);
   } catch (error) {
     next(error);
   }

@@ -15,19 +15,6 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// router.get('/', 
-//   validatorHandler(getPeriodoSchema, 'query'),
-//   async (req, res, next) => {
-//     try {
-     
-//       const PeriodoIncapacidad = await service.findTransmitidas(req.query);
-//         (PeriodoIncapacidad === null) ? res.status(404).json({msg: 'Periodo no encontrado'}) : res.status(200).json({ PeriodoIncapacidad: PeriodoIncapacidad })
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
-
 router.get('/:id', 
   validatorHandler(getTransmitidoSchema, 'params'),
   async (req, res, next) => {
