@@ -7,6 +7,9 @@ const { TipoIncapacidad, TipoIncapacidadSchema } = require('./tipoIncapacidad.mo
 const { RamoSeguro, RamoSeguroSchema } = require('./ramoSeguro.model');
 const { Justificacion, JustificacionTableSGASchema } = require('./justificacion.model');
 const { Transmision, TransmisionAplicacionSGASchema } = require('./transmision.model');
+const { Modulo, ModuloSchema } = require('./modulo.model'); 
+
+
 
 function setupModels(sequelize){
     Periodo.init(PeriodoSchema,Periodo.config( sequelize) );
@@ -18,7 +21,7 @@ function setupModels(sequelize){
     AltasSGA.init(AltaSGASchema, AltasSGA.config( sequelize ));
     Justificacion.init(JustificacionTableSGASchema, Justificacion.config( sequelize ))
     Transmision.init(TransmisionAplicacionSGASchema, Transmision.config( sequelize ))
-    
+    Modulo.init(ModuloSchema, Modulo.config(sequelize) );
     /**
      * After to do all tables, you must to define the relations
     */
