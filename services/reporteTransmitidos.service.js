@@ -120,6 +120,8 @@ class ReporteTransmitidosService {
           }
 
         });
+
+        return listado
     }
 
 
