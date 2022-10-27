@@ -8,10 +8,10 @@ class AusenciaService {
     const getAusencia = await models.AltasSGA.findOne( {
       where:{
         idTrabajador: data.idTrabajador,
-        idConcepto: data.idConcepto,
-        unidades: data.unidades,
-        fechaInicio: data.fechaInicio,
-        fechaFinal: data.fechaFinal
+        idConcepto:   data.idConcepto,
+        unidades:     data.unidades,
+        fechaInicio:  data.fechaInicio,
+        fechaFinal:   data.fechaFinal
       }
     } ) 
     const newAusencia = getAusencia ? 'El registro ya existe en SGA':  await models.AltasSGA.create(data);
@@ -23,7 +23,7 @@ class AusenciaService {
         include:['trabajador_vista', 'trab_periodos','catalogo_conceptos'],
         where:
         {
-          id_concepto:5
+          id_concepto:6
         }
       });
       console.log({datos: res});

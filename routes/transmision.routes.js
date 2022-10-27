@@ -9,24 +9,11 @@ const service = new TransmisionService();
 router.get('/', async (req, res, next) => {
   try {
     const transmision = await service.find();
-    res.json({ success:'Datos Transmision',msg: transmision });
+    res.json(transmision);
   } catch (error) {
     next(error);
   }
 });
-
-// router.get('/', 
-//   validatorHandler(getPeriodoSchema, 'query'),
-//   async (req, res, next) => {
-//     try {
-     
-//       const PeriodoIncapacidad = await service.findTransmitidas(req.query);
-//         (PeriodoIncapacidad === null) ? res.status(404).json({msg: 'Periodo no encontrado'}) : res.status(200).json({ PeriodoIncapacidad: PeriodoIncapacidad })
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
 
 router.get('/:id', 
   validatorHandler(getTransmitidoSchema, 'params'),

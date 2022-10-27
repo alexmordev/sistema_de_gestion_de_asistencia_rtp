@@ -26,7 +26,8 @@ class IncapacidadService {
     } catch (error) {
 
       await t.rollback();
-      result.push({ error });
+      // result.push({ error });
+      return ;
 
     }
 
@@ -120,10 +121,20 @@ class IncapacidadService {
     return ({ Success: datosArray });
   }
 
-  async update(id, changes) {
-    const ausencia = await this.findOne(id);
-    const res = await ausencia.update(changes);
-    return res;
+  async update(id,change) {
+      
+    const incapacidad = await models.Incapacidad.findByPk(id)
+    const altas = await models.AltasSGA.findByPk(incapacidad.dataValues.id_altas_SGA)
+    change.altas_sga.id = incapacidad.dataValues.id_altas_SGA
+    change.id = id
+
+    // const altas = await models.AltasSGA.findByPk(id)
+    const res = await incapacidad.update(change);
+    const res2 = await altas.update(change.altas_sga);
+    
+
+    console.log({res, res2});
+    return {res, res2 };
   }
 
   async delete(id) {

@@ -8,7 +8,7 @@ const service = new AusenciaService();
 router.get('/', async (req, res, next) => {
   try {
     const ausencia = await service.find();
-    res.status(200).json({ success:'Datos Ausencia',msg: ausencia})
+    res.status(200).json(ausencia)
   } catch (error) {
     next(error);
   }
@@ -32,9 +32,7 @@ router.post('/',
       const body = req.body
       // console.log(body);
       const newAusencia = await service.create(body);
-
-
-      res.status(201).json({altas_sga: [newAusencia]});
+      res.status(201).json(newAusencia);
     } catch (error) {
       next(error);
     }

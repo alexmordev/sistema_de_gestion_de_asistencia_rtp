@@ -29,5 +29,17 @@ router.get('/Mes',
   }
 });
 
+router.get('/rangoFecha', 
+  validatorHandler(getIncapacidadSchema, 'query'),
+  async (req, res, next) => {
+  try {
+      const reporteMes = await service.findThow(req.query);
+      res.json( reporteMes );
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 
 module.exports = router;
