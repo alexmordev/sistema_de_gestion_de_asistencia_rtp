@@ -7,22 +7,15 @@ const { Trabajador } = require('../database/models/trabajador.model');
 class ReporteGeneralService {
   constructor() { }
 
-  async find(query) {
-
-    
-    // Iniciar en este año, este mes, en el día 1
-    // return new Date(fechaInicio.getFullYear(), fechaInicio.getMonth(), 1);
-    
-    // const fecha1 = `${query.fechaInicio}`
-    // const fecha2 = `${query.fechaFin}`
+  async credencialRangofecha(query) {
 
     const date1 = new Date(query.fechaInicio);
     const date2 = new Date(query.fechaInicioFin);
 
     const primerDia = new Date(date1.getFullYear(), date1.getMonth(), 1);
-    const ultimoDia = new Date( date2.getFullYear(), date2.getMonth() + 1, 0 );
+    const ultimoDia = new Date(date2.getFullYear(), date2.getMonth() + 1, 0);
 
-    console.log(date1,date2);
+    console.log(date1, date2);
 
     const incapacidad = await models.Incapacidad.findAll({
       attributes: ['id_altas_SGA', 'umf', 'clave_seguro', 'fecha_expedicion'],
@@ -32,14 +25,13 @@ class ReporteGeneralService {
           as: 'altas_sga',
           model: models.AltasSGA,
           attributes: ['id', 'fecha_inicio', 'fecha_final'],
-
           where: {
-            [Op.and]: [
-              { id_trabajador:  query.id_trabajador },
-              { fecha_inicio:   {[Op.between] : [date1,date2]} },
-              { fecha_inicio:   {[Op.between] : [date1,date2]} }
-
-            ],
+            [Op.and]:
+              [
+                { id_trabajador: query.idTrabajador },
+                { fecha_inicio: { [Op.between]: [date1, date2] } },
+                { fecha_inicio: { [Op.between]: [date1, date2] } }
+              ],
           },
           include: [
             {
@@ -56,39 +48,43 @@ class ReporteGeneralService {
     return ({ ReporteGeneral: incapacidadCredencial });
   }
 
-  async findThow(query) {
+  async busquedaMes(query) {
 
-    if(query.month > 12 ){
-      return ('No existe el mes 13')
-    }
+    const meses = [ 1,2,3,4,5,6,7,8,9,10,11,12 ]
+    const numDatos = meses.length;
 
+    
     const fecha = `${query.aho}` + '/' + `${query.month}` + '/' + '1'
     const primerDia = new Date(fecha);
-
-
+    
     const obtenerFechaFinDeMes = (fecha) => {
-        const primerDia2 = new Date(fecha);
-        return new Date( primerDia2.getFullYear(), primerDia2.getMonth() + 1, 0 );
+      const primerDia2 = new Date(fecha);
+      return new Date(primerDia2.getFullYear(), primerDia2.getMonth() + 1, 0);
     };
-
-    const obtFecha = obtenerFechaFinDeMes(fecha);
-
-
+    
+    const segundoDia = obtenerFechaFinDeMes(fecha);
+    
+    // console.log(primerDia,segundoDia); 
+    if(fecha === numDatos){
+      console.log(meses,'1');
+    }else{
+      console.log(segundoDia);
+    }   
 
     const incapacidad = await models.Incapacidad.findAll({
-      attributes: ['id_altas_SGA', 'umf', 'clave_seguro', 'fecha_expedicion'],
+      attributes: ['idAltasSGA', 'umf', 'claveSeguro', 'fechaExpedicion'],
 
       include: [
         {
           as: 'altas_sga',
           model: models.AltasSGA,
-          attributes: ['id', 'fecha_inicio', 'fecha_final'],
-          where: { fecha_inicio: {[Op.between] : [primerDia,obtFecha]} },
+          attributes: ['fechaInicio', 'fechaFinal'],
+          where: { fecha_inicio: { [Op.between]: [primerDia, segundoDia] } },
           include: [
             {
               as: 'trabajador_vista',
               model: Trabajador,
-              attributes: ['trabCredencial', 'moduloClave', 'tipoTrabProc', 'nombreCompleto', 'trab_no_afiliacion', 'trab_rfc', 'trab_curp'],
+              attributes: ['trabCredencial', 'moduloClave', 'tipoTrabProc', 'nombreCompleto', 'trabNoAfiliacion', 'trabRfc', 'trabCurp'],
             },
           ]
         },
@@ -96,10 +92,73 @@ class ReporteGeneralService {
     })
 
     const incapacidadCredencial = incapacidad;
-    return ({ ReporteGeneral: incapacidadCredencial }); 
+    return ({ ReporteGeneral: incapacidadCredencial });
   }
 
+  async busquedaFechas(query) {
 
+    const date1 = new Date(query.fechaInicio);
+    const date2 = new Date(query.fechaInicioFin);
+
+    const primerDia = new Date(date1.getFullYear(), date1.getMonth(), 1);
+    const ultimoDia = new Date(date2.getFullYear(), date2.getMonth() + 1, 0);
+
+
+    const incapacidad = await models.Incapacidad.findAll({
+      attributes: ['idAltasSGA', 'umf', 'claveSeguro', 'fechaExpedicion'],
+      include: [
+        {
+          as: 'altas_sga',
+          model: models.AltasSGA,
+          attributes: ['fechaInicio', 'fechaFinal'],
+          where: {
+            [Op.and]:
+              [
+                { fecha_inicio: { [Op.between]: [date1, date2] } },
+                { fecha_inicio: { [Op.between]: [date1, date2] } }
+              ],
+          },
+          include: [
+            {
+              as: 'trabajador_vista',
+              model: Trabajador,
+              attributes: ['trabCredencial', 'moduloClave', 'tipoTrabProc', 'nombreCompleto', 'trabNoAfiliacion', 'trabRfc', 'trabCurp'],
+            },
+          ]
+        },
+      ],
+    })
+
+    const incapacidadCredencial = incapacidad;
+    return ({ Filtrado: incapacidadCredencial });
+
+  }
+
+  async busquedaCredencial(query) {
+
+    const incapacidad = await models.Incapacidad.findAll({
+      attributes: ['idAltasSGA', 'umf', 'claveSeguro', 'fechaExpedicion'],
+
+      include: [
+        {
+          as: 'altas_sga',
+          model: models.AltasSGA,
+          attributes: ['fechaInicio', 'fechaFinal'],
+          where:
+            { id_trabajador: query.idTrabajador },
+          include: [
+            {
+              as: 'trabajador_vista',
+              model: Trabajador,
+              attributes: ['trabCredencial', 'moduloClave', 'tipoTrabProc', 'nombreCompleto', 'trabNoAfiliacion', 'trabRfc', 'trabCurp'],
+            },
+          ]
+        },
+      ],
+    })
+    const incapacidadCredencial = incapacidad;
+    return ({ ReporteGeneral: incapacidadCredencial });
+  }
 
   async update(id, changes) {
     const ausencia = await this.findOne(id);
@@ -115,3 +174,4 @@ class ReporteGeneralService {
 }
 
 module.exports = ReporteGeneralService;
+

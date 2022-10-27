@@ -6,7 +6,6 @@ class IncapacidadService {
   constructor() { }
 
   async create(data) {
-
     const t = await sequelize.transaction();
     const result = [];
     try {
@@ -26,11 +25,10 @@ class IncapacidadService {
     } catch (error) {
 
       await t.rollback();
-      // result.push({ error });
-      return ;
+      result.push({ error });
 
     }
-
+    
     return result;
   }
 
@@ -128,13 +126,10 @@ class IncapacidadService {
     change.altas_sga.id = incapacidad.dataValues.id_altas_SGA
     change.id = id
 
-    // const altas = await models.AltasSGA.findByPk(id)
-    const res = await incapacidad.update(change);
-    const res2 = await altas.update(change.altas_sga);
+    const incapacidadUpdate = await incapacidad.update(change);
+    const sgaUpdate = await altas.update(change.altas_sga);
     
-
-    console.log({res, res2});
-    return {res, res2 };
+    return {res: incapacidadUpdate, res2: sgaUpdate};
   }
 
   async delete(id) {
