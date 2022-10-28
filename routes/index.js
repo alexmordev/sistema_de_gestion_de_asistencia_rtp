@@ -32,7 +32,6 @@ function routerApi(app) {
     router.use('/transmision', transmisionRouter);
     router.use('/reporteConceptos', reporteConceptos);
     router.use('/reporteTransmitidos', reporteTransmitidos);
-
     router.use('/reporteGeneral', reporteGeneral);
 }
 module.exports = routerApi;

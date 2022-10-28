@@ -26,6 +26,17 @@ router.get('/periodo',
   }
 );
 
+router.get('/consultaTransmitido', 
+  async (req, res, next) => {
+    try {
+      const consulTransmitido = await service.consulTransmitidos();
+      res.json(consulTransmitido);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.get('/:id', 
   validatorHandler(getIncapacidadSchema, 'params'),
   async (req, res, next) => {

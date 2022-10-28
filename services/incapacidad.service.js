@@ -32,6 +32,10 @@ class IncapacidadService {
     return result;
   }
 
+  async insertTransmitidos(data) {
+    
+  }
+
   async find() {
     const res = await models.Incapacidad.findAll({
       include: [
@@ -46,8 +50,7 @@ class IncapacidadService {
 
     return res;
   }
-
-  //buscar por id
+  
   async findOne(id) {
 
     const res = await models.Incapacidad.findByPk(id, {
@@ -63,21 +66,21 @@ class IncapacidadService {
     return res;
 
   }
-  // idPeriodo//
+
   async findOnePeriodo(req) {
 
     const options = {
       attributes: ['id_periodos', 'per_fecha_inicio', 'per_fecha_final'],
       where: {}
     };
-    (req.per_numero)
-      ? options.where.per_numero = req.per_numero
+    (req.perNumero)
+      ? options.where.perNumero = req.perNumero
       : null;
-    (req.per_aho)
-      ? options.where.per_aho = req.per_aho
+    (req.perAho)
+      ? options.where.perAho = req.perAho
       : null;
-    (req.per_tipo)
-      ? options.where.per_tipo = req.per_tipo
+    (req.perTipo)
+      ? options.where.perTipo = req.perTipo
       : null;
 
     const periodo = await models.Periodo.findOne(options);
@@ -107,16 +110,32 @@ class IncapacidadService {
 
         datosArray.push({
           idAltas: datos.id,
-          Unidades: datos.unidades,
-          DiasAplicados: fecha1 / (1000 * 60 * 60 * 24) + 1,
+          unidadesTotales: datos.unidades,
+          unidadesAplicadas: fecha1 / (1000 * 60 * 60 * 24) + 1,
           UnidadesSobrantes: resta
         })
 
       } else if ((FFI.getTime() <= PFF.getTime()) && (FFI.getTime() >= PFI.getTime())) {
-        datosArray.push({ Unidades: datos.unidades, DiasAplicados: 0 })
+        datosArray.push({ Unidades: datos.unidades, DiasAplicados: 0,  UnidadesSobrantes: resta })
       }
     });
     return ({ Success: datosArray });
+  }
+
+  async consulTransmitidos() {
+    
+    const consultaTransmitido = await models.Transmision.findAll({ 
+      
+      where:{ transmitido: 'true' },
+      include: [ 
+        {
+          as:'altas_sga',
+          model:models.AltasSGA,
+          attributes: ['idTrabajador','idConcepto','idPeriodo','unidades','usuarioCaptura','fechaInicio','fechaFinal','createdAt','updatedAt'],
+        }
+      ],
+    })
+    return( consultaTransmitido )
   }
 
   async update(id,change) {
