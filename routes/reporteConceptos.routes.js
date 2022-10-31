@@ -1,7 +1,7 @@
 const express = require('express');
-const ReporteService = require('../services/reporteConceptos.service');
+const ReporteService = require('../services/ReporteConceptos.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { getReporteSchema } = require('../schemas/reporteConceptos.schema');
+const { getReporteSchema } = require('../schemas/ReporteConceptos.schema');
 const router = express.Router();
 const service = new ReporteService();
 

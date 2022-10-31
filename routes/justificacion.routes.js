@@ -1,31 +1,17 @@
 const express = require('express');
-const JustificacionService = require('../services/justificacion.service');
+const JustificacionService = require('../services/Justificacion.service');
 const validatorHandler = require('../middlewares/validator.handler');
 const { createJustificacionSchema, 
         getJustificacionSchema, 
         getJustificacionPeriodoSchema,
         deleteJustificacionSchema, 
-        updateJustificacionSchema } = require('../schemas/justificacion.schema');
+        updateJustificacionSchema } = require('../schemas/Justificacion.schema');
 const router = express.Router();
 const service = new JustificacionService();
 
-<<<<<<< HEAD
-router.get('/', async (req, res, next) => {
-  try {
-    const justificacion = await service.find();
-    res.json(justificacion);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.get('/:id', 
-  validatorHandler(getJustificacionSchema, 'params'),
-=======
 // ruta por periodo: obtener ausencias y sanciones 
 router.get('/periodo', 
   validatorHandler(getJustificacionPeriodoSchema, 'query'),
->>>>>>> 4cbd6c6ecc9b75d95d1a1127019340f846427ee5
   async (req, res, next) => {
     try {
       const justificacion = await service.find(req.query);
