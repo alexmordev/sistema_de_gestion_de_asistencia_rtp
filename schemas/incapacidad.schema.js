@@ -4,7 +4,7 @@ const id = Joi.number().integer();
 
 const idTipoIncapacidad = Joi.number().integer();
 const idRamoSeguro = Joi.number().integer();
-const umf = Joi.string();
+const umf = Joi.number().integer();
 const riesgoTrabajo = Joi.boolean();
 const fechaExpedicion = Joi.string();
 const posibleCovid = Joi.number().integer();
@@ -18,9 +18,9 @@ const month = Joi.string();
 const aho = Joi.number();
 const fechaFinal = Joi.string().isoDate();
 const claveSeguro = Joi.string();
-const per_numero = Joi.number().integer();
-const per_tipo = Joi.number().integer();
-const per_aho = Joi.string().isoDate();
+const perNumero = Joi.number().integer();
+const perTipo = Joi.number().integer();
+const perAho = Joi.string().isoDate();
 
 const createIncapacidadSchema = Joi.object({
     idTipoIncapacidad:  idTipoIncapacidad.required(),
@@ -43,13 +43,13 @@ const createIncapacidadSchema = Joi.object({
 });
 const updateIncapacidadSchema = Joi.object({
 
-    idTipoIncapacidad:  idTipoIncapacidad,
-    idRamoSeguro:       idRamoSeguro,
-    umf:                umf,
-    riesgoTrabajo:      riesgoTrabajo,
-    fechaExpedicion:    fechaExpedicion,
-    posibleCovid:       posibleCovid,
-    claveSeguro:        claveSeguro,
+    idTipoIncapacidad,
+    idRamoSeguro,
+    umf,
+    riesgoTrabajo,
+    fechaExpedicion,
+    posibleCovid,
+    claveSeguro,
 
     altas_sga:Joi.object({
         idTrabajador:       idTrabajador,
@@ -62,9 +62,9 @@ const updateIncapacidadSchema = Joi.object({
 }); 
 const getIncapacidadSchema = Joi.object({
     id,
-    per_numero,
-    per_tipo,
-    per_aho,
+    per_numero: perNumero,
+    per_tipo: perTipo,
+    per_aho: perAho,
     fechaInicio,
     month,
     fechaFinal,

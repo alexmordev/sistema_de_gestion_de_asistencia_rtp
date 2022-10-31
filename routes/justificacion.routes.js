@@ -9,9 +9,18 @@ const { createJustificacionSchema,
 const router = express.Router();
 const service = new JustificacionService();
 
-// ruta por periodo: obtener ausencias y sanciones 
-router.get('/periodo', 
-  validatorHandler(getJustificacionPeriodoSchema, 'query'),
+router.get('/', async (req, res, next) => {
+  try {
+    const justificacion = await service.find();
+    res.json(justificacion);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/:id', 
+  validatorHandler(getJustificacionSchema, 'params'),
+
   async (req, res, next) => {
     try {
       const justificacion = await service.find(req.query);

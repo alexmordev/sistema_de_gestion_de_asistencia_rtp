@@ -32,9 +32,7 @@ router.post('/',
       const body = req.body
       // console.log(body);
       const newAusencia = await service.create(body);
-
-
-      res.status(201).json({altas_sga: [newAusencia]});
+      res.status(201).json(newAusencia);
     } catch (error) {
       next(error);
     }
