@@ -1,8 +1,8 @@
 const express = require('express');
-const ReporteGeneralService = require('../services/reporteGeneral.service');
+const ReporteGeneralService = require('../services/ReporteGeneral.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { params } = require('../schemas/ausencia.schema');
-const { getIncapacidadSchema } = require('../schemas/incapacidad.schema');
+const { params } = require('../schemas/Ausencia.schema');
+const { getIncapacidadSchema } = require('../schemas/Incapacidad.schema');
 const router = express.Router();
 const service = new ReporteGeneralService();
 

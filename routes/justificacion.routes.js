@@ -1,11 +1,11 @@
 const express = require('express');
-const JustificacionService = require('../services/justificacion.service');
+const JustificacionService = require('../services/Justificacion.service');
 const validatorHandler = require('../middlewares/validator.handler');
 const { createJustificacionSchema, 
         getJustificacionSchema, 
         getJustificacionPeriodoSchema,
         deleteJustificacionSchema, 
-        updateJustificacionSchema } = require('../schemas/justificacion.schema');
+        updateJustificacionSchema } = require('../schemas/Justificacion.schema');
 const router = express.Router();
 const service = new JustificacionService();
 

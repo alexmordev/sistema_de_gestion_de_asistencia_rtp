@@ -33,7 +33,9 @@ class IncapacidadService {
   }
 
   async insertTransmitidos(data) {
-    
+    const insertarUnidades = await models.Transmision.create( data,{
+      where: { transmitido: 'false'  } 
+    }) 
   }
 
   async find() {
@@ -118,9 +120,14 @@ class IncapacidadService {
       } else if ((FFI.getTime() <= PFF.getTime()) && (FFI.getTime() >= PFI.getTime())) {
         datosArray.push({ Unidades: datos.unidades, DiasAplicados: 0,  UnidadesSobrantes: resta })
       }
+
+
+
     });
     return ({ Success: datosArray });
   }
+
+
 
   async consulTransmitidos() {
     
