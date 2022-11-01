@@ -1,22 +1,31 @@
 const boom = require('@hapi/boom');
 const {models} = require('../libs/sequelize');
+const  FormatingDate  =  require( '../class/FormatFecha' );
 
 class AusenciaService {
   constructor() {}
 
   async create(data) {
-    const getAusencia = await models.AltasSGA.findOne( {
-      where:{
-        idTrabajador: data.idTrabajador,
-        idConcepto:   data.idConcepto,
-        unidades:     data.unidades,
-        fechaInicio:  data.fechaInicio,
-        fechaFinal:   data.fechaFinal
-      }
-    } ) 
-    const newAusencia = getAusencia ? 'El registro ya existe en SGA':  await models.AltasSGA.create(data);
-    return newAusencia;
+    let { dateFormatedInit, dateFormatedEnd } = FormatingDate.dateFormated( data.fechaInicio, data.fechaFinal )
+    
+    const newSancion =  await models.AltasSGA.create({
+      ...data,
+      fechaInicio : dateFormatedInit,
+      fechaFinal : dateFormatedEnd
+
+    } )
+    const newAusenciaDatesFormated = FormatingDate.dateFormated( newSancion.fechaInicio, newSancion.fechaFinal );
+    dateFormatedInit = newAusenciaDatesFormated.dateFormatedInit
+    dateFormatedEnd = newAusenciaDatesFormated.dateFormatedEnd
+
+    const newAusenciaDateModify = {
+      ...newSancion.dataValues,
+      fechaInicio : dateFormatedInit,
+      fechaFinal : dateFormatedEnd,
+    }
+    return newAusenciaDateModify;
   } 
+  
   async find() {
     const res = await models.AltasSGA.findAll(
       {

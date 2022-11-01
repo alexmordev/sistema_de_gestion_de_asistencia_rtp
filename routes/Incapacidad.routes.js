@@ -14,7 +14,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/ ', 
+router.get('/periodo', 
   validatorHandler(getIncapacidadSchema, 'query'),
   async (req, res, next) => {
     try {

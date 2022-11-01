@@ -8,8 +8,8 @@ const idPeriodo = Joi.number().integer();
 
 const unidades = Joi.number().min(.25).max(84);
 const usuarioCaptura = Joi.number().integer();
-const fechaInicio = Joi.string().isoDate();
-const fechaFinal = Joi.string().isoDate();
+const fechaInicio = Joi.string();
+const fechaFinal = Joi.string();
 const createdAt = Joi.string().isoDate();
 const updatedAt = Joi.string().isoDate(); 
 

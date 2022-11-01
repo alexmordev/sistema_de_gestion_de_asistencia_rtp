@@ -1,7 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
-const { TIPOINCAPACIDAD_TABLE } = require('./tipoIncapacidad.model')
-const { RAMOSEGURO_TABLE } = require('./ramoSeguro.model')
-const { ALTASSGA_TABLE } = require('./altasSGA.model')
+const { TIPOINCAPACIDAD_TABLE } = require('./TipoIncapacidad.model')
+const { RAMOSEGURO_TABLE } = require('./RamoSeguro.model')
+const { ALTASSGA_TABLE } = require('./AltasSGA.model')
 
 const INCAPACIDAD_TABLE = 'incapacidad';
 const IncapacidadSGASchema = {
