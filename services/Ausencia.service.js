@@ -32,7 +32,7 @@ class AusenciaService {
         include:['trabajador_vista', 'trab_periodos','catalogo_conceptos'],
         where:
           {
-            id_concepto:6
+            id_concepto:3
           }
 
       });

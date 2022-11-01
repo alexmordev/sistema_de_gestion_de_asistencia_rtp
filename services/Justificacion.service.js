@@ -48,7 +48,7 @@ class JustificacionService {
                        "fecha_final": altas.dataValues.fecha_final,
                        "unidades": altas.unidades,
                        "max_descontar": descontar
-                      });
+          });
 
         }
       }else{

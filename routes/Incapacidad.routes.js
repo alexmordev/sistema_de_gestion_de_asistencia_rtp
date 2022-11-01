@@ -1,7 +1,7 @@
 const express = require('express');
 const IncapacidadService = require('../services/Incapacidad.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { getIncapacidadSchema, createIncapacidadSchema, updateIncapacidadSchema, gePeriodoSchema, altas_sga } = require('../schemas/Incapacidad.schema');
+const { getIncapacidadSchema, createIncapacidadSchema, updateIncapacidadSchema } = require('../schemas/Incapacidad.schema');
 const router = express.Router();
 const service = new IncapacidadService();
 
@@ -30,6 +30,17 @@ router.get('/consultaTransmitido',
   async (req, res, next) => {
     try {
       const consulTransmitido = await service.consulTransmitidos();
+      res.json(consulTransmitido);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.get('/consultaPorTransmitir', 
+  async (req, res, next) => {
+    try {
+      const consulTransmitido = await service.consulPorTransmir();
       res.json(consulTransmitido);
     } catch (error) {
       next(error);
@@ -74,7 +85,7 @@ router.patch('/:id',
       const body = req.body;
       const incapacidad = await service.update(id, body);
       res.status(201).json(incapacidad);
-      // res.json(incapacidad);
+
     } catch (error) {
       next(error);
     }
