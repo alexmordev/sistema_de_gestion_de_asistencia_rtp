@@ -1,6 +1,6 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 // const {USER_TABLE} = require('./user.model');
-const { ALTASSGA_TABLE } = require('./altasSGA.model')
+const { ALTASSGA_TABLE } = require('./AltasSGA.model')
 
 const JUSTIFICACION_TABLE = 'justificacion'; //definir nombre tabla;
 const JustificacionTableSGASchema = {

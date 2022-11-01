@@ -102,23 +102,33 @@ class IncapacidadService {
       const FII = new Date(datos.fechaInicio);//fechaInicioIncapacidad
       const FFI = new Date(datos.fechaFinal);//fechaFinalIncapacidad
 
+      let resta = 0 
+      let unidades = 0
+
       if ((FII.getTime() >= PFI.getTime()) && (FII.getTime() <= PFF.getTime())) {
         const fecha1 = PFF - FII;
-        let resta = 0
 
         if (datos.unidades > fecha1 / (1000 * 60 * 60 * 24) + 1) {
           resta = `${datos.unidades}` - `${fecha1 / (1000 * 60 * 60 * 24) + 1}`
+        }else if( datos.unidades < fecha1 / (1000 * 60 * 60 * 24) + 1){
+          unidades = `${datos.unidades}` 
         }
 
         datosArray.push({
           idAltas: datos.id,
           unidadesTotales: datos.unidades,
-          unidadesAplicadas: fecha1 / (1000 * 60 * 60 * 24) + 1,
-          UnidadesSobrantes: resta
+          unidadesAplicadas: `${datos.unidades}` - `${resta}`,
+          // unidadesAplicadas: `${fecha1 / (1000 * 60 * 60 * 24) + 1}` ,
+          UnidadesSobrantes: resta,
+          DiasAplicados: datos.unidades, 
         })
 
       } else if ((FFI.getTime() <= PFF.getTime()) && (FFI.getTime() >= PFI.getTime())) {
-        datosArray.push({ Unidades: datos.unidades, DiasAplicados: 0,  UnidadesSobrantes: resta })
+        datosArray.push({  idAltas: datos.id,
+          Unidades: datos.unidades,
+          DiasAplicados: 0,
+          UnidadesSobrantes: resta
+        })
       }
 
 

@@ -2,10 +2,10 @@ const sequelize = require('../libs/sequelize');
 const boom = require('@hapi/boom');
 const { Op } = require("sequelize");
 const { models } = require('../libs/sequelize');
-const { Trabajador } = require('../database/models/trabajador.model');
+const { Trabajador } = require('../database/models/Trabajador.model');
 
 class ReporteGeneralService {
-  constructor() { }
+  constructor() {}
 
   async credencialRangofecha(query) {
 
