@@ -5,7 +5,7 @@ const { models } = require('../libs/sequelize');
 const { Trabajador } = require('../database/models/Trabajador.model');
 
 class ReporteGeneralService {
-  constructor() { }
+  constructor() {}
 
   async credencialRangofecha(query) {
 

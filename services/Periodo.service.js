@@ -15,13 +15,13 @@ class PeriodoService {
     const options = {
       where: {}
     };
-    (query.per_numero)
+    (query.perNumero)
       ?  options.where.per_numero = query.per_numero.split(',')
       :  null;
-    (query.per_aho)
+    (query.perAho)
         ?  options.where.per_aho = query.per_aho.split(',')
         :  null;
-    (query.per_tipo)
+    (query.perTipo)
       ?  options.where.per_tipo = query.per_tipo.split(',')
       :  null;
    
