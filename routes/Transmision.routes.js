@@ -1,7 +1,7 @@
 const express = require('express');
-const TransmisionService = require('../services/transmision.service');
+const TransmisionService = require('../services/Transmision.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { getTransmitidoSchema, createTransmitidoSchema, updateTransmitidoSchema } = require('../schemas/transmision.schema');
+const { getTransmitidoSchema, createTransmitidoSchema, updateTransmitidoSchema } = require('../schemas/Transmision.schema');
 // const { getPeriodoSchema } = require('../schemas/periodo.schema');
 const router = express.Router();
 const service = new TransmisionService();

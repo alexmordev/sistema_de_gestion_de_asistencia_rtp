@@ -1,7 +1,7 @@
 const express = require('express');
-const CatalogoService = require('../services/catalogoConcepto.service');
+const CatalogoService = require('../services/CatalogoConcepto.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { updateCatalogoConceptoSchema, createCatalogoConceptoSchema, getCatalogoConceptoSchema } = require('../schemas/catalogoConcepto.schema');
+const { updateCatalogoConceptoSchema, createCatalogoConceptoSchema, getCatalogoConceptoSchema } = require('../schemas/CatalogoConcepto.schema');
 const router = express.Router();
 const service = new CatalogoService();
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const validatorHandler = require('../middlewares/validator.handler');
-const ReporteTransmitidosService = require('../services/reporteTransmitidos.service');
-const { getReporteTransmitidosSchema } = require('../schemas/reporteTransmitidos.schema');
+const ReporteTransmitidosService = require('../services/ReporteTransmitidos.service');
+const { getReporteTransmitidosSchema } = require('../schemas/ReporteTransmitidos.schema');
 const router = express.Router();
 const service = new ReporteTransmitidosService();
 

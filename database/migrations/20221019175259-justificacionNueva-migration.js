@@ -1,5 +1,5 @@
 'use strict';
-const { JUSTIFICACION_TABLE, JustificacionTableSGASchema } = require('../models/justificacion.model');
+const { JUSTIFICACION_TABLE, JustificacionTableSGASchema } = require('../models/Justificacion.model');
 
 
 module.exports = {

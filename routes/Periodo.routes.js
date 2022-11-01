@@ -1,10 +1,10 @@
 const express = require('express');
-const Perido = require('./../services/periodo.service');
+const Perido = require('../services/Periodo.service');
 const validatorHandler = require('./../middlewares/validator.handler');
 const { createPeriodoSchema,
         updatePeriodoSchema,
         getPeriodoSchema,
-        deletePeriodoSchema } = require('./../schemas/periodo.schema');
+        deletePeriodoSchema } = require('./../schemas/Periodo.schema');
 const router = express.Router();
 const service = new Perido();
 

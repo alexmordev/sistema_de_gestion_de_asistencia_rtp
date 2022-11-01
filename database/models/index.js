@@ -1,13 +1,13 @@
-const { AltasSGA, AltaSGASchema }= require('./altasSGA.model');
-const { Periodo, PeriodoSchema }= require('./periodo.model');
-const { Trabajador, TrabajadorSGASchema } = require('./trabajador.model');
-const { Incapacidad,  IncapacidadSGASchema } = require('./incapacidad.model');
-const { CatalogoConcepto,CatalogoConceptosSGASchema } = require('./catalogoConcepto.model');
-const { TipoIncapacidad, TipoIncapacidadSchema } = require('./tipoIncapacidad.model');
-const { RamoSeguro, RamoSeguroSchema } = require('./ramoSeguro.model');
-const { Justificacion, JustificacionTableSGASchema } = require('./justificacion.model');
-const { Transmision, TransmisionAplicacionSGASchema } = require('./transmision.model');
-const { Modulo, ModuloSchema } = require('./modulo.model'); 
+const { AltasSGA, AltaSGASchema }= require('./AltasSGA.model');
+const { Periodo, PeriodoSchema }= require('./Periodo.model');
+const { Trabajador, TrabajadorSGASchema } = require('./Trabajador.model');
+const { Incapacidad,  IncapacidadSGASchema } = require('./Incapacidad.model');
+const { CatalogoConcepto,CatalogoConceptosSGASchema } = require('./CatalogoConcepto.model');
+const { TipoIncapacidad, TipoIncapacidadSchema } = require('./TipoIncapacidad.model');
+const { RamoSeguro, RamoSeguroSchema } = require('./RamoSeguro.model');
+const { Justificacion, JustificacionTableSGASchema } = require('./Justificacion.model');
+const { Transmision, TransmisionAplicacionSGASchema } = require('./Transmision.model');
+const { Modulo, ModuloSchema } = require('./Modulo.model'); 
 
 
 
