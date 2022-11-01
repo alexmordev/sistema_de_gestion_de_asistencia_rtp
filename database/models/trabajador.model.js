@@ -1,6 +1,4 @@
 const { Model, DataTypes } = require('sequelize');
-// const sequelize = require('../libs/conexion');
-// const AltasSGA = require('./altasSGA.model');
 const TRABAJADOR_TABLE = 'trabajador_vista';
 const TrabajadorSGASchema = {
 
@@ -92,7 +90,6 @@ const TrabajadorSGASchema = {
         field: 'mod_desc',
         type: DataTypes.STRING
     },
-
 
     trabFoto: {
         field: 'trab_foto',
