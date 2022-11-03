@@ -52,7 +52,7 @@ const updateIncapacidadSchema = Joi.object({
     claveSeguro,
 
     altas_sga:Joi.object({
-    idTrabajador,
+
     idConcepto,
     idPeriodo,
     unidades,

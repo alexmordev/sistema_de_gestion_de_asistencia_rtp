@@ -22,7 +22,6 @@ const createAusenciaSchema = Joi.object({
     fechaFinal: fechaFinal.required(),
 });
 const updateAusenciaSchema = Joi.object({
-    idTrabajador,
     idConcepto,
     idPeriodo,
     unidades,
