@@ -54,7 +54,6 @@ const updateIncapacidadSchema = Joi.object({
     altas_sga:Joi.object({
 
     idConcepto,
-    idPeriodo,
     unidades,
     usuarioCaptura,
     fechaInicio,
