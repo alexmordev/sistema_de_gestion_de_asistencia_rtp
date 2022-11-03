@@ -8,19 +8,19 @@ const idPeriodo = Joi.number().integer();
 
 const unidades = Joi.number().min(.25).max(84);
 const usuarioCaptura = Joi.number().integer();
-const fechaInicio = Joi.string().isoDate();
-const fechaFinal = Joi.string().isoDate();
+const fechaInicio = Joi.string();
+const fechaFinal = Joi.string();
 const createdAt = Joi.string().isoDate();
 const updatedAt = Joi.string().isoDate(); 
 
 const createAusenciaSchema = Joi.object({
-    idTrabajador:               idTrabajador.required(),
-    idConcepto:                 idConcepto.required(),
-    idPeriodo:                  idPeriodo.required(),
-    unidades:                   unidades.required(),
-    usuarioCaptura:             usuarioCaptura.required(),
-    fechaInicio:                fechaInicio.required(),
-    fechaFinal:                 fechaFinal.required(),
+    idTrabajador: idTrabajador.required(),
+    idConcepto: idConcepto.required(),
+    idPeriodo: idPeriodo.required(),
+    unidades: unidades.required(),
+    usuarioCaptura: usuarioCaptura.required(),
+    fechaInicio: fechaInicio.required(),
+    fechaFinal: fechaFinal.required(),
 });
 const updateAusenciaSchema = Joi.object({
     idTrabajador,

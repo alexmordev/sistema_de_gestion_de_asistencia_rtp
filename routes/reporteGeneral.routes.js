@@ -1,44 +1,57 @@
 const express = require('express');
-const ReporteGeneralService = require('../services/reporteGeneral.service');
-const { createTrabajadorSchema, getTrabajadorSchema, updateTrabajadorSchema } = require('../schemas/trabajador.schema');
+const ReporteGeneralService = require('../services/ReporteGeneral.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { getAusenciaSchema, params } = require('../schemas/ausencia.schema');
-const { getIncapacidadSchema } = require('../schemas/incapacidad.schema');
+const { params } = require('../schemas/Ausencia.schema');
+const { getIncapacidadSchema } = require('../schemas/Incapacidad.schema');
 const router = express.Router();
 const service = new ReporteGeneralService();
 
-router.get('/', 
-  validatorHandler(getTrabajadorSchema,getIncapacidadSchema, 'query'),
+router.get('/busquedaCredenFech', 
+  validatorHandler(params,getIncapacidadSchema, 'query'),
   async (req, res, next) => {
   try {
-      const reporte = await service.find(req.query);
+      const reporte = await service.credencialRangofecha(req.query);
       res.json( reporte );
   } catch (error) {
     next(error);
   }
 });
 
-router.get('/Mes', 
+router.get('/busquedaMes', 
   validatorHandler(getIncapacidadSchema, 'query'),
   async (req, res, next) => {
   try {
-      const reporteMes = await service.findThow(req.query);
+      const reporteMes = await service.busquedaMes(req.query);
       res.json( reporteMes );
   } catch (error) {
     next(error);
   }
 });
 
-router.get('/rangoFecha', 
-  validatorHandler(getIncapacidadSchema, 'query'),
+router.get('/busquedaFechas', 
+  validatorHandler(params,getIncapacidadSchema, 'query'),
   async (req, res, next) => {
   try {
-      const reporteMes = await service.findThow(req.query);
+      const reporteMes = await service.busquedaFechas(req.query);
       res.json( reporteMes );
   } catch (error) {
     next(error);
   }
 });
+
+router.get('/busquedaCredencial', 
+  validatorHandler(params,getIncapacidadSchema, 'query'),
+  async (req, res, next) => {
+  try {
+      const reporteMes = await service.busquedaCredencial(req.query);
+      res.json( reporteMes );
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+
 
 
 

@@ -1,7 +1,7 @@
 const express = require('express');
-const InputService = require('../services/inputsFront.service');
+const InputService = require('../services/InputsFront.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { getTrabajadorPeridoSchema } = require('../schemas/inputFront.schema');
+const { getTrabajadorPeridoSchema } = require('../schemas/InputFront.schema');
 const router = express.Router();
 const service = new InputService();
 

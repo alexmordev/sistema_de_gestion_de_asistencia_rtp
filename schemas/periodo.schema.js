@@ -1,7 +1,8 @@
 const Joi = require('joi');
 
-const id_periodos = Joi.number().integer();
-const per_tipo = Joi.number().integer();
+const idPeriodos = Joi.number().integer();
+const perTipo = Joi.number().integer();
+const perAho = Joi.number().integer();
 // const concepto = Joi.number().min(.25).max(84);
 // const credencial = Joi.string();
 // const fecha = Joi.string().isoDate();
@@ -20,10 +21,11 @@ const updatePeriodoSchema = Joi.object({
     // unidades: unidades
 }); 
 const getPeriodoSchema = Joi.object({
-    id_periodos,
-    per_tipo
+    idPeriodos,
+    perTipo,
+    perAho
 });
 const deletePeriodoSchema = Joi.object({
-    id_periodos: id_periodos.required()
+    idPeriodos: idPeriodos.required()
 });
 module.exports = { createPeriodoSchema,updatePeriodoSchema,getPeriodoSchema,deletePeriodoSchema }

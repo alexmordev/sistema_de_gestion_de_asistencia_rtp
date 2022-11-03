@@ -6,7 +6,6 @@ class IncapacidadService {
   constructor() { }
 
   async create(data) {
-
     const t = await sequelize.transaction();
     const result = [];
     try {
@@ -26,12 +25,17 @@ class IncapacidadService {
     } catch (error) {
 
       await t.rollback();
-      // result.push({ error });
-      return ;
+      result.push({ error });
 
     }
-
+    
     return result;
+  }
+
+  async insertTransmitidos(data) {
+    const insertarUnidades = await models.Transmision.create( data,{
+      where: { transmitido: 'false'  } 
+    }) 
   }
 
   async find() {
@@ -48,8 +52,7 @@ class IncapacidadService {
 
     return res;
   }
-
-  //buscar por id
+  
   async findOne(id) {
 
     const res = await models.Incapacidad.findByPk(id, {
@@ -65,21 +68,21 @@ class IncapacidadService {
     return res;
 
   }
-  // idPeriodo//
+
   async findOnePeriodo(req) {
 
     const options = {
       attributes: ['id_periodos', 'per_fecha_inicio', 'per_fecha_final'],
       where: {}
     };
-    (req.per_numero)
-      ? options.where.per_numero = req.per_numero
+    (req.perNumero)
+      ? options.where.perNumero = req.perNumero
       : null;
-    (req.per_aho)
-      ? options.where.per_aho = req.per_aho
+    (req.perAho)
+      ? options.where.perAho = req.perAho
       : null;
-    (req.per_tipo)
-      ? options.where.per_tipo = req.per_tipo
+    (req.perTipo)
+      ? options.where.perTipo = req.perTipo
       : null;
 
     const periodo = await models.Periodo.findOne(options);
@@ -99,26 +102,53 @@ class IncapacidadService {
       const FII = new Date(datos.fechaInicio);//fechaInicioIncapacidad
       const FFI = new Date(datos.fechaFinal);//fechaFinalIncapacidad
 
+      let resta = 0; 
+      let unidades = 0;
+
       if ((FII.getTime() >= PFI.getTime()) && (FII.getTime() <= PFF.getTime())) {
         const fecha1 = PFF - FII;
-        let resta = 0
 
         if (datos.unidades > fecha1 / (1000 * 60 * 60 * 24) + 1) {
           resta = `${datos.unidades}` - `${fecha1 / (1000 * 60 * 60 * 24) + 1}`
+        }else if( datos.unidades < fecha1 / (1000 * 60 * 60 * 24) + 1){
+          unidades = `${datos.unidades}` 
         }
 
         datosArray.push({
           idAltas: datos.id,
-          Unidades: datos.unidades,
-          DiasAplicados: fecha1 / (1000 * 60 * 60 * 24) + 1,
-          UnidadesSobrantes: resta
+          unidadesTotales: datos.unidades,
+          UnidadesAplicadas: `${datos.unidades}` - `${resta}`,
+          UnidadesSobrantes: resta,
         })
 
       } else if ((FFI.getTime() <= PFF.getTime()) && (FFI.getTime() >= PFI.getTime())) {
-        datosArray.push({ Unidades: datos.unidades, DiasAplicados: 0 })
+        datosArray.push({  idAltas: datos.id,
+          idAltas: datos.id,
+          unidadesTotales: datos.unidades,
+          UnidadesAplicadas: `${datos.unidades}` - `${resta}`,
+          UnidadesSobrantes: resta,
+        })
       }
     });
     return ({ Success: datosArray });
+  }
+
+
+
+  async consulTransmitidos() {
+    
+    const consultaTransmitido = await models.Transmision.findAll({ 
+      
+      where:{ transmitido: 'true' },
+      include: [ 
+        {
+          as:'altas_sga',
+          model:models.AltasSGA,
+          attributes: ['idTrabajador','idConcepto','idPeriodo','unidades','usuarioCaptura','fechaInicio','fechaFinal','createdAt','updatedAt'],
+        }
+      ],
+    })
+    return( consultaTransmitido )
   }
 
   async update(id,change) {
@@ -128,13 +158,10 @@ class IncapacidadService {
     change.altas_sga.id = incapacidad.dataValues.id_altas_SGA
     change.id = id
 
-    // const altas = await models.AltasSGA.findByPk(id)
-    const res = await incapacidad.update(change);
-    const res2 = await altas.update(change.altas_sga);
+    const incapacidadUpdate = await incapacidad.update(change);
+    const sgaUpdate = await altas.update(change.altas_sga);
     
-
-    console.log({res, res2});
-    return {res, res2 };
+    return {res: incapacidadUpdate, res2: sgaUpdate};
   }
 
   async delete(id) {

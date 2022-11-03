@@ -1,5 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-const {ALTASSGA_TABLE} = require('./altasSGA.model');
+const {ALTASSGA_TABLE} = require('./AltasSGA.model');
 
 const TRANSMISION_APLICAION_TABLE = 'transmision'; //definir nombre tabla;
 const TransmisionAplicacionSGASchema = {

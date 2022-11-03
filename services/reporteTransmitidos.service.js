@@ -1,4 +1,3 @@
-//const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
 const { Op } = require("sequelize");
 const { object } = require('joi');

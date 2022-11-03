@@ -1,7 +1,7 @@
 const express = require('express');
-const AusenciaService = require('../services/ausencia.service');
+const AusenciaService = require('../services/Ausencia.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { updateAusenciaSchema, createAusenciaSchema, getAusenciaSchema } = require('../schemas/ausencia.schema');
+const { updateAusenciaSchema, createAusenciaSchema, getAusenciaSchema } = require('../schemas/Ausencia.schema');
 const router = express.Router();
 const service = new AusenciaService();
 
