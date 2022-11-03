@@ -53,6 +53,9 @@ class AusenciaService {
   }
   async update(id, changes) {
     const ausencia = await this.findOne(id);
+    let { dateFormatedInit, dateFormatedEnd } = FormatingDate.dateFormated( changes.fechaInicio, changes.fechaFinal )
+    changes.fechaInicio = dateFormatedInit;
+    changes.fechaFinal = dateFormatedEnd;
     const res = await ausencia.update(changes);
     return res;
   }
