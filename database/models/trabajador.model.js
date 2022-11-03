@@ -1,107 +1,84 @@
-const { Model, DataTypes } = require('sequelize');
-// const sequelize = require('../libs/conexion');
-// const AltasSGA = require('./altasSGA.model');
-const TRABAJADOR_TABLE = 'trabajador_vista';
-const TrabajadorSGASchema = {
+const { Sequelize, DataTypes, Model } = require('sequelize');
+const sequelize = require('../libs/conexion');
+const Altas = require('./altas_sga');
 
-    trabCredencial:{
-        field: 'trab_credencial',
+// Hacer referencia al modelo de altas_sga
+// declarar el foreignKey en los dos modelos en los que se utiliza include
+// para los metodos de busqueda (findOne, findAll,...)
+
+// class Altas extends Model {
+//     static asociate(Trabajador){
+//       this.belongsTo( Trabajador,{
+//         foreignKey:'id_trabajador'
+//       })
+//     }
+//   }
+
+class Trabajador extends Model {
+    static asociate(Altas){
+        this.hasMany( Altas,{
+            foreignKey:'id_trabajador'
+        })
+      }
+}
+Trabajador.init({
+    trab_credencial:{
         allowNull:false, 
         unique: true,
         primaryKey:true,
         type: DataTypes.INTEGER
     },
-
-    tipoTrabDiv: {
-        field: 'tipo_trab_div',
+    tipo_trab_div: {
         type: DataTypes.STRING(2)
     },
-
-    tipoTrabProc: {
-        field: 'tipo_trab_proc',
+    tipo_trab_proc: {
         type: DataTypes.STRING(2)
     },
-
-    nombreCompleto: {
-        field: 'nombre_completo',
+    nombre_completo: {
         type: DataTypes.STRING
     },
-
-    trabCurp: {
-        field: 'trab_curp',
+    trab_curp: {
         type: DataTypes.STRING(20)
     },
-
-    trabNoAfiliacion: {
-        field: 'trab_no_afiliacion',
+    trab_no_afiliacion: {
         type: DataTypes.STRING
     },
-
-    trabRfc: {
-        field: 'trab_rfc',
+    trab_rfc: {
         type: DataTypes.STRING(20)
     },
-
-    tipoTrabDescripcion: {
-        field: 'tipo_trab_descripcion',
+    tipo_trab_descripcion: {
         type: DataTypes.STRING(50)
     },
-
-    puestoDescripcion: {
-        field: 'puesto_descripcion',
+    puesto_descripcion: {
         type: DataTypes.STRING(100)
     },
-
     adscripcion: {
         type: DataTypes.STRING
     },
-
-    trabStatus: {
-        type: DataTypes.INTEGER,
-        field: 'trab_status',
-    },
-
-    trabStatusDesc: {
-        field: 'trab_status_desc',
-        type: DataTypes.STRING
-    },
-
-    trabSexCve: {
-        field: 'trab_sex_cve',
+    trab_status: {
         type: DataTypes.INTEGER
     },
-
-    trabSexDesc: {
-        field: 'trab_sex_desc',
+    trab_status_desc: {
+        type: DataTypes.STRING
+    },
+    trab_sex_cve: {
+        type: DataTypes.INTEGER
+    },
+    trab_sex_desc: {
         type: DataTypes.STRING(20)
     },
-
-    trabFoto: {
-        field: 'trab_foto',
+    trab_foto: {
         type: DataTypes.STRING
     }
-};
+    
+}, {
+  modelName: 'Trabajador',
+  tableName: 'trabajador_swap',
+  createdAt: false,
+  timestamps: false,
+  sequelize
+  
+});
+// Trabajador.removeAttribute('id');
 
-class Trabajador extends Model {
-    static associate(models){
-        this.hasMany( models.AltasSGA,{
-            foreignKey:'id_trabajador'
-        })
-    }
-
-    static config(sequelize){
-        return{
-            sequelize,
-            modelName: 'Trabajador',
-            tableName: TRABAJADOR_TABLE,
-            createdAt: false,
-            timestamps: false,
-        }
-    }
-}
-
-module.exports = { 
-    TRABAJADOR_TABLE,
-    TrabajadorSGASchema,
-    Trabajador
-};
+module.exports = Trabajador;
