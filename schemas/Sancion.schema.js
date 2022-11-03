@@ -19,7 +19,6 @@ const createSancionSchema = Joi.object({
     fechaFinal:fechaFinal.required(),
 });
 const updateSancionSchema = Joi.object({
-    idPeriodo,
     unidades,
     usuarioCaptura,
     fechaInicio,
