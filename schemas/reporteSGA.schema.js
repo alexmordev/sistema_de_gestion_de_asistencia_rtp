@@ -10,7 +10,7 @@ const usuarioCaptura = Joi.number().integer();
 const fechaInicio = Joi.string();
 const fechaFinal = Joi.string();
 
-const getAusenciaSchema = Joi.object({
+const getReproteSGASchema = Joi.object({
     
 });
 const updateAusenciaSchema = Joi.object({
@@ -24,4 +24,4 @@ const updateAusenciaSchema = Joi.object({
     fechaFinal
 }); 
 
-module.exports = { getAusenciaSchema }
+module.exports = { getReproteSGASchema }
