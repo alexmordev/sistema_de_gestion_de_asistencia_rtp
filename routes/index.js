@@ -10,6 +10,7 @@ const sancionRouter = require('./Sancion.routes');
 const ramoSeguroRouter = require('./RamoSeguro.routes');
 const tipoIncapacidadRouter = require('./TipoIncapacidad.routes')
 const InputRouter = require('./InputFront.routes');
+const reporteSGARouter = require('./ReporteSGA.routes');
 const transmisionRouter = require('./Transmision.routes');
 const reporteConceptos = require('./ReporteConceptos.routes')
 const reporteGeneral = require('./ReporteGeneral.routes');
@@ -29,6 +30,7 @@ function routerApi(app) {
     router.use('/periodo', periodoRouter);
     router.use('/utils', InputRouter);
     router.use('/transmision', transmisionRouter);
+    router.use('/sga', reporteSGARouter);
     router.use('/reporteConceptos', reporteConceptos);
     router.use('/reporteTransmitidos', reporteTransmitidos);
 
