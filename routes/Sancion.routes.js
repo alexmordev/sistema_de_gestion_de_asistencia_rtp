@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const SancionService = require('../services/sancion.service');
+const SancionService = require('../services/Sancion.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { createSancionSchema, updateSancionSchema, getSancionSchema } = require('../schemas/sancion.schema'); 
+const { createSancionSchema, updateSancionSchema, getSancionSchema } = require('../schemas/Sancion.schema'); 
 const service = new SancionService();
 
 router.get('/', async (req, res, next) => {

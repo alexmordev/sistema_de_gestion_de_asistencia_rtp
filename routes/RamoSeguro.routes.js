@@ -1,18 +1,17 @@
 const express = require('express');
-const RamoSeguroService = require('../services/ramoSeguro.service');
+const RamoSeguroService = require('../services/RamoSeguro.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { createRamoSeguroSchema, updateRamoSeguroSchema, getRamoSeguroSchema } = require('../schemas/ramoSeguro.schema');
+const { createRamoSeguroSchema, updateRamoSeguroSchema, getRamoSeguroSchema } = require('../schemas/RamoSeguro.schema');
 const router = express.Router();
 const service = new RamoSeguroService();
 
 router.get('/', async (req, res, next) => {
   try {
     const ramoSeguroData = await service.find();
-    ramoSeguroData.map( el=> {
-      el.nombre = el.name;
-      delete el.nombre;
-    } )
-    res.json(ramoSeguroData);
+    const data = ramoSeguroData.map( el => {
+      return{"id": el.id, "name":el.nombre}
+    });
+    res.json(data);
   } catch (error) {
     next(error);
   }

@@ -1,10 +1,10 @@
 const express = require('express');
-const Perido = require('./../services/periodo.service');
+const Perido = require('../services/Periodo.service');
 const validatorHandler = require('./../middlewares/validator.handler');
 const { createPeriodoSchema,
         updatePeriodoSchema,
         getPeriodoSchema,
-        deletePeriodoSchema } = require('./../schemas/periodo.schema');
+        deletePeriodoSchema } = require('./../schemas/Periodo.schema');
 const router = express.Router();
 const service = new Perido();
 
@@ -16,10 +16,11 @@ router.get('/', async (req, res, next) => {
     } catch (error) {
       next(error);
     }
-  });
+});
 router.get('/get-one', 
-  validatorHandler(getPeriodoSchema,'query'),
-  async (req, res, next) => {
+    validatorHandler(getPeriodoSchema,'query'),
+    
+    async (req, res, next) => {
     try {
       const periodo = await service.findOne(req.query);
       res.json(periodo);

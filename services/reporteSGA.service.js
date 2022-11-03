@@ -2,7 +2,7 @@ const boom = require('@hapi/boom');
 const {models} = require('../libs/sequelize');
 const { Op, DATE, or } = require("sequelize");
  
-class ReportesService {
+class ReporteSGAService {
    constructor() {}
  
     async reporteSGA(data) {
@@ -97,4 +97,4 @@ class ReportesService {
         return res ;
     } 
 }
-module.exports = ReportesService;
+module.exports = ReporteSGAService;

@@ -1,38 +1,40 @@
 const express = require('express');
-const JustificacionService = require('../services/incapacidad.service');
+const TransmisionService = require('../services/Transmision.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { createJustificacionSchema, getJustificacionSchema, updateJustificacionSchema } = require('../schemas/justificacion');
+const { getTransmitidoSchema, createTransmitidoSchema, updateTransmitidoSchema } = require('../schemas/Transmision.schema');
+// const { getPeriodoSchema } = require('../schemas/periodo.schema');
 const router = express.Router();
-const service = new JustificacionService();
+const service = new TransmisionService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const justificacion = await service.find();
-    res.json({ success:'Datos Justificacion',msg: justificacion });
+    const transmision = await service.find();
+    res.json(transmision);
   } catch (error) {
     next(error);
   }
 });
 
 router.get('/:id', 
-  validatorHandler(getJustificacionSchema, 'params'),
+  validatorHandler(getTransmitidoSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const justificacion = await service.findAllOrders(id);
-      res.json(justificacion);
+      const transmision = await service.findAllOrders(id);
+      res.json(transmision);
     } catch (error) {
       next(error);
     }
   }
 );
+
 router.post('/',
-  validatorHandler(createJustificacionSchema, 'body'),
+  validatorHandler(createTransmitidoSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newJustificacion = await service.create(body);
-      res.status(201).json(newJustificacion);
+      const newtransmision = await service.create(body);
+      res.status(201).json(newtransmision);
     } 
     catch (error) {
       next(error);
@@ -40,21 +42,21 @@ router.post('/',
   }
 );
 router.patch('/:id',
-  validatorHandler(getJustificacionSchema, 'params'),
-  validatorHandler(updateJustificacionSchema, 'body'),
+  validatorHandler(getTransmitidoSchema, 'params'),
+  validatorHandler(updateTransmitidoSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
-      const justificacion = await service.update(id, body);
-      res.json(justificacion);
+      const transmision = await service.update(id, body);
+      res.json(transmision);
     } catch (error) {
       next(error);
     }
   }
 );
 router.delete('/:id',
-  validatorHandler(getJustificacionSchema, 'params'),
+  validatorHandler(getTransmitidoSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;

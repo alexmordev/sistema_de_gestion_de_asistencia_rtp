@@ -1,5 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-const {ALTASSGA_TABLE} = require('./altasSGA.model');
+const {ALTASSGA_TABLE} = require('./AltasSGA.model');
 
 const TRANSMISION_APLICAION_TABLE = 'transmision'; //definir nombre tabla;
 const TransmisionAplicacionSGASchema = {
@@ -16,7 +16,7 @@ const TransmisionAplicacionSGASchema = {
         primaryKey: true,
         references:{
             model: ALTASSGA_TABLE,
-            key: 'id_altas_SGA'
+            key: 'id'
         },
         onUpdate: 'CASCADE', // Esto ocurre al actualizar, un efecto en cascada y tambien se actualiza
         onDelete: 'SET NULL' // Esto ocurre al borrar, se establece a null
@@ -58,8 +58,11 @@ class Transmision extends Model{
         this.belongsTo(models.AltasSGA, {
             as:"altas_sga",
             foreignKey: 'id_altas_SGA'
+        }),
+        this.belongsTo( models.Periodo,{
+            as:"trab_periodos",
+            foreignKey:'periodo'
         })
-
     }
     static config(sequelize){
         return{
