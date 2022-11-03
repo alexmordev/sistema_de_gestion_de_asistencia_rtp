@@ -2,7 +2,7 @@
 const { models } = require('../libs/sequelize');
 const { Op } = require("sequelize");
 const { Trabajador } = require('../database/models/Trabajador.model');
-const { Modulo } = require('../database/models/modulo.model');
+const { Modulo } = require('../database/models/Modulo.model');
 
 class ReporteService {
     constructor() {}

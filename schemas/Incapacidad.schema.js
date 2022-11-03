@@ -52,7 +52,6 @@ const updateIncapacidadSchema = Joi.object({
     claveSeguro,
 
     altas_sga:Joi.object({
-
     idTrabajador,
     idConcepto,
     idPeriodo,
@@ -60,10 +59,10 @@ const updateIncapacidadSchema = Joi.object({
     usuarioCaptura,
     fechaInicio,
     fechaFinal,
-
     }),        
 }); 
 const getIncapacidadSchema = Joi.object({
+
     id,
     perNumero,
     perTipo,
@@ -72,6 +71,7 @@ const getIncapacidadSchema = Joi.object({
     month,
     fechaFinal,
     aho
+    
 });
 
 

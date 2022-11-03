@@ -2,13 +2,13 @@ const express = require('express');
 
 const periodoRouter = require('./Periodo.routes');
 const incapacidadRouter = require('./Incapacidad.routes');
+
 const justificacionRouter = require('./Justificacion.routes');
 const catalogoConceptoRouter = require('./CatalogoConcepto.routes')
 const ausenciaRouter = require('./Ausencia.routes');
 const sancionRouter = require('./Sancion.routes');
 const ramoSeguroRouter = require('./RamoSeguro.routes');
-const tipoIncapacidadRouter = require('./tipoIncapacidad.routes')
-const TrabajadorRouter = require('./Trabajador.routes');
+const tipoIncapacidadRouter = require('./TipoIncapacidad.routes')
 const InputRouter = require('./InputFront.routes');
 const reporteSGARouter = require('./ReporteSGA.routes');
 const transmisionRouter = require('./Transmision.routes');
@@ -27,13 +27,13 @@ function routerApi(app) {
     router.use('/incapacidad', incapacidadRouter);
     router.use('/justificacion', justificacionRouter);
     router.use('/catalogoConcepto', catalogoConceptoRouter);
-    router.use('/trabajador', TrabajadorRouter);
     router.use('/periodo', periodoRouter);
     router.use('/utils', InputRouter);
     router.use('/transmision', transmisionRouter);
     router.use('/sga', reporteSGARouter);
     router.use('/reporteConceptos', reporteConceptos);
     router.use('/reporteTransmitidos', reporteTransmitidos);
+
     router.use('/reporteGeneral', reporteGeneral);
 }
 module.exports = routerApi;

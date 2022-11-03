@@ -58,8 +58,11 @@ class Transmision extends Model{
         this.belongsTo(models.AltasSGA, {
             as:"altas_sga",
             foreignKey: 'id_altas_SGA'
+        }),
+        this.belongsTo( models.Periodo,{
+            as:"trab_periodos",
+            foreignKey:'periodo'
         })
-
     }
     static config(sequelize){
         return{
