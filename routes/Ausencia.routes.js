@@ -1,14 +1,14 @@
 const express = require('express');
-const AusenciaService = require('../services/ausencia.service');
+const AusenciaService = require('../services/Ausencia.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { updateAusenciaSchema, createAusenciaSchema, getAusenciaSchema } = require('../schemas/ausencia.schema');
+const { updateAusenciaSchema, createAusenciaSchema, getAusenciaSchema } = require('../schemas/Ausencia.schema');
 const router = express.Router();
 const service = new AusenciaService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const ausencia = await service.findAll();
-    res.status(200).json({ success:'Datos Ausencia',msg: ausencia})
+    const ausencia = await service.find();
+    res.status(200).json(ausencia)
   } catch (error) {
     next(error);
   }
@@ -32,9 +32,7 @@ router.post('/',
       const body = req.body
       // console.log(body);
       const newAusencia = await service.create(body);
-
-
-      res.status(201).json({altas_sga: [newAusencia]});
+      res.status(201).json(newAusencia);
     } catch (error) {
       next(error);
     }

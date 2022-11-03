@@ -1,14 +1,15 @@
 const express = require('express');
-const TransmisionService = require('../services/transmision.service');
+const TransmisionService = require('../services/Transmision.service');
 const validatorHandler = require('../middlewares/validator.handler');
-const { getTransmitidoSchema, createTransmitidoSchema, updateTransmitidoSchema } = require('../schemas/transmision.schema');
+const { getTransmitidoSchema, createTransmitidoSchema, updateTransmitidoSchema } = require('../schemas/Transmision.schema');
+// const { getPeriodoSchema } = require('../schemas/periodo.schema');
 const router = express.Router();
 const service = new TransmisionService();
 
 router.get('/', async (req, res, next) => {
   try {
     const transmision = await service.find();
-    res.json({ success:'Datos Transmision',msg: transmision });
+    res.json(transmision);
   } catch (error) {
     next(error);
   }
@@ -26,6 +27,7 @@ router.get('/:id',
     }
   }
 );
+
 router.post('/',
   validatorHandler(createTransmitidoSchema, 'body'),
   async (req, res, next) => {

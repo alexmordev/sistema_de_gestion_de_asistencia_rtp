@@ -1,7 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
-const { TIPOINCAPACIDAD_TABLE } = require('./tipoIncapacidad.model')
-const { RAMOSEGURO_TABLE } = require('./ramoSeguro.model')
-const { ALTASSGA_TABLE } = require('./altasSGA.model')
+const { TIPOINCAPACIDAD_TABLE } = require('./TipoIncapacidad.model')
+const { RAMOSEGURO_TABLE } = require('./RamoSeguro.model')
+const { ALTASSGA_TABLE } = require('./AltasSGA.model')
 
 const INCAPACIDAD_TABLE = 'incapacidad';
 const IncapacidadSGASchema = {
@@ -44,10 +44,6 @@ const IncapacidadSGASchema = {
         },
         onUpdate: 'CASCADE', // Esto ocurre al actualizar, un efecto en cascada y tambien se actualiza
         onDelete: 'SET NULL' // Esto ocurre al borrar, se establece a null
-    },
-    motivo: {
-        allowNull: false,
-        type: DataTypes.STRING,
     },
     umf: {
         allowNull: false,

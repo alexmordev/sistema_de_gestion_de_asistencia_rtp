@@ -26,19 +26,11 @@ const AltaSGASchema = {
         allowNull: false,
         type: DataTypes.INTEGER,
         field: 'id_periodos',
-        references:{
-            model: 'trab_periodos',
-            key: 'id_periodos',
-        },
     },
     unidades: {
         allowNull: false,
         // type: DataTypes.DOUBLE(5, 2),
         type: DataTypes.FLOAT(11),
-    },
-    oficio: {
-        allowNull: false,
-        type: DataTypes.STRING,
     },
     usuarioCaptura: {
         allowNull: false,
@@ -57,14 +49,14 @@ const AltaSGASchema = {
     },
     createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         field: 'create_at',
         defaultValue: Sequelize.NOW
 
     },
     updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         field: 'updated_at',
     },
 }
@@ -91,6 +83,10 @@ class AltasSGA extends Model {
         this.hasOne(models.Incapacidad, {
             as:'incapacidad',
             foreignKey: 'id_altas_SGA',
+        })
+
+        this.hasMany(models.Justificacion, { 
+            foreignKey:'id_altas_SGA'
         })
 
     }

@@ -1,6 +1,6 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 // const {USER_TABLE} = require('./user.model');
-const { ALTASSGA_TABLE } = require('./altasSGA.model')
+const { ALTASSGA_TABLE } = require('./AltasSGA.model')
 
 const JUSTIFICACION_TABLE = 'justificacion'; //definir nombre tabla;
 const JustificacionTableSGASchema = {
@@ -10,15 +10,13 @@ const JustificacionTableSGASchema = {
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-
     idAltas: {
         allowNull: false,
         type: DataTypes.INTEGER,
         field: 'id_altas_SGA',
-        defaultValue: Sequelize.NOW,
         references: {
             model: ALTASSGA_TABLE,
-            key: 'id_altas_SGA'
+            key: 'id'
         }
     },
 
@@ -33,27 +31,27 @@ const JustificacionTableSGASchema = {
         type: DataTypes.INTEGER
     },
 
-    usuarioCaptura: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-    },
-
     unidadesJustificadas: {
-        field: 'unidades_justificadas',
         allowNull: false,
-        type: DataTypes.INTEGER
+        // type: DataTypes.FLOAT(11),
+        type: DataTypes.FLOAT(11),
+        field: 'unidades_justificadas',
     },
-
+    transmitido:{
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
     createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         field: 'create_at',
-        defaultValue: Sequelize.NOW
+        defaultValue: DataTypes.NOW
 
     },
     updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         field: 'updated_at',
     },
 }
@@ -63,8 +61,11 @@ class Justificacion extends Model {
         this.belongsTo(models.AltasSGA, {
             as: "altas_sga",
             foreignKey: 'id_altas_SGA'
+        }),
+        this.belongsTo( models.Periodo,{
+            as:"trab_periodos",
+            foreignKey:'periodo'
         })
-
     }
     static config(sequelize) {
         return {

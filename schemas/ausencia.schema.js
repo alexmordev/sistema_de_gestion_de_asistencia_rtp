@@ -1,36 +1,46 @@
+const { required } = require('joi');
 const Joi = require('joi');
 
 const id = Joi.number().integer();
 const idTrabajador = Joi.number().integer();
 const idConcepto = Joi.number().integer();
 const idPeriodo = Joi.number().integer();
-const unidades = Joi.number().integer();
-const oficio = Joi.string();
+
+const unidades = Joi.number().min(.25).max(84);
 const usuarioCaptura = Joi.number().integer();
 const fechaInicio = Joi.string();
 const fechaFinal = Joi.string();
+const createdAt = Joi.string().isoDate();
+const updatedAt = Joi.string().isoDate(); 
 
 const createAusenciaSchema = Joi.object({
-    idTrabajador : idTrabajador.required(),
+    idTrabajador: idTrabajador.required(),
     idConcepto: idConcepto.required(),
-    idPeriodo:idPeriodo.required(),
+    idPeriodo: idPeriodo.required(),
     unidades: unidades.required(),
-    oficio: oficio.required(),
     usuarioCaptura: usuarioCaptura.required(),
     fechaInicio: fechaInicio.required(),
-    fechaFinal:fechaFinal.required(),
+    fechaFinal: fechaFinal.required(),
 });
 const updateAusenciaSchema = Joi.object({
     idTrabajador,
     idConcepto,
     idPeriodo,
     unidades,
-    oficio,
     usuarioCaptura,
     fechaInicio,
-    fechaFinal
+    fechaFinal,
+    createdAt,
+    updatedAt
 }); 
 const getAusenciaSchema = Joi.object({
-    id: id.required()
+
+    id: id.required(),
+    
+    
 });
-module.exports = { createAusenciaSchema, updateAusenciaSchema, getAusenciaSchema }
+const params = Joi.object({
+    idTrabajador,    
+    
+});
+module.exports = { createAusenciaSchema, updateAusenciaSchema, getAusenciaSchema, params }
