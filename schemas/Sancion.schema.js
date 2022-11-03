@@ -28,4 +28,6 @@ const updateSancionSchema = Joi.object({
 const getSancionSchema = Joi.object({
     id: id.required()
 });
+
+
 module.exports = { createSancionSchema, updateSancionSchema, getSancionSchema }

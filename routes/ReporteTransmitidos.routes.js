@@ -5,7 +5,6 @@ const { getReporteTransmitidosSchema } = require('../schemas/ReporteTransmitidos
 const router = express.Router();
 const service = new ReporteTransmitidosService();
 
-
 router.get('/', 
   validatorHandler(getReporteTransmitidosSchema, 'query'),
   async (req, res, next) => {
@@ -17,7 +16,6 @@ router.get('/',
     }
   }
 );
-
 router.get('/form',
   async (req, res, next) => {
     try {
@@ -28,5 +26,6 @@ router.get('/form',
     }
   }
 );
+
 
 module.exports = router;  

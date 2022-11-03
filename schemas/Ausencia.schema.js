@@ -5,8 +5,7 @@ const id = Joi.number().integer();
 const idTrabajador = Joi.number().integer();
 const idConcepto = Joi.number().integer();
 const idPeriodo = Joi.number().integer();
-
-const unidades = Joi.number().min(.25).max(84);
+const unidades = Joi.number().min(1);
 const usuarioCaptura = Joi.number().integer();
 const fechaInicio = Joi.string();
 const fechaFinal = Joi.string();

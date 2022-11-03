@@ -63,7 +63,6 @@ class Transmision extends Model{
             as:"trab_periodos",
             foreignKey:'periodo'
         })
-
     }
     static config(sequelize){
         return{

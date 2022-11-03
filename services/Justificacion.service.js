@@ -1,7 +1,7 @@
 //const boom = require('@hapi/boom');
 const {models} = require('../libs/sequelize');
 const { Op,  fn, col } = require("sequelize");
-const { Trabajador } = require('../database/models/trabajador.model');
+const { Trabajador } = require('../database/models/Trabajador.model');
 
 class JustificacionService {
   constructor() {}
@@ -66,7 +66,7 @@ class JustificacionService {
                        "fecha_final": altas.dataValues.fecha_final,
                        "unidades": altas.unidades,
                        "max_descontar": descontar
-                      });
+          });
 
         }
       }else{

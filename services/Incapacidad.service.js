@@ -11,7 +11,6 @@ class IncapacidadService {
     try {
 
       const sga = await models.AltasSGA.create(data.altas_sga, { transaction: t });
-      console.log({ object: data });
 
       // crear el objeto que se va a pasar al segundo create con el id que devuelve el primer create
       data.id_altas_SGA = sga.id
@@ -151,17 +150,36 @@ class IncapacidadService {
     return( consultaTransmitido )
   }
 
-  async update(id,change) {
-      
-    const incapacidad = await models.Incapacidad.findByPk(id)
-    const altas = await models.AltasSGA.findByPk(incapacidad.dataValues.id_altas_SGA)
-    change.altas_sga.id = incapacidad.dataValues.id_altas_SGA
-    change.id = id
-
-    const incapacidadUpdate = await incapacidad.update(change);
-    const sgaUpdate = await altas.update(change.altas_sga);
+  async consulPorTransmir() {
     
-    return {res: incapacidadUpdate, res2: sgaUpdate};
+    const consultaTransmitido = await models.Transmision.findAll({ 
+      
+      where:{ transmitido: 'false' },
+      include: [ 
+        {
+          as:'altas_sga',
+          model:models.AltasSGA,
+          attributes: ['idTrabajador','idConcepto','idPeriodo','unidades','usuarioCaptura','fechaInicio','fechaFinal','createdAt','updatedAt'],
+        }
+      ],
+    })
+    return( consultaTransmitido )
+  }
+
+  async update(id,change){
+    const incapacidad = await models.Incapacidad.findByPk(id)
+    const sga = await models.AltasSGA.findByPk(incapacidad.dataValues.id_altas_SGA)
+    // let ob = change.altas_sga
+
+    change.altas_sga.id = incapacidad.dataValues.id_altas_SGA
+    change.id = id;
+
+
+    const incapacidad1 = await incapacidad.update(change)
+    const incapacidad2 = await sga.update(change.altas_sga)
+    
+
+    return( incapacidad1, incapacidad2 );
   }
 
   async delete(id) {

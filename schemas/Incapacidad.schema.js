@@ -59,10 +59,10 @@ const updateIncapacidadSchema = Joi.object({
     usuarioCaptura,
     fechaInicio,
     fechaFinal,
-
     }),        
 }); 
 const getIncapacidadSchema = Joi.object({
+
     id,
     perNumero,
     perTipo,
@@ -71,6 +71,7 @@ const getIncapacidadSchema = Joi.object({
     month,
     fechaFinal,
     aho
+    
 });
 
 
