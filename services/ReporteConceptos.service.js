@@ -144,7 +144,7 @@ class ReporteService {
                           "nombre": row.altas_sga.trabajador_vista.dataValues.nombre_completo,  
                           "folio": row.dataValues.clave_seguro,
                           "nss": row.altas_sga.trabajador_vista.dataValues.trab_no_afiliacion,
-                          "fecha Expedicion": row.dataValues.fecha_expedicion,
+                          "fechaExpedicion": row.dataValues.fecha_expedicion,
                           "fechaInicio": row.altas_sga.dataValues.fecha_inicio, 
                           "fechaFinal": row.altas_sga.dataValues.fecha_final,
                           "unidades": row.altas_sga.dataValues.unidades,
