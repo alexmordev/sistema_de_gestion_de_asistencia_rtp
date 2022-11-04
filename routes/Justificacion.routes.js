@@ -121,7 +121,7 @@ router.delete('/:id',
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      await service.delete(id,unidades);
+      await service.delete(id);
       res.status(201).json({id});
     } catch (error) {
       next(error);
