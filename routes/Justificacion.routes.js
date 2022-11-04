@@ -9,14 +9,14 @@ const { createJustificacionSchema,
 const router = express.Router();
 const service = new JustificacionService();
 
-router.get('/', async (req, res, next) => {
-  try {
-    const justificacion = await service.find();
-    res.json(justificacion);
-  } catch (error) {
-    next(error);
-  }
-});
+// router.get('/', async (req, res, next) => {
+//   try {
+//     const justificacion = await service.find();
+//     res.json(justificacion);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 // ruta por periodo: obtener ausencias y sanciones 
 router.get('/periodo', 

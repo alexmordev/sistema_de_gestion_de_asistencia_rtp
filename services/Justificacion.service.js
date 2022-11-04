@@ -160,6 +160,7 @@ class JustificacionService {
   }
   
   async listarJustificaciones(altasId){
+  
 
     const concepto = await models.CatalogoConcepto.findOne({
       attributes: ['clave','nombre'], 
@@ -168,7 +169,9 @@ class JustificacionService {
       }
     });
 
-    const nombreConcepto = concepto.clave + ' ' + concepto.nombre;
+
+    const nombreConcepto = concepto.dataValues.clave + ' ' + concepto.dataValues.nombre;
+
     const lista = [];
     altasId.forEach(altas => {
 
@@ -213,7 +216,7 @@ class JustificacionService {
           attributes: ['per_numero'] 
         }
         ]
-      });
+      }); 
 
       const registros = await this.listarJustificaciones ( justificaciones );
       return registros;
