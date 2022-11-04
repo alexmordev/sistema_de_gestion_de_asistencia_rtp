@@ -18,7 +18,14 @@ class ReporteTransmitidosService {
           this.totalDescuento = 0;
         }
 
-        const tipoPeriodo = (data.tipoTrabajador == '1') ? 0 : 1;
+        let tipoPeriodo = '' // = (data.tipoTrabajador == '1') ? 0 : 1;
+        if(data.tipoTrabajador == '1'){
+          tipoPeriodo = 0
+        }else if ( data.tipoTrabajador == '2'){
+          tipoPeriodo = 1
+        }else{
+          tipoPeriodo = 3
+        }
         const buscaPeriodo = [ { per_tipo: tipoPeriodo },{ per_numero: data.periodo },{ per_aho: data.aho } ];
 
         const busca13 = await models.Justificacion.findAll({
