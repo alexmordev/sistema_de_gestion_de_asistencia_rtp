@@ -21,10 +21,23 @@ class ReporteGeneralService {
       attributes: ['id_altas_SGA', 'umf', 'clave_seguro', 'fecha_expedicion'],
 
       include: [
+
+        {
+          as: 'catalogo_ramo_seguro',
+          model: models.RamoSeguro,
+          attributes: ['nombre'],
+        },
+
+        {
+          as: 'catalogo_tipo_incapacidad',
+          model: models.TipoIncapacidad,
+          attributes: ['tipo'],
+        },
+
         {
           as: 'altas_sga',
           model: models.AltasSGA,
-          attributes: ['id', 'fecha_inicio', 'fecha_final'],
+          attributes: ['   unidades', 'fecha_inicio', 'fecha_final'],
           where: {
             [Op.and]:
               [
@@ -38,6 +51,12 @@ class ReporteGeneralService {
               as: 'trabajador_vista',
               model: Trabajador,
               attributes: ['trabCredencial', 'moduloClave', 'tipoTrabProc', 'nombreCompleto', 'trab_no_afiliacion', 'trab_rfc', 'trab_curp'],
+            },
+
+            {
+              as: 'trab_periodos',
+              model: models.Periodo,
+              attributes: ['per_numero'],
             },
           ]
         },
@@ -75,16 +94,35 @@ class ReporteGeneralService {
       attributes: ['idAltasSGA', 'umf', 'claveSeguro', 'fechaExpedicion'],
 
       include: [
+
+        {
+          as: 'catalogo_ramo_seguro',
+          model: models.RamoSeguro,
+          attributes: ['nombre'],
+        },
+
+        {
+          as: 'catalogo_tipo_incapacidad',
+          model: models.TipoIncapacidad,
+          attributes: ['tipo'],
+        },
+
         {
           as: 'altas_sga',
           model: models.AltasSGA,
-          attributes: ['fechaInicio', 'fechaFinal'],
+          attributes: ['unidades','fechaInicio', 'fechaFinal'],
           where: { fecha_inicio: { [Op.between]: [primerDia, segundoDia] } },
           include: [
             {
               as: 'trabajador_vista',
               model: Trabajador,
               attributes: ['trabCredencial', 'moduloClave', 'tipoTrabProc', 'nombreCompleto', 'trabNoAfiliacion', 'trabRfc', 'trabCurp'],
+            },
+
+            {
+              as: 'trab_periodos',
+              model: models.Periodo,
+              attributes: ['per_numero'],
             },
           ]
         },
@@ -107,10 +145,23 @@ class ReporteGeneralService {
     const incapacidad = await models.Incapacidad.findAll({
       attributes: ['idAltasSGA', 'umf', 'claveSeguro', 'fechaExpedicion'],
       include: [
+
+        {
+          as: 'catalogo_ramo_seguro',
+          model: models.RamoSeguro,
+          attributes: ['nombre'],
+        },
+
+        {
+          as: 'catalogo_tipo_incapacidad',
+          model: models.TipoIncapacidad,
+          attributes: ['tipo'],
+        },
+
         {
           as: 'altas_sga',
           model: models.AltasSGA,
-          attributes: ['fechaInicio', 'fechaFinal'],
+          attributes: ['unidades','fechaInicio', 'fechaFinal'],
           where: {
             [Op.and]:
               [
@@ -124,6 +175,13 @@ class ReporteGeneralService {
               model: Trabajador,
               attributes: ['trabCredencial', 'moduloClave', 'tipoTrabProc', 'nombreCompleto', 'trabNoAfiliacion', 'trabRfc', 'trabCurp'],
             },
+
+            {
+              as: 'trab_periodos',
+              model: models.Periodo,
+              attributes: ['per_numero'],
+            },
+
           ]
         },
       ],
@@ -137,13 +195,25 @@ class ReporteGeneralService {
   async busquedaCredencial(query) {
 
     const incapacidad = await models.Incapacidad.findAll({
-      attributes: ['idAltasSGA', 'umf', 'claveSeguro', 'fechaExpedicion'],
+      attributes: ['idAltasSGA', 'umf', 'claveSeguro', 'fechaExpedicion','id_ramo_seguro'],
 
       include: [
+        
+        {
+          as: 'catalogo_ramo_seguro',
+          model: models.RamoSeguro,
+          attributes: ['nombre'],
+        },
+        {
+          as: 'catalogo_tipo_incapacidad',
+          model: models.TipoIncapacidad,
+          attributes: ['tipo'],
+        },
+
         {
           as: 'altas_sga',
           model: models.AltasSGA,
-          attributes: ['fechaInicio', 'fechaFinal'],
+          attributes: ['unidades','fechaInicio', 'fechaFinal'],
           where:
             { id_trabajador: query.idTrabajador },
           include: [
@@ -151,6 +221,11 @@ class ReporteGeneralService {
               as: 'trabajador_vista',
               model: Trabajador,
               attributes: ['trabCredencial', 'moduloClave', 'tipoTrabProc', 'nombreCompleto', 'trabNoAfiliacion', 'trabRfc', 'trabCurp'],
+            },
+            {
+              as: 'trab_periodos',
+              model: models.Periodo,
+              attributes: ['per_numero'],
             },
           ]
         },
