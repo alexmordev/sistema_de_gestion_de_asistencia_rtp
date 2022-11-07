@@ -8,7 +8,7 @@ const transmitido = Joi.number().min(.25).max(84);
 const usuarioCaptura = Joi.number().integer();
 const createdAt = Joi.string().isoDate();
 const updatedAt = Joi.string().isoDate(); 
-    
+const concepto = Joi.number().integer();
 
 
 const createTransmitidoSchema = Joi.object({
@@ -32,7 +32,7 @@ const updateTransmitidoSchema = Joi.object({
 });
 
 const getTransmitidoSchema = Joi.object({
-    id,
+    concepto
 });
 
 const deleteTransmitidoSchema = Joi.object({
