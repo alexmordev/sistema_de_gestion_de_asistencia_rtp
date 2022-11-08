@@ -37,13 +37,13 @@ class ReporteGeneralService {
         {
           as: 'altas_sga',
           model: models.AltasSGA,
-          attributes: ['   unidades', 'fecha_inicio', 'fecha_final'],
+          attributes: ['unidades', 'fecha_inicio', 'fecha_final'],
           where: {
             [Op.and]:
               [
                 { id_trabajador: query.idTrabajador },
-                { fecha_inicio: { [Op.between]: [date1, date2] } },
                 { fecha_inicio: { [Op.between]: [date1, date2] } }
+                
               ],
           },
           include: [
