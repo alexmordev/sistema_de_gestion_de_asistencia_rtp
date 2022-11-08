@@ -1,3 +1,4 @@
+const { Op,  fn, col } = require("sequelize");
 const sequelize = require('../libs/sequelize');
 const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
@@ -71,89 +72,131 @@ class IncapacidadService {
 
   }
 
-  async busquedaTransmitido(data) {
+  async busquedaTransmitido() {
 
-  const busqueda = await models.Incapacidad.findAll({ 
-    attributes: ['idAltasSGA'],
-    include: [
-      {
-        as: 'altas_sga',
-        model: models.AltasSGA,
-        attributes: ['id','unidades','fechaInicio','fechaFinal'],
-        include: [
-          {
-            as: 'trabajador_vista',
-            model: Trabajador,
-            attributes: ['trabCredencial','tipoTrabDiv','tipoTrabDescripcion' ],
-          },
+    const busqueda = await models.Incapacidad.findAll({ 
+      attributes: [ 'idAltasSGA' ],
+      order:['idAltasSGA'],
+      include: [
+        {
+          as: 'altas_sga',
+          model: models.AltasSGA,
+          attributes: ['id','unidades','fechaInicio','fechaFinal'],
+          include: [
+           
+            {
+              as:'transmision',
+              model: models.Transmision,
+              attributes: [ 'idAltasSGA', 'unidadesAplicadas'],
+              // raw: true
+            },
 
-          {
-            model: models.Transmision,
-            attributes: [ 'idAltasSGA', 'unidadesAplicadas' ]
-          },
+            {
+              as:'trab_periodos',
+              model: models.Periodo,
+              attributes: [ 'perNumero','perFechaInicio','perFechaFinal' ]
+            }
+          ],
+        }
+      ]
+    });   
 
-          {
-            as:'trab_periodos',
-            model: models.Periodo,
-            attributes: [ 'perNumero','perFechaInicio','perFechaFinal' ]
-          }
-        ],
+    const data = await models.Transmision.findAll({
+      attributes: [ 'idAltasSGA',[fn('sum', col('unidades_aplicadas')), 'TotalDiasAplicados']],
+      // where:{
+      //   idAltasSGA: busqueda[0].altas_sga.id,
+      // },
+      group:['idAltasSGA']
+    });
+
+    
+    const datosArray = [];
+    
+    const transmitidos = data.map(dat =>({ id: dat.dataValues.idAltasSGA, unidades: dat.dataValues.TotalDiasAplicados }))
+    // console.log(transmitidos[0].id === datos.idAltasSGA)
+    
+    
+    
+    busqueda.forEach(datos => {
+      const encontrar = transmitidos.find(element => element.id ===  datos.dataValues.idAltasSGA);
+      console.log({data: encontrar});
+
+      const PFI = new Date(datos.altas_sga.trab_periodos.perFechaInicio);//PeriodoFechaInicial
+      const PFF = new Date(datos.altas_sga.trab_periodos.perFechaFinal);//PeriodoFechaFinal
+      
+      const FII = new Date(datos.altas_sga.fechaInicio);//fechaInicioIncapacidad
+      const FFI = new Date(datos.altas_sga.fechaFinal);//fechaFinalIncapacidad
+
+      const unidadesAltas = datos.altas_sga.unidades;
+      let resta = 0; 
+      let unidades = 0;
+      const fecha1 = PFF - FII;
+
+      if ((FII.getTime() >= PFI.getTime()) && (FII.getTime() <= PFF.getTime())) {
+
+        if ( unidadesAltas > fecha1 / ( 1000 * 60 * 60 * 24 ) + 1) {
+          resta = `${ unidadesAltas }` - `${ fecha1 / (1000 * 60 * 60 * 24) + 1 }`
+        }else if( unidadesAltas < fecha1 / ( 1000 * 60 * 60 * 24 ) + 1){
+          unidades = `${unidadesAltas }` 
+        }
+
+        if( encontrar ){
+          resta = encontrar.unidades
+        }
+
+        if( datos.altas_sga.unidades === resta){
+          console.log('ya aplico');
+        }
+
+
+        datosArray.push({
+          idAltas:  datos.idAltasSGA,
+          unidadesTotales: datos.altas_sga.unidades,
+          UnidadesSobrantes: `${ datos.altas_sga.unidades }` - `${ resta }`,
+          UnidadesAplicadasTotales: resta,
+        })
+
+
+        // console.log(datos.altas_sga.transmision);
+      // }else{
+      //   console.log('entra en esta ');
+      // }
+
+      } else if ((FFI.getTime() <= PFF.getTime()) && (FFI.getTime() >= PFI.getTime())) {
+        
+        if ( unidadesAltas > fecha1 / ( 1000 * 60 * 60 * 24 ) + 1) {
+          resta = `${ unidadesAltas }` - `${ fecha1 / (1000 * 60 * 60 * 24) + 1 }`
+        }else if( unidadesAltas < fecha1 / ( 1000 * 60 * 60 * 24 ) + 1){
+          unidades = `${unidadesAltas }` 
+        }
+
+        datosArray.push({
+          idAltas:  datos.idAltasSGA,
+          unidadesTotales: datos.altas_sga.unidades,
+          UnidadesAplicadas: `${ datos.altas_sga.unidades }` - `${ resta }`,
+          UnidadesSobrantes: resta,
+        })
       }
-    ]
-   });   
-
-   
-   const datosArray = [];
-   busqueda.forEach(datos => {
-     
-    const PFI = new Date(busqueda[0].altas_sga.trab_periodos.perFechaInicio);//PeriodoFechaInicial
-    const PFF = new Date(busqueda[0].altas_sga.trab_periodos.perFechaFinal);//PeriodoFechaFinal
-
-    const FII = new Date(datos.altas_sga.fechaInicio);//fechaInicioIncapacidad
-    const FFI = new Date(datos.altas_sga.fechaFinal);//fechaFinalIncapacidad
-
-    // tipoTrabDiv 
-    // console.log(datos.altas_sga.trabajador_vista.tipoTrabDiv);
-    if( datos.altas_sga.trabajador_vista.tipoTrabDiv === '01'){
-      console.log('solo se puedeninsertar 7 unidades', { data:`${ datos.altas_sga.trabajador_vista.tipoTrabDiv }` });
-    }else{
-      console.log('se permiten insertar solo 14 unidades', { data:`${ datos.altas_sga.trabajador_vista.tipoTrabDiv }` });
-    }
-
-   let resta = 0; 
-   let unidades = 0;
-
-   if ((FII.getTime() >= PFI.getTime()) && (FII.getTime() <= PFF.getTime())) {
-     const fecha1 = PFF - FII;
-
-     if (datos.unidades > fecha1 / (1000 * 60 * 60 * 24) + 1) {
-       resta = `${datos.unidades}` - `${fecha1 / (1000 * 60 * 60 * 24) + 1}`
-     }else if( datos.unidades < fecha1 / (1000 * 60 * 60 * 24) + 1){
-       unidades = `${datos.unidades}` 
-     }
-
-    datosArray.push({
-      //  idAltas: datos.id,
-      //  unidadesTotales: datos.unidades,
-      //  UnidadesAplicadas: `${datos.unidades}` - `${resta}`,
-      //  UnidadesSobrantes: resta,
+      
+      
+      
+      // console.log(datos.altas_sga);
     })
 
-    } else if ((FFI.getTime() <= PFF.getTime()) && (FFI.getTime() >= PFI.getTime())) {
-     datosArray.push({  
-      // idAltas: datos.id,
-      //  idAltas: datos.id,
-      //  unidadesTotales: datos.unidades,
-      //  UnidadesAplicadas: `${datos.unidades}` - `${resta}`,
-      //  UnidadesSobrantes: resta,
+      // console.log(datos.altas_sga.transmision[0].dataValues.unidadesAplicadas);
+      
+      // if(datos.altas_sga.dataValues.transmision.length !== 0 ){
+      //   resta = datos.altas_sga.transmision[0].dataValues.unidadesAplicadas
+      // //   // resta = datos.altas_sga.dataValues.transmision
+      // console.log(resta);
+      // }else{
+      //   // resta = datos.altas_sga.transmision[0].dataValues.unidadesAplicadas
+      //   // console.log(resta);
 
-     })
-    }
-
-
-    // console.log({Incapacidad_1: FII,Incapacidad2: FFI, p1:PFI,p2:PFF});
-   })
-  return datosArray
+      // }
+    // console.log(busqueda[0].altas_sga.transmision[0].dataValues.unidadesAplicadas);
+    // console.log(busqueda.altas_sga);
+    return datosArray
   }
 
  

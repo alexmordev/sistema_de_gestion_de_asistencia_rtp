@@ -50,7 +50,7 @@ class ReporteGeneralService {
             {
               as: 'trabajador_vista',
               model: Trabajador,
-              attributes: ['trabCredencial', 'moduloClave', 'tipoTrabProc', 'nombreCompleto', 'trab_no_afiliacion', 'trab_rfc', 'trab_curp'],
+              attributes: ['trabCredencial', 'modulo', 'tipoTrabProc', 'nombreCompleto', 'trab_no_afiliacion', 'trab_rfc', 'trab_curp'],
             },
 
             {
@@ -116,7 +116,7 @@ class ReporteGeneralService {
             {
               as: 'trabajador_vista',
               model: Trabajador,
-              attributes: ['trabCredencial', 'moduloClave', 'tipoTrabProc', 'nombreCompleto', 'trabNoAfiliacion', 'trabRfc', 'trabCurp'],
+              attributes: ['trabCredencial', 'modulo', 'tipoTrabProc', 'nombreCompleto', 'trabNoAfiliacion', 'trabRfc', 'trabCurp'],
             },
 
             {
@@ -173,7 +173,7 @@ class ReporteGeneralService {
             {
               as: 'trabajador_vista',
               model: Trabajador,
-              attributes: ['trabCredencial', 'moduloClave', 'tipoTrabProc', 'nombreCompleto', 'trabNoAfiliacion', 'trabRfc', 'trabCurp'],
+              attributes: ['trabCredencial', 'modulo', 'tipoTrabProc', 'nombreCompleto', 'trabNoAfiliacion', 'trabRfc', 'trabCurp'],
             },
 
             {
@@ -220,7 +220,7 @@ class ReporteGeneralService {
             {
               as: 'trabajador_vista',
               model: Trabajador,
-              attributes: ['trabCredencial', 'moduloClave', 'tipoTrabProc', 'nombreCompleto', 'trabNoAfiliacion', 'trabRfc', 'trabCurp'],
+              attributes: ['trabCredencial', 'modulo', 'tipoTrabProc', 'nombreCompleto', 'trabNoAfiliacion', 'trabRfc', 'trabCurp'],
             },
             {
               as: 'trab_periodos',
