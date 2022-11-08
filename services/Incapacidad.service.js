@@ -83,6 +83,12 @@ class IncapacidadService {
           model: models.AltasSGA,
           attributes: ['id','unidades','fechaInicio','fechaFinal'],
           include: [
+
+            {
+              as: 'trabajador_vista',
+              model: Trabajador,
+              attributes: [ 'trabCredencial','nombreCompleto','tipoTrabDiv','tipoTrabDescripcion','trabNoAfiliacion','modulo' ],
+            },
            
             {
               as:'transmision',
@@ -94,7 +100,7 @@ class IncapacidadService {
             {
               as:'trab_periodos',
               model: models.Periodo,
-              attributes: [ 'perNumero','perFechaInicio','perFechaFinal' ]
+              attributes: [ 'perTipo','perNumero','perFechaInicio','perFechaFinal' ]
             }
           ],
         }
@@ -102,10 +108,7 @@ class IncapacidadService {
     });   
 
     const data = await models.Transmision.findAll({
-      attributes: [ 'idAltasSGA',[fn('sum', col('unidades_aplicadas')), 'TotalDiasAplicados']],
-      // where:{
-      //   idAltasSGA: busqueda[0].altas_sga.id,
-      // },
+      attributes: [ 'idAltasSGA',[fn('sum', col('unidades_aplicadas')), 'TotalDiasAplicados'] ],
       group:['idAltasSGA']
     });
 
@@ -119,11 +122,11 @@ class IncapacidadService {
     
     busqueda.forEach(datos => {
       const encontrar = transmitidos.find(element => element.id ===  datos.dataValues.idAltasSGA);
-      console.log({data: encontrar});
+      // console.log({data: encontrar});
 
       const PFI = new Date(datos.altas_sga.trab_periodos.perFechaInicio);//PeriodoFechaInicial
       const PFF = new Date(datos.altas_sga.trab_periodos.perFechaFinal);//PeriodoFechaFinal
-      
+
       const FII = new Date(datos.altas_sga.fechaInicio);//fechaInicioIncapacidad
       const FFI = new Date(datos.altas_sga.fechaFinal);//fechaFinalIncapacidad
 
@@ -145,22 +148,27 @@ class IncapacidadService {
         }
 
         if( datos.altas_sga.unidades === resta){
-          console.log('ya aplico');
+            console.log(datos.altas_sga.id,'Ya no tiene unidades a transmitir');
+        }else{
+          datosArray.push({
+            idAltas: datos.idAltasSGA,
+            credencial: datos.altas_sga.trabajador_vista.trabCredencial,
+            nombreCompleto: datos.altas_sga.trabajador_vista.nombreCompleto,
+            numeroSeguroSocial: datos.altas_sga.trabajador_vista.trabNoAfiliacion,
+            modulo: datos.altas_sga.trabajador_vista.modulo,
+            periodoTipo: datos.altas_sga.trab_periodos.perTipo,
+            numeroPeriodo: datos.altas_sga.trab_periodos.perNumero,
+            fechaInicio: datos.altas_sga.fechaInicio,
+            fechaFinal: datos.altas_sga.fechaFinal,
+            concepto: 47,
+            unidadesTotales: datos.altas_sga.unidades,
+            UnidadesPendientes: `${ datos.altas_sga.unidades }` - `${ resta }`,
+            UnidadesAplicadas: resta,
+          })
         }
 
+        console.log(datos.altas_sga.trabajador_vista.trabCredencial);
 
-        datosArray.push({
-          idAltas:  datos.idAltasSGA,
-          unidadesTotales: datos.altas_sga.unidades,
-          UnidadesSobrantes: `${ datos.altas_sga.unidades }` - `${ resta }`,
-          UnidadesAplicadasTotales: resta,
-        })
-
-
-        // console.log(datos.altas_sga.transmision);
-      // }else{
-      //   console.log('entra en esta ');
-      // }
 
       } else if ((FFI.getTime() <= PFF.getTime()) && (FFI.getTime() >= PFI.getTime())) {
         
@@ -170,32 +178,31 @@ class IncapacidadService {
           unidades = `${unidadesAltas }` 
         }
 
-        datosArray.push({
-          idAltas:  datos.idAltasSGA,
-          unidadesTotales: datos.altas_sga.unidades,
-          UnidadesAplicadas: `${ datos.altas_sga.unidades }` - `${ resta }`,
-          UnidadesSobrantes: resta,
-        })
+        if( encontrar ){
+          resta = encontrar.unidades
+        }
+
+        if( datos.altas_sga.unidades === resta){
+            console.log(datos.altas_sga.id,'Ya no tiene unidades a transmitir');
+        }else{
+          datosArray.push({
+            idAltas: datos.idAltasSGA,
+            credencial: datos.altas_sga.trabajador_vista.trabCredencial,
+            nombreCompleto: datos.altas_sga.trabajador_vista.nombreCompleto,
+            numeroSeguroSocial: datos.altas_sga.trabajador_vista.trabNoAfiliacion,
+            modulo: datos.altas_sga.trabajador_vista.modulo,
+            periodoTipo: datos.altas_sga.trab_periodos.perTipo,
+            numeroPeriodo: datos.altas_sga.trab_periodos.perNumero,
+            fechaInicio: datos.altas_sga.fechaInicio,
+            fechaFinal: datos.altas_sga.fechaFinal,
+            concepto: 47,
+            unidadesTotales: datos.altas_sga.unidades,
+            UnidadesPendientes: `${ datos.altas_sga.unidades }` - `${ resta }`,
+            UnidadesAplicadas: resta,
+          })
+        }
       }
-      
-      
-      
-      // console.log(datos.altas_sga);
     })
-
-      // console.log(datos.altas_sga.transmision[0].dataValues.unidadesAplicadas);
-      
-      // if(datos.altas_sga.dataValues.transmision.length !== 0 ){
-      //   resta = datos.altas_sga.transmision[0].dataValues.unidadesAplicadas
-      // //   // resta = datos.altas_sga.dataValues.transmision
-      // console.log(resta);
-      // }else{
-      //   // resta = datos.altas_sga.transmision[0].dataValues.unidadesAplicadas
-      //   // console.log(resta);
-
-      // }
-    // console.log(busqueda[0].altas_sga.transmision[0].dataValues.unidadesAplicadas);
-    // console.log(busqueda.altas_sga);
     return datosArray
   }
 
