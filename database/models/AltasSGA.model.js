@@ -76,7 +76,7 @@ class AltasSGA extends Model {
         })
 
         this.hasMany(models.Transmision, {
-            // as:"transmision",
+            as:"transmision",
             foreignKey: 'id_altas_SGA'
         })
 
