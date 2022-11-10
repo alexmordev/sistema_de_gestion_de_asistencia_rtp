@@ -8,15 +8,37 @@ class SancionService {
   async create(data) {
     let { dateFormatedInit, dateFormatedEnd } = FormatingDate.dateFormated( data.fechaInicio, data.fechaFinal )
     
-    const newSancion =  await models.AltasSGA.create({
-      ...data,
-      fechaInicio : dateFormatedInit,
-      fechaFinal : dateFormatedEnd
+    // const newSancion =  await models.AltasSGA.create({
+    //   ...data,
+    //   fechaInicio : dateFormatedInit,
+    //   fechaFinal : dateFormatedEnd
 
-    } )
-    const newSancionDatesFormated = FormatingDate.dateFormated( newSancion.fechaInicio, newSancion.fechaFinal );
-    dateFormatedInit = newSancionDatesFormated.dateFormatedInit
-    dateFormatedEnd = newSancionDatesFormated.dateFormatedEnd
+    // } )
+    // const newSancionDatesFormated = FormatingDate.dateFormated( newSancion.fechaInicio, newSancion.fechaFinal );
+    // dateFormatedInit = newSancionDatesFormated.dateFormatedInit
+    // dateFormatedEnd = newSancionDatesFormated.dateFormatedEnd
+
+    const [newSancion, created] =  await models.AltasSGA.findOrCreate({ where:
+      {
+        id_trabajador:data.idTrabajador,
+        id_concepto:data.idConcepto,
+        id_periodos:data.idPeriodo,
+        unidades:data.unidades,
+        usuario_captura: data.usuarioCaptura,
+        fecha_inicio: dateFormatedInit,
+        fecha_final:dateFormatedEnd,
+        
+      },
+      defaults: {
+        ...data,
+        fechaInicio: dateFormatedInit,
+        fechaFinal: dateFormatedEnd 
+      }
+    })
+  
+    if(created === false){
+      throw new Error('¡Registro duplicado!')
+    }
 
     const newSancionDateModify = {
       ...newSancion.dataValues,
