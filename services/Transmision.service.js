@@ -154,6 +154,7 @@ class TransmisionService {
   async registra47_48_49(data){
     //  PARA EL CASO DE INCAPACIDADES, SANCIONES Y AUSENCIAS
     //  SE CREA UN REGISTRO EN LA TABLA DE TRANSMITIDOS
+
     const justificacion = await models.AltasSGA.findByPk(data.id);
     
     if(!justificacion){
@@ -163,16 +164,35 @@ class TransmisionService {
     }else{
     
       data.idAltasSGA = data.id
-      data.transmitido = true
       data.unidadesAplicadas = data.unidades
+      data.transmitido = true
       
       delete data.id
       delete data.concepto
       delete data.periodoTipo
       delete data.unidades
+
+      // const encontrar = await models.Transmision.findOne({
+      //   where: {
+      //     id_altas_SGA: data.idAltasSGA,
+      //     periodo: data.periodo,
+      //     unidades_aplicadas: data.unidadesAplicadas,  
+      //   }
+      // });
       
-      const res = await models.Transmision.create(data);
-      
+      // console.log(encontrar)
+      // if(encontrar){
+      //   return {ok:0}
+      // }
+      // const res = await models.Transmision.create(data);
+      const [newTransmision, res] = await models.Transmision.findOrCreate({ 
+        where: { 
+          id_altas_SGA: data.idAltasSGA,
+          periodo:data.periodo,
+          unidades_aplicadas: data.unidadesAplicadas,
+         }, 
+        defaults:{ ...data } 
+      });
       if(res){ return {ok:1}  }else{ return {ok:0} }
     }
   }
