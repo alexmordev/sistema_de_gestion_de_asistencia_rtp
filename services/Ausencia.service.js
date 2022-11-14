@@ -77,6 +77,27 @@ class AusenciaService {
     await ausencia.destroy()
     return {id};
   }
+
+  async findModulo(usuario) {
+
+    const userModulo = await models.Trabajador.findOne({ attributes: ['mod_clave'],where: {trab_credencial: usuario}});
+    console.log(userModulo.dataValues.mod_clave)
+    const res = await models.AltasSGA.findAll(
+      {
+        include:[{ as: 'trabajador_vista', 
+        model: models.Trabajador, 
+        where: { mod_clave:  userModulo.dataValues.mod_clave} 
+      }, 'trab_periodos','catalogo_conceptos'],
+        where:
+          {
+            id_concepto:3
+          }
+
+      });
+      console.log({datos: res});
+    return res;
+  }
+
 }
 
 module.exports = AusenciaService;
