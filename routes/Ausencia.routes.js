@@ -25,6 +25,17 @@ router.get('/:id',
     }
   }
 );
+
+router.get('/modulo/:usuario', async (req, res, next) => {
+  try {
+    const { usuario } = req.params;
+    const ausencia = await service.findModulo(usuario);
+    res.status(200).json(ausencia)
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post('/',
   validatorHandler(createAusenciaSchema, 'body'),
   async (req, res, next) => {
