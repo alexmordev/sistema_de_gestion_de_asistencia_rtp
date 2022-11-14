@@ -85,6 +85,12 @@ class IncapacidadService {
           include: [
 
             {
+              as: 'catalogo_conceptos',
+              model: models.CatalogoConcepto,
+              attributes: [ 'clave','nombre' ],
+            },
+
+            {
               as: 'trabajador_vista',
               model: Trabajador,
               attributes: [ 'trabCredencial','nombreCompleto','tipoTrabDiv','tipoTrabDescripcion','trabNoAfiliacion','modulo' ],
@@ -94,7 +100,6 @@ class IncapacidadService {
               as:'transmision',
               model: models.Transmision,
               attributes: [ 'idAltasSGA', 'unidadesAplicadas'],
-              // raw: true
             },
 
             {
@@ -104,8 +109,11 @@ class IncapacidadService {
             }
           ],
         }
-      ]
+      ],
+     
     });   
+
+    console.log(busqueda[0].altas_sga);
 
     const data = await models.Transmision.findAll({
       attributes: [ 'idAltasSGA',[fn('sum', col('unidades_aplicadas')), 'TotalDiasAplicados'] ],
@@ -160,7 +168,7 @@ class IncapacidadService {
             numeroPeriodo: datos.altas_sga.trab_periodos.perNumero,
             fechaInicio: datos.altas_sga.fechaInicio,
             fechaFinal: datos.altas_sga.fechaFinal,
-            concepto: 47,
+            concepto:  `${ datos.altas_sga.catalogo_conceptos.clave } - ${ datos.altas_sga.catalogo_conceptos.nombre }`,
             unidadesTotales: datos.altas_sga.unidades,
             UnidadesPendientes: `${ datos.altas_sga.unidades }` - `${ resta }`,
             UnidadesAplicadas: resta,
@@ -195,7 +203,7 @@ class IncapacidadService {
             numeroPeriodo: datos.altas_sga.trab_periodos.perNumero,
             fechaInicio: datos.altas_sga.fechaInicio,
             fechaFinal: datos.altas_sga.fechaFinal,
-            concepto: 47,
+            concepto:  `${datos.altas_sga.catalogo_conceptos.clave}-${datos.altas_sga.catalogo_conceptos.nombre}`,
             unidadesTotales: datos.altas_sga.unidades,
             UnidadesPendientes: `${ datos.altas_sga.unidades }` - `${ resta }`,
             UnidadesAplicadas: resta,
