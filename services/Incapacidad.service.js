@@ -75,7 +75,7 @@ class IncapacidadService {
   async busquedaTransmitido() {
 
     const busqueda = await models.Incapacidad.findAll({ 
-      attributes: [ 'idAltasSGA' ],
+      attributes: [],
       order:['idAltasSGA'],
       include: [
         {
@@ -99,7 +99,8 @@ class IncapacidadService {
             {
               as:'transmision',
               model: models.Transmision,
-              attributes: [ 'idAltasSGA', 'unidadesAplicadas'],
+              attributes: [ 'unidadesAplicadas' ],
+              // raw: true
             },
 
             {
@@ -110,7 +111,9 @@ class IncapacidadService {
           ],
         }
       ],
-     
+      // where: {
+      //   idAltasSGA, 
+      // },
     });   
 
     console.log(busqueda[0].altas_sga);
@@ -168,7 +171,7 @@ class IncapacidadService {
             numeroPeriodo: datos.altas_sga.trab_periodos.perNumero,
             fechaInicio: datos.altas_sga.fechaInicio,
             fechaFinal: datos.altas_sga.fechaFinal,
-            concepto:  `${ datos.altas_sga.catalogo_conceptos.clave } - ${ datos.altas_sga.catalogo_conceptos.nombre }`,
+            concepto:  `${datos.altas_sga.catalogo_conceptos.clave}-${datos.altas_sga.catalogo_conceptos.nombre}`,
             unidadesTotales: datos.altas_sga.unidades,
             UnidadesPendientes: `${ datos.altas_sga.unidades }` - `${ resta }`,
             UnidadesAplicadas: resta,
