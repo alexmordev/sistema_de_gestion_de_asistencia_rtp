@@ -1,4 +1,4 @@
-const { Op,  fn, col } = require("sequelize");
+const { Op, fn, col } = require("sequelize");
 const sequelize = require('../libs/sequelize');
 const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
@@ -31,14 +31,14 @@ class IncapacidadService {
       result.push({ error });
 
     }
-    
+
     return result;
   }
 
   async insertTransmitidos(data) {
-    const insertarUnidades = await models.Transmision.create( data,{
-      where: { transmitido: 'false'  } 
-    }) 
+    const insertarUnidades = await models.Transmision.create(data, {
+      where: { transmitido: 'false' }
+    })
   }
 
   async find() {
@@ -46,7 +46,7 @@ class IncapacidadService {
       include: [
         {
           association: 'altas_sga',
-          include: ['trab_periodos','trabajador_vista']
+          include: ['trab_periodos', 'trabajador_vista']
         },
         'catalogo_tipo_incapacidad',
         'catalogo_ramo_seguro'
@@ -55,7 +55,7 @@ class IncapacidadService {
 
     return res;
   }
-  
+
   async findOne(id) {
 
     const res = await models.Incapacidad.findByPk(id, {
@@ -74,188 +74,201 @@ class IncapacidadService {
 
   async busquedaTransmitido() {
 
-    const busqueda = await models.Incapacidad.findAll({ 
-      attributes: [ 'idAltasSGA' ],
-      order:['idAltasSGA'],
+    const busqueda = await models.Incapacidad.findAll({
+      attributes: ['idAltasSGA'],
+      order: ['idAltasSGA'],
       include: [
         {
           as: 'altas_sga',
           model: models.AltasSGA,
-          attributes: ['id','unidades','fechaInicio','fechaFinal'],
+          attributes: ['id', 'unidades', 'fechaInicio', 'fechaFinal'],
           include: [
+
+            {
+              as: 'catalogo_conceptos',
+              model: models.CatalogoConcepto,
+              attributes: ['clave'],
+            },
 
             {
               as: 'trabajador_vista',
               model: Trabajador,
-              attributes: [ 'trabCredencial','nombreCompleto','tipoTrabDiv','tipoTrabDescripcion','trabNoAfiliacion','modulo' ],
-            },
-           
-            {
-              as:'transmision',
-              model: models.Transmision,
-              attributes: [ 'idAltasSGA', 'unidadesAplicadas'],
-              // raw: true
+              attributes: ['trabCredencial', 'nombreCompleto', 'tipoTrabDiv', 'tipoTrabDescripcion', 'trabNoAfiliacion', 'modulo'],
             },
 
             {
-              as:'trab_periodos',
+              as: 'transmision',
+              model: models.Transmision,
+              attributes: ['idAltasSGA', 'unidadesAplicadas'],
+            },
+
+            {
+              as: 'trab_periodos',
               model: models.Periodo,
-              attributes: [ 'perTipo','perNumero','perFechaInicio','perFechaFinal' ]
+              attributes: ['perTipo', 'perNumero', 'perFechaInicio', 'perFechaFinal']
             }
           ],
         }
-      ]
-    });   
-
-    const data = await models.Transmision.findAll({
-      attributes: [ 'idAltasSGA',[fn('sum', col('unidades_aplicadas')), 'TotalDiasAplicados'] ],
-      group:['idAltasSGA']
+      ],
     });
 
-    
+    const data = await models.Transmision.findAll({
+      attributes: ['idAltasSGA', [fn('sum', col('unidades_aplicadas')), 'TotalDiasAplicados']],
+      group: ['idAltasSGA']
+    });
+
     const datosArray = [];
-    
-    const transmitidos = data.map(dat =>({ id: dat.dataValues.idAltasSGA, unidades: dat.dataValues.TotalDiasAplicados }))
-    // console.log(transmitidos[0].id === datos.idAltasSGA)
-    
-    
-    
+    const transmitidos = data.map(dat => ({ id: dat.dataValues.idAltasSGA, unidades: dat.dataValues.TotalDiasAplicados }))
+
     busqueda.forEach(datos => {
-      const encontrar = transmitidos.find(element => element.id ===  datos.dataValues.idAltasSGA);
-      // console.log({data: encontrar});
+      const encontrar = transmitidos.find(element => element.id === datos.dataValues.idAltasSGA);
 
-      const PFI = new Date(datos.altas_sga.trab_periodos.perFechaInicio);//PeriodoFechaInicial
-      const PFF = new Date(datos.altas_sga.trab_periodos.perFechaFinal);//PeriodoFechaFinal
+      if (encontrar) {
 
-      const FII = new Date(datos.altas_sga.fechaInicio);//fechaInicioIncapacidad
-      const FFI = new Date(datos.altas_sga.fechaFinal);//fechaFinalIncapacidad
+        const maximoDescontar = (datos.altas_sga.trab_periodos.perTipo === '0') ? 7 : 14;
+        const disponiblesDescontar = `${datos.altas_sga.unidades}` - `${encontrar.unidades}`
+        const unidadesPeriodoTransmitidas = (disponiblesDescontar > maximoDescontar) ? maximoDescontar : disponiblesDescontar
+        const unidadesSiguientePeriodo = datos.altas_sga.unidades - ( encontrar.unidades + unidadesPeriodoTransmitidas ) 
 
-      const unidadesAltas = datos.altas_sga.unidades;
-      let resta = 0; 
-      let unidades = 0;
-      const fecha1 = PFF - FII;
+        datosArray.push({
+          idAltas: `${datos.idAltasSGA}`,
+          credencial: `${datos.altas_sga.trabajador_vista.trabCredencial}`,
+          nombreCompleto: `${datos.altas_sga.trabajador_vista.nombreCompleto}`,
+          numeroSeguroSocial: `${datos.altas_sga.trabajador_vista.trabNoAfiliacion}`,
+          modulo: `${datos.altas_sga.trabajador_vista.modulo}`,
+          periodoTipo: `${datos.altas_sga.trab_periodos.perTipo}`,
+          numeroPeriodo: `${datos.altas_sga.trab_periodos.perNumero}`,
+          fechaInicio: `${datos.altas_sga.fechaInicio}`,
+          fechaFinal: `${datos.altas_sga.fechaFinal}`,
+          concepto: `${datos.altas_sga.catalogo_conceptos.clave}`,
+          unidadesTotales: `${datos.altas_sga.unidades}`,
+          UnidadesPeriodoTransmitidas: `${unidadesPeriodoTransmitidas}`,
+          UnidadesSiguientePeriodo: `${unidadesSiguientePeriodo}`,
+          TotalTransmitidos: `${encontrar.unidades}`,
+        })
 
-      if ((FII.getTime() >= PFI.getTime()) && (FII.getTime() <= PFF.getTime())) {
+      } else {
 
-        if ( unidadesAltas > fecha1 / ( 1000 * 60 * 60 * 24 ) + 1) {
-          resta = `${ unidadesAltas }` - `${ fecha1 / (1000 * 60 * 60 * 24) + 1 }`
-        }else if( unidadesAltas < fecha1 / ( 1000 * 60 * 60 * 24 ) + 1){
-          unidades = `${unidadesAltas }` 
+        const PFI = new Date(datos.altas_sga.trab_periodos.perFechaInicio);//PeriodoFechaInicial
+        const PFF = new Date(datos.altas_sga.trab_periodos.perFechaFinal);//PeriodoFechaFinal
+
+        const FII = new Date(datos.altas_sga.fechaInicio);//fechaInicioIncapacidad
+        const FFI = new Date(datos.altas_sga.fechaFinal);//fechaFinalIncapacidad
+
+        let resta = 0;
+        let unidades = 0;
+        const fecha1 = PFF - FII;
+
+        if ((FII.getTime() >= PFI.getTime()) && (FII.getTime() <= PFF.getTime())) {
+
+          if (datos.altas_sga.unidades > fecha1 / (1000 * 60 * 60 * 24) + 1) {
+            resta = `${datos.altas_sga.unidades}` - `${fecha1 / (1000 * 60 * 60 * 24) + 1}`
+          } else if (datos.altas_sga.unidades < fecha1 / (1000 * 60 * 60 * 24) + 1) {
+            unidades = `${datos.altas_sga.unidades}`
+          }
+
+          if (datos.altas_sga.unidades === resta) {
+            console.log(datos.altas_sga.id, 'Ya no tiene unidades a transmitir');
+          } else {
+            datosArray.push({
+              idAltas: `${datos.idAltasSGA}`,
+              credencial: `${datos.altas_sga.trabajador_vista.trabCredencial}`,
+              nombreCompleto: `${datos.altas_sga.trabajador_vista.nombreCompleto}`,
+              numeroSeguroSocial: `${datos.altas_sga.trabajador_vista.trabNoAfiliacion}`,
+              modulo: `${datos.altas_sga.trabajador_vista.modulo}`,
+              periodoTipo: `${datos.altas_sga.trab_periodos.perTipo}`,
+              numeroPeriodo: `${datos.altas_sga.trab_periodos.perNumero}`,
+              fechaInicio: `${datos.altas_sga.fechaInicio}`,
+              fechaFinal: `${datos.altas_sga.fechaFinal}`,
+              concepto: `${datos.altas_sga.catalogo_conceptos.clave}`,
+              unidadesTotales: `${datos.altas_sga.unidades}`,
+              UnidadesPeriodoTransmitidas: `${datos.altas_sga.unidades}` - `${resta}`,
+              UnidadesSiguientePeriodo: `${ resta }`,
+             
+            })
+          }
+        } else if ((FFI.getTime() <= PFF.getTime()) && (FFI.getTime() >= PFI.getTime())) {
+
+          if (datos.altas_sga.unidades > fecha1 / (1000 * 60 * 60 * 24) + 1) {
+            resta = `${datos.altas_sga.unidades}` - `${fecha1 / (1000 * 60 * 60 * 24) + 1}`
+          } else if (datos.altas_sga.unidades < fecha1 / (1000 * 60 * 60 * 24) + 1) {
+            unidades = `${datos.altas_sga.unidades} `
+          }
+          console.log('entra2', datos.idAltasSGA);
+          if (encontrar) {
+            resta = encontrar.unidades
+          }
+
+          if (datos.altas_sga.unidades === resta) {
+            console.log(datos.altas_sga.id, 'Ya no tiene unidades a transmitir');
+          } else {
+            datosArray.push({
+              idAltas: `${datos.idAltasSGA}`,
+              credencial: `${datos.altas_sga.trabajador_vista.trabCredencial}`,
+              nombreCompleto: `${datos.altas_sga.trabajador_vista.nombreCompleto}`,
+              numeroSeguroSocial: `${datos.altas_sga.trabajador_vista.trabNoAfiliacion}`,
+              modulo: `${datos.altas_sga.trabajador_vista.modulo}`,
+              periodoTipo: `${datos.altas_sga.trab_periodos.perTipo}`,
+              numeroPeriodo: `${datos.altas_sga.trab_periodos.perNumero}`,
+              fechaInicio: `${datos.altas_sga.fechaInicio}`,
+              fechaFinal: `${datos.altas_sga.fechaFinal}`,
+              concepto: `${datos.altas_sga.catalogo_conceptos.clave}`,
+              unidadesTotales: `${datos.altas_sga.unidades}`,
+              UnidadesPeriodoTransmitidas: `${datos.altas_sga.unidades}` - `${resta}`,
+              UnidadesSiguientePeriodo: `${resta}`,
+              
+            })
+          }
         }
 
-        if( encontrar ){
-          resta = encontrar.unidades
-        }
-
-        if( datos.altas_sga.unidades === resta){
-            console.log(datos.altas_sga.id,'Ya no tiene unidades a transmitir');
-        }else{
-          datosArray.push({
-            idAltas: datos.idAltasSGA,
-            credencial: datos.altas_sga.trabajador_vista.trabCredencial,
-            nombreCompleto: datos.altas_sga.trabajador_vista.nombreCompleto,
-            numeroSeguroSocial: datos.altas_sga.trabajador_vista.trabNoAfiliacion,
-            modulo: datos.altas_sga.trabajador_vista.modulo,
-            periodoTipo: datos.altas_sga.trab_periodos.perTipo,
-            numeroPeriodo: datos.altas_sga.trab_periodos.perNumero,
-            fechaInicio: datos.altas_sga.fechaInicio,
-            fechaFinal: datos.altas_sga.fechaFinal,
-            concepto: 47,
-            unidadesTotales: datos.altas_sga.unidades,
-            UnidadesPendientes: `${ datos.altas_sga.unidades }` - `${ resta }`,
-            UnidadesAplicadas: resta,
-          })
-        }
-
-        console.log(datos.altas_sga.trabajador_vista.trabCredencial);
-
-
-      } else if ((FFI.getTime() <= PFF.getTime()) && (FFI.getTime() >= PFI.getTime())) {
-        
-        if ( unidadesAltas > fecha1 / ( 1000 * 60 * 60 * 24 ) + 1) {
-          resta = `${ unidadesAltas }` - `${ fecha1 / (1000 * 60 * 60 * 24) + 1 }`
-        }else if( unidadesAltas < fecha1 / ( 1000 * 60 * 60 * 24 ) + 1){
-          unidades = `${unidadesAltas }` 
-        }
-
-        if( encontrar ){
-          resta = encontrar.unidades
-        }
-
-        if( datos.altas_sga.unidades === resta){
-            console.log(datos.altas_sga.id,'Ya no tiene unidades a transmitir');
-        }else{
-          datosArray.push({
-            idAltas: datos.idAltasSGA,
-            credencial: datos.altas_sga.trabajador_vista.trabCredencial,
-            nombreCompleto: datos.altas_sga.trabajador_vista.nombreCompleto,
-            numeroSeguroSocial: datos.altas_sga.trabajador_vista.trabNoAfiliacion,
-            modulo: datos.altas_sga.trabajador_vista.modulo,
-            periodoTipo: datos.altas_sga.trab_periodos.perTipo,
-            numeroPeriodo: datos.altas_sga.trab_periodos.perNumero,
-            fechaInicio: datos.altas_sga.fechaInicio,
-            fechaFinal: datos.altas_sga.fechaFinal,
-            concepto: 47,
-            unidadesTotales: datos.altas_sga.unidades,
-            UnidadesPendientes: `${ datos.altas_sga.unidades }` - `${ resta }`,
-            UnidadesAplicadas: resta,
-          })
-        }
       }
     })
     return datosArray
   }
 
- 
-
-
-
   async consulTransmitidos() {
-    
-    const consultaTransmitido = await models.Transmision.findAll({ 
-      
-      where:{ transmitido: 'true' },
-      include: [ 
+
+    const consultaTransmitido = await models.Transmision.findAll({
+
+      where: { transmitido: 'true' },
+      include: [
         {
-          as:'altas_sga',
-          model:models.AltasSGA,
-          attributes: ['idTrabajador','idConcepto','idPeriodo','unidades','usuarioCaptura','fechaInicio','fechaFinal','createdAt','updatedAt'],
+          as: 'altas_sga',
+          model: models.AltasSGA,
+          attributes: ['idTrabajador', 'idConcepto', 'idPeriodo', 'unidades', 'usuarioCaptura', 'fechaInicio', 'fechaFinal', 'createdAt', 'updatedAt'],
         }
       ],
     })
-    return( consultaTransmitido )
+    return (consultaTransmitido)
   }
 
   async consulPorTransmir() {
-    
-    const consultaTransmitido = await models.Transmision.findAll({ 
-      
-      where:{ transmitido: 'false' },
-      include: [ 
+
+    const consultaTransmitido = await models.Transmision.findAll({
+
+      where: { transmitido: 'false' },
+      include: [
         {
-          as:'altas_sga',
-          model:models.AltasSGA,
-          attributes: ['idTrabajador','idConcepto','idPeriodo','unidades','usuarioCaptura','fechaInicio','fechaFinal','createdAt','updatedAt'],
+          as: 'altas_sga',
+          model: models.AltasSGA,
+          attributes: ['idTrabajador', 'idConcepto', 'idPeriodo', 'unidades', 'usuarioCaptura', 'fechaInicio', 'fechaFinal', 'createdAt', 'updatedAt'],
         }
       ],
     })
-    return( consultaTransmitido )
+    return (consultaTransmitido)
   }
 
-  async update(id,change){
+  async update(id, change) {
     const incapacidad = await models.Incapacidad.findByPk(id)
     const sga = await models.AltasSGA.findByPk(incapacidad.dataValues.id_altas_SGA)
-    // let ob = change.altas_sga
+
 
     change.altas_sga.id = incapacidad.dataValues.id_altas_SGA
     change.id = id;
 
-
     const incapacidad1 = await incapacidad.update(change)
     const incapacidad2 = await sga.update(change.altas_sga)
-    
-
-    return( incapacidad1, incapacidad2 );
+    return (incapacidad1, incapacidad2);
   }
 
   async delete(id) {
