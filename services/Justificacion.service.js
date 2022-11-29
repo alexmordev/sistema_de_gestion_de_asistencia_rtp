@@ -8,23 +8,31 @@ class JustificacionService {
 
   async create(data) {
 
-    const trabajador = await models.Trabajador.findByPk(data.idTrabajador, { attributes:['tipo_trab_div'] } );
-    const tipo_periodo =  trabajador.dataValues.tipo_trab_div == '01' ? 0 : 1;
-    const today = new Date();
+    const insert = []
 
-    const per_actual  =  await models.Periodo.findOne( 
-      {
+    await Promise.all( data.map( async (dat) => {
+      const trabajador = await models.Trabajador.findByPk(dat.idTrabajador, { attributes:['tipo_trab_div'] } );
+      const  tipo_periodo =  trabajador.dataValues.tipo_trab_div == '01' ? 0 : 1;
+      const  today = new Date();
+      
+      const per_actual  =  await models.Periodo.findOne( 
+        {
           attributes:['id_periodos'],
           where:{ [Op.and]:[ {per_tipo: tipo_periodo}, {per_fecha_final: { [Op.gte]:today}} ], },
           order: ['id_periodos']
-      }
-    );
-    
-    const idPeriodo = per_actual.dataValues.id_periodos;
-    delete data.idTrabajador;
+        }
+      );
+        
+      const idPeriodo = per_actual.dataValues.id_periodos;
+      delete dat.idTrabajador;
+       
+      dat.periodo = idPeriodo;
+      insert.push(dat)
 
-    data.periodo = idPeriodo;
-    const justificacion = await models.Justificacion.create(data);
+    }))
+    
+    //const justificacion = await models.Justificacion.create(data);  // bulkCreate
+    const justificacion = await models.Justificacion.bulkCreate(insert);  // bulkCreate
     return justificacion;
     
   }

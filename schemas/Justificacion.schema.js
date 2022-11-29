@@ -15,7 +15,7 @@ const tipoTrabajador =  Joi.string();
 const numPeriodo =  Joi.number().integer();
 const aho =  Joi.number().integer();
 
-const createJustificacionSchema = Joi.object({
+const createJustificacionSchema = Joi.array().items({
     idAltas: idAltas.required(),
     idTrabajador : idTrabajador.required(),
     unidadesJustificadas : unidadesJustificadas.required(),
