@@ -17,4 +17,17 @@ router.get('/trabajador-periodo/:id',
     }
   }
 );
+
+router.get('/trabajador/:id', 
+  validatorHandler(getTrabajadorPeridoSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const data = await service.getTrabajador(id);
+      res.json(data);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 module.exports = router;
