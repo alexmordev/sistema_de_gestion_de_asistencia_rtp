@@ -8,7 +8,7 @@ class InputService{
     async trabajadorPerido(id){
         const trabajador = await models.Trabajador.findByPk(id,
             {
-                attributes:['trabCredencial', 'nombreCompleto', 'adscripcion', 'tipo_trab_div']
+                attributes:['trabCredencial', 'nombreCompleto', 'adscripcion', 'tipo_trab_div', 'trabStatusDesc']
             }
         );
 
