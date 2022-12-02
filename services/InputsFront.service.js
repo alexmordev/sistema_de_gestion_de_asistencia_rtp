@@ -10,7 +10,7 @@ class InputService {
         const trabajador = await models.Trabajador.findByPk(id, {
             attributes: ['nombreCompleto', 'adscripcion']
         })
-        if (!trabajador) {
+        if (trabajador === null) {
             return boom.notFound('Registro no encontrado');
         }
         return trabajador;
