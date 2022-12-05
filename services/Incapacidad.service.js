@@ -85,7 +85,7 @@ class IncapacidadService {
             {
               as: 'catalogo_conceptos',
               model: models.CatalogoConcepto,
-              attributes: ['clave'],
+              attributes: ['id','clave'],
             },
 
             {
@@ -139,14 +139,14 @@ class IncapacidadService {
           numeroPeriodo:                `${datos.altas_sga.trab_periodos.perNumero}`,
           fechaInicio:                  `${datos.altas_sga.fechaInicio}`,
           fechaFinal:                   `${datos.altas_sga.fechaFinal}`,
-          concepto:                     `${datos.altas_sga.catalogo_conceptos.clave}`,
+          concepto:                     `${datos.altas_sga.catalogo_conceptos.id}`,
           unidadesTotales:                datos.altas_sga.unidades,
           UnidadesPeriodoTransmitidas:    unidadesPeriodoTransmitidas,
           UnidadesSiguientePeriodo:       unidadesSiguientePeriodo,
           TotalTransmitidos:              encontrar.unidades,
         })
       
-      
+        console.log(datos.altas_sga.catalogo_conceptos);
 
         const PFI = new Date(datos.altas_sga.trab_periodos.perFechaInicio);//PeriodoFechaInicial
         const PFF = new Date(datos.altas_sga.trab_periodos.perFechaFinal);//PeriodoFechaFinal
@@ -167,7 +167,7 @@ class IncapacidadService {
           }
 
           if (datos.altas_sga.unidades === resta) {
-            console.log(datos.altas_sga.id, 'Ya no tiene unidades a transmitir');
+            // console.log(datos.altas_sga.id, 'Ya no tiene unidades a transmitir');
           } else {
             datosArray.push({
               idAltas:                      `${datos.idAltasSGA}`,
@@ -179,7 +179,7 @@ class IncapacidadService {
               numeroPeriodo:                `${datos.altas_sga.trab_periodos.perNumero}`,
               fechaInicio:                  `${datos.altas_sga.fechaInicio}`,
               fechaFinal:                   `${datos.altas_sga.fechaFinal}`,
-              concepto:                     `${datos.altas_sga.catalogo_conceptos.clave}`,
+              concepto:                     `${datos.altas_sga.catalogo_conceptos.id}`,
               unidadesTotales:                datos.altas_sga.unidades,
               UnidadesPeriodoTransmitidas:    unidadesPeriodoTransmitidas,
               UnidadesSiguientePeriodo:       unidadesSiguientePeriodo,
@@ -199,7 +199,7 @@ class IncapacidadService {
           }
 
           if (datos.altas_sga.unidades === resta) {
-            console.log(datos.altas_sga.id, 'Ya no tiene unidades a transmitir');
+            // console.log(datos.altas_sga.id, 'Ya no tiene unidades a transmitir');
           } else {
             datosArray.push({
               idAltas:                      `${datos.idAltasSGA}`,
@@ -211,7 +211,7 @@ class IncapacidadService {
               numeroPeriodo:                `${datos.altas_sga.trab_periodos.perNumero}`,
               fechaInicio:                  `${datos.altas_sga.fechaInicio}`,
               fechaFinal:                   `${datos.altas_sga.fechaFinal}`,
-              concepto:                     `${datos.altas_sga.catalogo_conceptos.clave}`,
+              concepto:                     `${datos.altas_sga.catalogo_conceptos.id}`,
               unidadesTotales:                datos.altas_sga.unidades,
               UnidadesPeriodoTransmitidas:    unidadesPeriodoTransmitidas,
               UnidadesSiguientePeriodo:       unidadesSiguientePeriodo,
@@ -221,10 +221,8 @@ class IncapacidadService {
             
           }
         }
-
       }
     })
-  
     return datosArray
   }
 
