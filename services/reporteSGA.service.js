@@ -7,25 +7,15 @@ class ReporteSGAService {
 
     async reporteSGA(data) {
 
-        const meses = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-        const numDatos = meses.length;
-
-
         const fecha = `${data.year}` + '/' + `${data.month}` + '/' + '1'
         const primerDia = new Date(fecha);
 
         const obtenerFechaFinDeMes = (fecha) => {
+
             const primerDia2 = new Date(fecha);
             return new Date(primerDia2.getFullYear(), primerDia2.getMonth() + 1, 0);
+            
         };
-
-        const segundoDia = obtenerFechaFinDeMes(fecha);
-
-        if (fecha === numDatos) {
-            console.log(meses, '1');
-        } else {
-            console.log({segundoDia});
-        }
 
         const res = await models.AltasSGA.findAll({
             attributes: ['id', ['id_trabajador', 'credencial'], 'fecha_inicio', 'fecha_final', 'unidades'],
