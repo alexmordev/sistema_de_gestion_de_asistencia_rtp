@@ -11,8 +11,10 @@ class ReporteSGAService {
         const primerDia = new Date(fecha);
 
         const obtenerFechaFinDeMes = (fecha) => {
+
             const primerDia2 = new Date(fecha);
             return new Date(primerDia2.getFullYear(), primerDia2.getMonth() + 1, 0);
+            
         };
 
         const res = await models.AltasSGA.findAll({
