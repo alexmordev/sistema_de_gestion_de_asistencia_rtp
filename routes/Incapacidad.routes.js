@@ -104,4 +104,17 @@ router.delete('/:id',
   }
 );
 
+//Prueba
+router.get('/prueba', 
+validatorHandler(getIncapacidadSchema,getAusenciaSchema, 'body'),
+async (req, res, next) => {
+  try {
+    const incapacidad = await service.prueba();
+    res.json(incapacidad);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 module.exports = router;
