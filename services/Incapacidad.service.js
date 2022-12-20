@@ -276,6 +276,7 @@ class IncapacidadService {
     await ausencia.destroy()
     return { id };
   }
+
 }
 
 module.exports = IncapacidadService;
