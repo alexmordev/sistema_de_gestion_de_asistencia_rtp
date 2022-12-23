@@ -16,7 +16,7 @@ class ReporteSGAService {
             return new Date(primerDia2.getFullYear(), primerDia2.getMonth() + 1, 0);
             
         };
-
+  
         const res = await models.AltasSGA.findAll({
             attributes: ['id', ['id_trabajador', 'credencial'], 'fecha_inicio', 'fecha_final', 'unidades'],
             include: [
