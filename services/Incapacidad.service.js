@@ -146,8 +146,6 @@ class IncapacidadService {
           TotalTransmitidos:              encontrar.unidades,
         })
       
-        console.log(datos.altas_sga.catalogo_conceptos);
-
         const PFI = new Date(datos.altas_sga.trab_periodos.perFechaInicio);//PeriodoFechaInicial
         const PFF = new Date(datos.altas_sga.trab_periodos.perFechaFinal);//PeriodoFechaFinal
 
