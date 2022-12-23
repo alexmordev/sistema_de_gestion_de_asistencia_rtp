@@ -8,7 +8,7 @@ class InputService {
 
     async getTrabajador(id) {
         const trabajador = await models.Trabajador.findByPk(id, {
-            attributes: ['nombreCompleto', 'adscripcion']
+            attributes: ['nombreCompleto', 'adscripcion','moduloClave' ]
         })
         if (trabajador === null) {
             return boom.notFound('Registro no encontrado');
@@ -19,7 +19,7 @@ class InputService {
     async trabajadorPerido(id) {
         const trabajador = await models.Trabajador.findByPk(id,
             {
-                attributes: ['trabCredencial', 'nombreCompleto', 'adscripcion', 'tipo_trab_div', 'trabStatusDesc']
+                attributes: ['trabCredencial', 'nombreCompleto', 'adscripcion', 'tipo_trab_div', 'trabStatusDesc','moduloClave']
             }
         );
 

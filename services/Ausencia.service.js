@@ -47,7 +47,6 @@ class AusenciaService {
           {
             id_concepto:3
           }
-
       });
       console.log({datos: res});
     return res;
